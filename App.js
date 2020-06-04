@@ -115,6 +115,7 @@ import MapScreen from "./screens/main/MapScreen"
 import PharmacyScreen from "./screens/main/PharmacyScreen"
 import NewsScreen from "./screens/main/NewsScreen"
 import PortalScreen from "./screens/main/PortalScreen"
+import TestScreen from "./screens/main/TestScreen"
 import { Button, Image} from 'react-native';
 
 /**
@@ -144,9 +145,9 @@ function MainNavigation({navigation}) {
             headerTitleAlign: "center",
             headerRight: () => (
             <Button 
-              title = {<Icon name = "bars" size= {30} color = "black"/>}
+              title = "TEST" //{<Icon name = "bars" size= {30} color = "black"/>} 
               onPress = {() => navigation.toggleDrawer()}
-              color = "white"
+              color = "black"
             />
             )
         }}
@@ -162,6 +163,7 @@ function MainNavigation({navigation}) {
         <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
         <Stack.Screen name = "Calendar" component = {CalendarScreen} />
         <Stack.Screen name = "Classes" component = {ClassesScreen} />
+        <Stack.Screen name = "Test" component = {TestScreen} />
       </Stack.Navigator>
   );
 }
