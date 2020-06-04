@@ -9,6 +9,9 @@
 //Main libraries include React, React Native, and React Navigation.
 //Supplementary (A E S T H E T H I C) libraries include React Native Vector Icons
 import React from 'react';
+//added to resolve bug
+import { enableScreens} from "react-native-screens"
+enableScreens()
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from '@react-navigation/native';
@@ -116,7 +119,7 @@ import PharmacyScreen from "./screens/main/PharmacyScreen"
 import NewsScreen from "./screens/main/NewsScreen"
 import PortalScreen from "./screens/main/PortalScreen"
 import TestScreen from "./screens/main/TestScreen"
-import { Button, Image} from 'react-native';
+import { Image, TouchableWithoutFeedback } from 'react-native';
 
 /**
  * A homemade logo used in the header. It sucks.
@@ -131,6 +134,22 @@ function ArmyLogo() {
 }
 
 /**
+ * A homemade sidebar icon used in the right. It's cool.
+ */
+function SidebarIcon(props) {
+  return (
+    <TouchableWithoutFeedback
+      onPress = {() => props.navigation.toggleDrawer()}
+      color = "black"  
+    >
+      <Icon name = "bars" size = {30} color = "black"/>
+    </TouchableWithoutFeedback>
+  )
+}
+
+//temp import
+import { Button } from "react-native"
+/**
  * As a small note on how the header is designed: 
  * The center contains the logo of 4th Army Medical we will use.
  * The right contains a sidebar toggle button. Sidebar can be drawn out at any time by dragging from right to left
@@ -143,13 +162,16 @@ function MainNavigation({navigation}) {
         screenOptions ={{
             headerTitle: <ArmyLogo/>,
             headerTitleAlign: "center",
+            /**
             headerRight: () => (
-            <Button 
-              title = "TEST" //{<Icon name = "bars" size= {30} color = "black"/>} 
-              onPress = {() => navigation.toggleDrawer()}
-              color = "black"
-            />
+                <Button
+                  title = "TEST"
+                  onPress= {() => navigation.toggleDrawer()}
+                  color = "black"
+                />
             )
+            */
+            headerRight: () => (<SidebarIcon navigation = {navigation}/>)
         }}
       >
         <Stack.Screen name = "Home" component = {HomeScreen}/>
