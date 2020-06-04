@@ -17,10 +17,13 @@ import Icon from "react-native-vector-icons/FontAwesome"
 /**
  * Drawer navigation is being used to create the sidebar menu.
  * Sidebar menu can be toggled by swiping on the right or hitting the sidebar menu button.
- * Different screens include: Home (currently Main), Notifications, FAQs, Feedback, Donate, Maps, Settings
- * Currently, only Settings is implemented.
+ * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
  */
 const Drawer = createDrawerNavigator();
+import BillingScreen from "./screens/sidebar/BillingScreen"
+import ContactScreen from "./screens/sidebar/ContactScreen"
+import FAQsScreen from "./screens/sidebar/FAQsScreen"
+import NotifsScreen from "./screens/sidebar/NotifsScreen"
 import SettingsScreen from "./screens/sidebar/SettingsScreen"
 
 export default function App() {
@@ -30,47 +33,12 @@ export default function App() {
         initialRouteName="Main"
         drawerPosition = "right"
       >
-        <Drawer.Screen 
-          name="Main" 
-          component={MainNavigation}
+        <Drawer.Screen
+          name = "Main"
+          component = {MainNavigation}
           options = {{
             title: "Home",
             drawerIcon: () => <Icon name = "home" focused = "true" size = {30} color = "black"/>
-          }} 
-        />
-        <Drawer.Screen 
-          name="Notifications" 
-          component = {SettingsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = "black"/>
-          }} 
-        />
-        <Drawer.Screen
-          name = "FAQs"
-          component = {SettingsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = "black"/>
-          }}
-        />
-        <Drawer.Screen
-          name = "Feedback"
-          component = {SettingsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "heart" focused = "true" size = {30} color = "black"/>
-          }}
-        />
-        <Drawer.Screen
-          name = "Donate"
-          component = {SettingsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "gift" focused = "true" size = {30} color = "black"/>
-          }}
-        />
-        <Drawer.Screen
-          name = "Maps"
-          component = {SettingsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "map" focused = "true" size = {30} color = "black"/>
           }}
         />
         <Drawer.Screen
@@ -78,6 +46,38 @@ export default function App() {
           component = {SettingsScreen}
           options = {{
             drawerIcon: () => <Icon name = "cog" focused = "true" size = {30} color = "black"/>
+          }}
+        />
+        <Drawer.Screen 
+          name="Notifs" 
+          component = {NotifsScreen}
+          options = {{
+            title: "Notifications",
+            drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = "black"/>
+          }} 
+        />
+        <Drawer.Screen
+          name = "FAQs"
+          component = {FAQsScreen}
+          options = {{
+            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = "black"/>
+          }}
+        />
+        
+        <Drawer.Screen
+          name = "Contact"
+          component = {ContactScreen}
+          options = {{
+            title: "Contact Us",
+            drawerIcon: () => <Icon name = "user" focused = "true" size = {30} color = "black"/>
+          }}
+        />
+        <Drawer.Screen
+          name = "Billing"
+          component = {BillingScreen}
+          options = {{
+            title: "Billing Info",
+            drawerIcon: () => <Icon name = "credit-card" focused = "true" size = {30} color = "black"/>
           }}
         />
       </Drawer.Navigator>
@@ -99,14 +99,22 @@ export default function App() {
 
  /**
   * Stack navigation is being used to create the main app.
-  * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the 8 main screens.
-  * These screens include: COVID, News, Online, Appts, Calendar, Directory, Billing, CallUs.
-  * Currently, only a Test screen is implemented.
+  * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the 10 main screens.
+  * These screens include: COVID, CallUs, Portal, Appts, Map, Pharmacy, News, Directory, Calendar, Classes.
   * To utilize cool icons, we use react-native-vector-icons.
   */
 const Stack = createStackNavigator();
 import HomeScreen from "./screens/HomeScreen"
-import TestScreen from "./screens/main/TestScreen"
+import ApptsScreen from "./screens/main/ApptsScreen"
+import CalendarScreen from "./screens/main/CalendarScreen"
+import CallUsScreen from "./screens/main/CallUsScreen"
+import ClassesScreen from "./screens/main/ClassesScreen"
+import COVIDScreen from "./screens/main/COVIDScreen"
+import DirectoryScreen from "./screens/main/DirectoryScreen"
+import MapScreen from "./screens/main/MapScreen"
+import PharmacyScreen from "./screens/main/PharmacyScreen"
+import NewsScreen from "./screens/main/NewsScreen"
+import PortalScreen from "./screens/main/PortalScreen"
 import { Button, Image} from 'react-native';
 
 /**
@@ -144,7 +152,16 @@ function MainNavigation({navigation}) {
         }}
       >
         <Stack.Screen name = "Home" component = {HomeScreen}/>
-        <Stack.Screen name = "Test" component = {TestScreen}/>
+        <Stack.Screen name = "COVID" component = {COVIDScreen}/>
+        <Stack.Screen name = "CallUs" component = {CallUsScreen} />
+        <Stack.Screen name = "Portal" component = {PortalScreen}/> 
+        <Stack.Screen name = "Appts" component = {ApptsScreen}/>
+        <Stack.Screen name = "Map" component = {MapScreen}/> 
+        <Stack.Screen name = "Pharmacy" component = {PharmacyScreen} />
+        <Stack.Screen name = "News" component = {NewsScreen}/>
+        <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
+        <Stack.Screen name = "Calendar" component = {CalendarScreen} />
+        <Stack.Screen name = "Classes" component = {ClassesScreen} />
       </Stack.Navigator>
   );
 }
