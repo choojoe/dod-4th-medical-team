@@ -10,6 +10,8 @@
 import React from "react"
 import {TouchableOpacity, View, Text, Button, StyleSheet} from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import { enableScreens } from "react-native-screens"
+enableScreens();
 
 /**
  * DATA contains the routes and titles of the buttons, 
@@ -83,12 +85,40 @@ const DATA = [
 ]
 
 /**
+ * A custom button created with TouchableOpacity, each containing an icon and text.
+ * Takes in props passed in HomeScreen.
+ * {screen: props.route} allows us to navigate to the screen within the Main navigator.
+ * Original was props.navigation.navigate(props.route), assuming navigator worked properly
+ */
+ function CustomButton(props) {
+    return (
+        <TouchableOpacity 
+            style = {[styles.button, {backgroundColor: props.backgroundColor}]}
+            onPress = {() => props.navigation.navigate("Main", {screen: props.route})}
+        >
+            <FontAwesome5 name = {props.icon} size = {72} color = "black"/>
+            <Text>{props.title}</Text>
+        </TouchableOpacity>
+    )
+} 
+/**
+ * In case if the button creation fails
+ */
+
+CustomButton.defaultProps = {
+    icon: "user",
+    route: "Test",
+    title: "Test",
+}
+
+/**
  * HomeScreen puts 10 custom buttons, taking in data from props, and outputs
  * them, two per row. You can add more rows by using <View style = {styles.row} />
  * and you can create a new button by modifying DATA and calling 
  * <CustomButton {...DATA[index]} navigation = {navigation}/>
+ * 
  */
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({navigation}) {
     return (
       <View style={styles.container}>
         <View style = {styles.row}>
@@ -113,30 +143,6 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
     );
-}
-
-/**
- * A custom button created with TouchableOpacity, each containing an icon and text.
- * Takes in props passed in HomeScreen.
- */
-function CustomButton(props) {
-    return (
-        <TouchableOpacity 
-            style = {[styles.button, {backgroundColor: props.backgroundColor}]}
-            onClick = {() => props.navigation.navigate(props.route)}
-        >
-            <FontAwesome5 name = {props.icon} size = {72} color = "black"/>
-            <Text>{props.title}</Text>
-        </TouchableOpacity>
-    )
-} 
-/**
- * In case if the button creation fails
- */
-CustomButton.defaultProps = {
-    icon: "user",
-    route: "Test",
-    title: "Test"
 }
 
 /**

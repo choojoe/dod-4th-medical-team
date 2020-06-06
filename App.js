@@ -11,7 +11,7 @@
 import React from 'react';
 //added to resolve bug
 import { enableScreens} from "react-native-screens"
-enableScreens()
+enableScreens();
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from '@react-navigation/native';
