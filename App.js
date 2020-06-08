@@ -8,7 +8,7 @@
 
 //Main libraries include React, React Native, and React Navigation.
 //Supplementary (A E S T H E T H I C) libraries include React Native Vector Icons
-import React from 'react';
+import React, {useState} from 'react';
 //added to resolve bug
 import { enableScreens} from "react-native-screens"
 enableScreens();
@@ -21,6 +21,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
  * Drawer navigation is being used to create the sidebar menu.
  * Sidebar menu can be toggled by swiping on the right or hitting the sidebar menu button.
  * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
+ * See NightSwitch for more details on nightModeOn, toggleNightMode
  */
 const Drawer = createDrawerNavigator();
 import BillingScreen from "./screens/sidebar/BillingScreen"
@@ -29,26 +30,36 @@ import FAQsScreen from "./screens/sidebar/FAQsScreen"
 import NotifsScreen from "./screens/sidebar/NotifsScreen"
 import SettingsScreen from "./screens/sidebar/SettingsScreen"
 
+
 export default function App() {
+  const [nightModeOn, setNightMode] = useState(false);
+  const toggleNightMode = () => setNightMode(previousState => !previousState);
   return (
     <NavigationContainer>
       <Drawer.Navigator 
         initialRouteName="Main"
         drawerPosition = "right"
+        drawerContent = {props => <NightSwitch {...props} nightModeOn = {nightModeOn} toggleNightMode = {toggleNightMode}/>}
+        drawerStyle = {{
+          backgroundColor : nightModeOn ? "black" : "white"
+        }}
+        drawerContentOptions = {{
+          inactiveTintColor: nightModeOn ? "white" : "black"
+        }}
       >
         <Drawer.Screen
           name = "Main"
           component = {MainNavigation}
           options = {{
             title: "Home",
-            drawerIcon: () => <Icon name = "home" focused = "true" size = {30} color = "black"/>
+            drawerIcon: () => <Icon name = "home" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
           }}
         />
         <Drawer.Screen
           name = "Settings"
           component = {SettingsScreen}
           options = {{
-            drawerIcon: () => <Icon name = "cog" focused = "true" size = {30} color = "black"/>
+            drawerIcon: () => <Icon name = "cog" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
           }}
         />
         <Drawer.Screen 
@@ -56,14 +67,14 @@ export default function App() {
           component = {NotifsScreen}
           options = {{
             title: "Notifications",
-            drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = "black"/>
+            drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
           }} 
         />
         <Drawer.Screen
           name = "FAQs"
           component = {FAQsScreen}
           options = {{
-            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = "black"/>
+            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
           }}
         />
         
@@ -72,7 +83,7 @@ export default function App() {
           component = {ContactScreen}
           options = {{
             title: "Contact Us",
-            drawerIcon: () => <Icon name = "user" focused = "true" size = {30} color = "black"/>
+            drawerIcon: () => <Icon name = "user" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
           }}
         />
         <Drawer.Screen
@@ -80,7 +91,7 @@ export default function App() {
           component = {BillingScreen}
           options = {{
             title: "Billing Info",
-            drawerIcon: () => <Icon name = "credit-card" focused = "true" size = {30} color = "black"/>
+            drawerIcon: () => <Icon name = "credit-card" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
           }}
         />
       </Drawer.Navigator>
@@ -89,7 +100,7 @@ export default function App() {
 }
 /**
  * How navigators work: A small intro (to be deleted)
- * So given that you've imported all the components you want, it's time to link them together.
+ * So given that you've imported all the components you want, it's time to link them together. 
  * In the main app, you will always surround your work with a navigation container and the type of navigation you want, in this case, a drawer.
  * Now that you have a drawer navigator, you can give it some properties and a list of all the screens that you can implement.
  * Think of the navigator almost as the map of the screen - you give it some locations and now you can traverse between them with appropriate calls:
@@ -147,6 +158,7 @@ function SidebarIcon(props) {
   )
 }
 
+      <DrawerItem 
 //temp import
 import { Button } from "react-native"
 /**
