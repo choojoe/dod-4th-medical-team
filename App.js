@@ -43,76 +43,84 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
  */
 
-const NightModeContext = React.createContext(false);
+const NightModeContext = React.createContext({
+  nightModeOn: false,
+  toggleNightMode: (prevState) => {!prevState},
+});
 
 export default function App() {
-  const [nightModeOn, setNightMode] = useState(false);
-  const toggleNightMode = () => setNightMode(previousState => !previousState);
+  const [nightMode, setNightMode] = useState(false);
+  const toggleNight = () => setNightMode(previousState => !previousState);
 
   return (
-    <NavigationContainer>
-      <Drawer.Navigator 
-        initialRouteName="Main"
-        drawerPosition = "right"
-        drawerContent = {props => <CustomDrawer {...props} nightModeOn = {nightModeOn} toggleNightMode = {toggleNightMode}/>}
-        drawerContentOptions = {{
-          inactiveTintColor: nightModeOn ? "white" : "black",
-          contentContainerStyle : {
-            backgroundColor : nightModeOn ? "black" : "white",
-            height: "100%",
-            justifyContent: "space-between"
-          }
-        }}
-      >
-        <Drawer.Screen
-          name = "Main"
-          component = {MainNavigation}
-          options = {{
-            title: "Home",
-            drawerIcon: () => <Icon name = "home" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+    <NightModeContext.Provider value = {{nightModeOn: nightMode, toggleNightMode: toggleNight}}>
+    <NightModeContext.Consumer>
+      {({nightModeOn, toggleNightMode}) =>
+      (<NavigationContainer>
+        <Drawer.Navigator 
+          initialRouteName="Main"
+          drawerPosition = "right"
+          drawerContent = {props => <CustomDrawer {...props}/>}
+          drawerContentOptions = {{
+            inactiveTintColor: nightModeOn ? "white" : "black",
+            contentContainerStyle : {
+              backgroundColor : nightModeOn ? "black" : "white",
+              height: "100%",
+              justifyContent: "space-between"
+            }
           }}
-        />
-        <Drawer.Screen
-          name = "Settings"
-          component = {SettingsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "cog" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
-          }}
-        />
-        <Drawer.Screen 
-          name="Notifs" 
-          component = {NotifsScreen}
-          options = {{
-            title: "Notifications",
-            drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
-          }} 
-        />
-        <Drawer.Screen
-          name = "FAQs"
-          component = {FAQsScreen}
-          options = {{
-            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
-          }}
-        />
-        
-        <Drawer.Screen
-          name = "Contact"
-          component = {ContactScreen}
-          options = {{
-            title: "Contact Us",
-            drawerIcon: () => <Icon name = "user" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
-          }}
-        />
-        <Drawer.Screen
-          name = "Billing"
-          component = {BillingScreen}
-          options = {{
-            title: "Billing Info",
-            drawerIcon: () => <Icon name = "credit-card" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
-          }}
-        />
-      </Drawer.Navigator>
-    </NavigationContainer>
+        >
+          <Drawer.Screen
+            name = "Main"
+            component = {MainNavigation}
+            options = {{
+              title: "Home",
+              drawerIcon: () => <Icon name = "home" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+            }}
+          />
+          <Drawer.Screen
+            name = "Settings"
+            component = {SettingsScreen}
+            options = {{
+              drawerIcon: () => <Icon name = "cog" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+            }}
+          />
+          <Drawer.Screen 
+            name="Notifs" 
+            component = {NotifsScreen}
+            options = {{
+              title: "Notifications",
+              drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+            }} 
+          />
+          <Drawer.Screen
+            name = "FAQs"
+            component = {FAQsScreen}
+            options = {{
+              drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+            }}
+          />
+          
+          <Drawer.Screen
+            name = "Contact"
+            component = {ContactScreen}
+            options = {{
+              title: "Contact Us",
+              drawerIcon: () => <Icon name = "user" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+            }}
+          />
+          <Drawer.Screen
+            name = "Billing"
+            component = {BillingScreen}
+            options = {{
+              title: "Billing Info",
+              drawerIcon: () => <Icon name = "credit-card" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+            }}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>)}
+    </NightModeContext.Consumer>
+    </NightModeContext.Provider>
   );
 }
 /**
@@ -144,21 +152,25 @@ import {DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-naviga
 import {Switch} from "react-native"
 function CustomDrawer(props) {
   return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItem
-        label = ""
-        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
-        icon = {() => <Icon name = "times" focused = "true" size = {30} color = {props.nightModeOn ? "white" : "black"}/>}
-        onPress = {() => {props.navigation.closeDrawer()}}
-      />
-      <DrawerItemList {...props} />
-      <DrawerItem 
-        label = "Night Mode" 
-        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
-        icon = {() => <Switch onValueChange = {props.toggleNightMode} value = {props.nightModeOn}/>} 
-        onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
-      />
-    </DrawerContentScrollView>
+    <NightModeContext.Consumer>
+      {({nightModeOn, toggleNightMode}) => (
+        <DrawerContentScrollView {...props}>
+          <DrawerItem
+            label = ""
+            inactiveTintColor = {nightModeOn ? "white" : "black"}
+            icon = {() => <Icon name = "times" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>}
+            onPress = {() => {props.navigation.closeDrawer()}}
+          />
+          <DrawerItemList {...props} />
+          <DrawerItem 
+            label = "Night Mode" 
+            inactiveTintColor = {nightModeOn ? "white" : "black"}
+            icon = {() => <Switch onValueChange = {toggleNightMode} value = {nightModeOn}/>} 
+            onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
+          />
+      </DrawerContentScrollView>    
+      )}
+    </NightModeContext.Consumer>
   )
 }
 
@@ -200,12 +212,16 @@ function ArmyLogo() {
  */
 function SidebarIcon(props) {
   return (
-    <TouchableWithoutFeedback
-      onPress = {() => props.navigation.openDrawer()}
-      color = "black"  
-    >
-      <Icon name = "bars" size = {30} color = "black"/>
-    </TouchableWithoutFeedback>
+    <NightModeContext.Consumer>
+      {({nightModeOn}) => (
+          <TouchableWithoutFeedback
+          onPress = {() => props.navigation.openDrawer()}
+          color = {nightModeOn ? "white" : "black"}  
+        >
+          <Icon name = "bars" size = {30} color = {nightModeOn ? "white" : "black"}/>
+        </TouchableWithoutFeedback>
+      )}
+    </NightModeContext.Consumer>
   )
 }
 
@@ -217,13 +233,17 @@ function SidebarIcon(props) {
  */
 function MainNavigation({navigation}) {
   return (
+    <NightModeContext.Consumer>
+      {({nightModeOn, toggleNightMode}) => (
       <Stack.Navigator 
         initialRouteName = "Home"
         screenOptions ={{
-            headerTitle: <ArmyLogo/>,
-            headerTitleAlign: "center",
-            headerRight: () => (<SidebarIcon navigation = {navigation}/>)
-    
+          headerTitle: <ArmyLogo/>,
+          headerTitleAlign: "center",
+          headerRight: () => (<SidebarIcon navigation = {navigation}/>),
+          headerStyle: {
+            backgroundColor: nightModeOn ? "black" : "white"
+          }
         }}
       >
         <Stack.Screen name = "Home" component = {HomeScreen}/>
@@ -239,5 +259,7 @@ function MainNavigation({navigation}) {
         <Stack.Screen name = "Classes" component = {ClassesScreen} />
         <Stack.Screen name = "Test" component = {TestScreen} />
       </Stack.Navigator>
+      )}
+    </NightModeContext.Consumer>
   );
 }
