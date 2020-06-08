@@ -158,7 +158,50 @@ function SidebarIcon(props) {
   )
 }
 
+/**
+ * A homemade tab used in the drawer that inverts the colors. It's cool.
+ * Takes in variable nightModeOn and function toggleNightMode, initialized in the App state.
+ * Whenever the switch itself is clicked, toggleNightMode is called, which causes nightModeOn to be toggled.
+ */
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from "@react-navigation/drawer"
+import {
+  Switch
+} from "react-native"
+function NightSwitch(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
       <DrawerItem 
+        label = "Night Mode" 
+        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
+        icon = {() => <Switch onValueChange = {props.toggleNightMode} value = {props.nightModeOn}/>} 
+        onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
+      />
+    </DrawerContentScrollView>
+  )
+}
+
+/**
+ * A closing button used in the drawer that closes the drawer.
+ */
+function CloseButton(props){
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem 
+        label = "" 
+        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
+        icon = {() => <Icon name = "times" focused = "true" size = {30} color = {props.nightModeOn ? "white" : "black"}/>} 
+        onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
+      />
+    </DrawerContentScrollView>
+  )
+}
+
 //temp import
 import { Button } from "react-native"
 /**
