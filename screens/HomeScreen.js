@@ -86,9 +86,8 @@ const DATA = [
 
 /**
  * A custom button created with TouchableOpacity, each containing an icon and text.
- * Takes in props passed in HomeScreen.
- * {screen: props.route} allows us to navigate to the screen within the Main navigator.
- * Original was props.navigation.navigate(props.route), assuming navigator worked properly
+ * Takes in props passed in HomeScreen - see DATA
+ * {screen: props.route} allows us to navigate to the screen within the Main navigator (props.navigation).
  */
  function CustomButton(props) {
     return (
@@ -116,7 +115,6 @@ CustomButton.defaultProps = {
  * them, two per row. You can add more rows by using <View style = {styles.row} />
  * and you can create a new button by modifying DATA and calling 
  * <CustomButton {...DATA[index]} navigation = {navigation}/>
- * 
  */
 export default function HomeScreen({navigation}) {
     return (

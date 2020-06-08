@@ -9,7 +9,6 @@
 //Main libraries include React, React Native, and React Navigation.
 //Supplementary (A E S T H E T H I C) libraries include React Native Vector Icons
 import React, {useState} from 'react';
-//added to resolve bug
 import { enableScreens} from "react-native-screens"
 enableScreens();
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -21,7 +20,6 @@ import Icon from "react-native-vector-icons/FontAwesome"
  * Drawer navigation is being used to create the sidebar menu.
  * Sidebar menu can be toggled by swiping on the right or hitting the sidebar menu button.
  * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
- * See NightSwitch for more details on nightModeOn, toggleNightMode
  */
 const Drawer = createDrawerNavigator();
 import BillingScreen from "./screens/sidebar/BillingScreen"
@@ -30,21 +28,40 @@ import FAQsScreen from "./screens/sidebar/FAQsScreen"
 import NotifsScreen from "./screens/sidebar/NotifsScreen"
 import SettingsScreen from "./screens/sidebar/SettingsScreen"
 
+/**
+ * nightModeOn and setNightMode are the boolean that keeps track on whether or not
+ * the system is in night mode and the function that sets nightModeOn, respectively.
+ * These variables are initialized in the App state, so the night mode toggle
+ * can be accessed from all screens. See CustomDrawer for more details.
+ * 
+ * The drawer comes with a couple of background styles, primarily to toggle between black and white.
+ * 
+ * Each screen comes with a route name, an optional title (that is actually displayed in the drawer), a
+ * corresponding screen as imported above, and an icon as used from the Font Awesome library.
+ * 
+ * color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true,
+ * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
+ */
+
+const NightModeContext = React.createContext(false);
 
 export default function App() {
   const [nightModeOn, setNightMode] = useState(false);
   const toggleNightMode = () => setNightMode(previousState => !previousState);
+
   return (
     <NavigationContainer>
       <Drawer.Navigator 
         initialRouteName="Main"
         drawerPosition = "right"
-        drawerContent = {props => <NightSwitch {...props} nightModeOn = {nightModeOn} toggleNightMode = {toggleNightMode}/>}
-        drawerStyle = {{
-          backgroundColor : nightModeOn ? "black" : "white"
-        }}
+        drawerContent = {props => <CustomDrawer {...props} nightModeOn = {nightModeOn} toggleNightMode = {toggleNightMode}/>}
         drawerContentOptions = {{
-          inactiveTintColor: nightModeOn ? "white" : "black"
+          inactiveTintColor: nightModeOn ? "white" : "black",
+          contentContainerStyle : {
+            backgroundColor : nightModeOn ? "black" : "white",
+            height: "100%",
+            justifyContent: "space-between"
+          }
         }}
       >
         <Drawer.Screen
@@ -110,6 +127,40 @@ export default function App() {
  * navigation.popToTop() goes back all the way
  * tl;dr The navigator stores all the screens you use, and then you call navigation.navigate() whenever you want to move to another screen.
  */
+ 
+
+/**
+ * A homemade custom drawer that adds in two more tabs in addition to the screens above.
+ * Top tab closes the drawer.
+ * Middle tabs comes from the screens defined in Drawer initialization.
+ * Bottom tab inverts the colors. It's cool.
+ * Nightmode tab takes in variable nightModeOn and function toggleNightMode, initialized in the App state.
+ * Whenever the switch itself is clicked, toggleNightMode is called, which causes nightModeOn to be toggled.
+ * 
+ * color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true,
+ * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
+ */
+import {DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer"
+import {Switch} from "react-native"
+function CustomDrawer(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItem
+        label = ""
+        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
+        icon = {() => <Icon name = "times" focused = "true" size = {30} color = {props.nightModeOn ? "white" : "black"}/>}
+        onPress = {() => {props.navigation.closeDrawer()}}
+      />
+      <DrawerItemList {...props} />
+      <DrawerItem 
+        label = "Night Mode" 
+        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
+        icon = {() => <Switch onValueChange = {props.toggleNightMode} value = {props.nightModeOn}/>} 
+        onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
+      />
+    </DrawerContentScrollView>
+  )
+}
 
  /**
   * Stack navigation is being used to create the main app.
@@ -150,7 +201,7 @@ function ArmyLogo() {
 function SidebarIcon(props) {
   return (
     <TouchableWithoutFeedback
-      onPress = {() => props.navigation.toggleDrawer()}
+      onPress = {() => props.navigation.openDrawer()}
       color = "black"  
     >
       <Icon name = "bars" size = {30} color = "black"/>
@@ -158,52 +209,6 @@ function SidebarIcon(props) {
   )
 }
 
-/**
- * A homemade tab used in the drawer that inverts the colors. It's cool.
- * Takes in variable nightModeOn and function toggleNightMode, initialized in the App state.
- * Whenever the switch itself is clicked, toggleNightMode is called, which causes nightModeOn to be toggled.
- */
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem
-} from "@react-navigation/drawer"
-import {
-  Switch
-} from "react-native"
-function NightSwitch(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem 
-        label = "Night Mode" 
-        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
-        icon = {() => <Switch onValueChange = {props.toggleNightMode} value = {props.nightModeOn}/>} 
-        onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
-      />
-    </DrawerContentScrollView>
-  )
-}
-
-/**
- * A closing button used in the drawer that closes the drawer.
- */
-function CloseButton(props){
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem 
-        label = "" 
-        inactiveTintColor = {props.nightModeOn ? "white" : "black"}
-        icon = {() => <Icon name = "times" focused = "true" size = {30} color = {props.nightModeOn ? "white" : "black"}/>} 
-        onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
-      />
-    </DrawerContentScrollView>
-  )
-}
-
-//temp import
-import { Button } from "react-native"
 /**
  * As a small note on how the header is designed: 
  * The center contains the logo of 4th Army Medical we will use.
@@ -217,16 +222,8 @@ function MainNavigation({navigation}) {
         screenOptions ={{
             headerTitle: <ArmyLogo/>,
             headerTitleAlign: "center",
-            /**
-            headerRight: () => (
-                <Button
-                  title = "TEST"
-                  onPress= {() => navigation.toggleDrawer()}
-                  color = "black"
-                />
-            )
-            */
             headerRight: () => (<SidebarIcon navigation = {navigation}/>)
+    
         }}
       >
         <Stack.Screen name = "Home" component = {HomeScreen}/>
