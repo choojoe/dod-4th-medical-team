@@ -41,6 +41,8 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  * 
  * color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true,
  * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
+ * 
+ * See note on Context below
  */
 
 const NightModeContext = React.createContext({
@@ -55,7 +57,7 @@ export default function App() {
   return (
     <NightModeContext.Provider value = {{nightModeOn: nightMode, toggleNightMode: toggleNight}}>
     <NightModeContext.Consumer>
-      {({nightModeOn, toggleNightMode}) =>
+      {({nightModeOn}) =>
       (<NavigationContainer>
         <Drawer.Navigator 
           initialRouteName="Main"
@@ -65,8 +67,7 @@ export default function App() {
             inactiveTintColor: nightModeOn ? "white" : "black",
             contentContainerStyle : {
               backgroundColor : nightModeOn ? "black" : "white",
-              height: "100%",
-              justifyContent: "space-between"
+              height: "100%"
             }
           }}
         >
@@ -75,14 +76,14 @@ export default function App() {
             component = {MainNavigation}
             options = {{
               title: "Home",
-              drawerIcon: () => <Icon name = "home" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+              drawerIcon: () => <View style = {{width: 25}}><Icon name = "home" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
             }}
           />
           <Drawer.Screen
             name = "Settings"
             component = {SettingsScreen}
             options = {{
-              drawerIcon: () => <Icon name = "cog" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+              drawerIcon: () => <View style = {{width: 25}}><Icon name = "cog" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
             }}
           />
           <Drawer.Screen 
@@ -90,14 +91,14 @@ export default function App() {
             component = {NotifsScreen}
             options = {{
               title: "Notifications",
-              drawerIcon: () => <Icon name = "bell" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+              drawerIcon: () => <View style = {{width: 25}}><Icon name = "bell" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
             }} 
           />
           <Drawer.Screen
             name = "FAQs"
             component = {FAQsScreen}
             options = {{
-              drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+              drawerIcon: () => <View style = {{width: 25}}><Icon name = "question-circle" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
             }}
           />
           
@@ -106,7 +107,7 @@ export default function App() {
             component = {ContactScreen}
             options = {{
               title: "Contact Us",
-              drawerIcon: () => <Icon name = "user" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+              drawerIcon: () => <View style = {{width: 25}}><Icon name = "user" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
             }}
           />
           <Drawer.Screen
@@ -114,7 +115,7 @@ export default function App() {
             component = {BillingScreen}
             options = {{
               title: "Billing Info",
-              drawerIcon: () => <Icon name = "credit-card" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+              drawerIcon: () => <View style = {{width: 25}}><Icon name = "credit-card" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
             }}
           />
         </Drawer.Navigator>
@@ -123,6 +124,7 @@ export default function App() {
     </NightModeContext.Provider>
   );
 }
+
 /**
  * How navigators work: A small intro (to be deleted)
  * So given that you've imported all the components you want, it's time to link them together. 
@@ -147,9 +149,11 @@ export default function App() {
  * 
  * color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true,
  * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
+ * 
+ * See note on Context below
  */
 import {DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer"
-import {Switch} from "react-native"
+import {Switch, View} from "react-native"
 function CustomDrawer(props) {
   return (
     <NightModeContext.Consumer>
@@ -158,16 +162,18 @@ function CustomDrawer(props) {
           <DrawerItem
             label = ""
             inactiveTintColor = {nightModeOn ? "white" : "black"}
-            icon = {() => <Icon name = "times" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>}
+            icon = {() => <View style = {{width: 25}}><Icon name = "times" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/></View>}
             onPress = {() => {props.navigation.closeDrawer()}}
           />
-          <DrawerItemList {...props} />
-          <DrawerItem 
-            label = "Night Mode" 
-            inactiveTintColor = {nightModeOn ? "white" : "black"}
-            icon = {() => <Switch onValueChange = {toggleNightMode} value = {nightModeOn}/>} 
-            onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
-          />
+          <View style = {{flex: 1, justifyContent: "center"}}>
+            <DrawerItemList {...props} />
+            <DrawerItem 
+              label = "Night Mode" 
+              inactiveTintColor = {nightModeOn ? "white" : "black"}
+              icon = {() => <View style = {{width: 25}}><Switch onValueChange = {toggleNightMode} value = {nightModeOn}/></View>} 
+              onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
+            />
+          </View>
       </DrawerContentScrollView>    
       )}
     </NightModeContext.Consumer>
@@ -201,7 +207,7 @@ import { Image, TouchableWithoutFeedback } from 'react-native';
 function ArmyLogo() {
   return (
     <Image
-      style= {{width: 250, height: 50}}
+      style= {{width: 214, height: 50}}
       source = {require("./assets/logo.png")}
     />
   )
@@ -209,6 +215,7 @@ function ArmyLogo() {
 
 /**
  * A homemade sidebar icon used in the right. It's cool.
+ * See note on Context below
  */
 function SidebarIcon(props) {
   return (
@@ -230,20 +237,27 @@ function SidebarIcon(props) {
  * The center contains the logo of 4th Army Medical we will use.
  * The right contains a sidebar toggle button. Sidebar can be drawn out at any time by dragging from right to left
  * The left will contain a left arrow to go back.
+ * See note on Context below
  */
+import Constants from "expo-constants"
 function MainNavigation({navigation}) {
   return (
     <NightModeContext.Consumer>
-      {({nightModeOn, toggleNightMode}) => (
+      {({nightModeOn}) => (
       <Stack.Navigator 
         initialRouteName = "Home"
         screenOptions ={{
-          headerTitle: <ArmyLogo/>,
+          headerTitle: props => <ArmyLogo {...props}/>,
           headerTitleAlign: "center",
           headerRight: () => (<SidebarIcon navigation = {navigation}/>),
           headerStyle: {
-            backgroundColor: nightModeOn ? "black" : "white"
-          }
+            backgroundColor: nightModeOn ? "black" : "white",
+            height: 70 + Constants.statusBarHeight
+          },
+          headerTitleContainerStyle: {
+            paddingBottom: 10
+          },
+          headerTintColor: nightModeOn ? "white" : 'black'
         }}
       >
         <Stack.Screen name = "Home" component = {HomeScreen}/>
@@ -263,3 +277,17 @@ function MainNavigation({navigation}) {
     </NightModeContext.Consumer>
   );
 }
+
+/**
+ * Note on React Context: In order to access the variable nightModeOn from functions outside of App.js,
+ * we need to use React Context. In order to do that, we store the variables in NightModeContext
+ * and whenever we want to access this data, we wrap whatever we want to return in a Consumer as such:
+ * 
+ * <NightModeContext.Consumer>
+ *  {({nightModeOn, toggleNightMode}) => (
+ *    INSERT CODE HERE
+ *  )}
+ * </NightModeContext.Consumer>
+ * 
+ * I recommend typing the code you want and then wrapping it in these 4 lines. They're short and annoying but do a lot.
+ */
