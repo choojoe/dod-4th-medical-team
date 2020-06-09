@@ -76,14 +76,14 @@ export default function App() {
             component = {MainNavigation}
             options = {{
               title: "Home",
-              drawerIcon: () => <View style = {{width: 25}}><Icon name = "home" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
+              drawerIcon: () => <CustomIcon name = "home" />
             }}
           />
           <Drawer.Screen
             name = "Settings"
             component = {SettingsScreen}
             options = {{
-              drawerIcon: () => <View style = {{width: 25}}><Icon name = "cog" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
+              drawerIcon: () => <CustomIcon name = "cog" />
             }}
           />
           <Drawer.Screen 
@@ -91,14 +91,14 @@ export default function App() {
             component = {NotifsScreen}
             options = {{
               title: "Notifications",
-              drawerIcon: () => <View style = {{width: 25}}><Icon name = "bell" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
+              drawerIcon: () => <CustomIcon name = "bell"/>
             }} 
           />
           <Drawer.Screen
             name = "FAQs"
             component = {FAQsScreen}
             options = {{
-              drawerIcon: () => <View style = {{width: 25}}><Icon name = "question-circle" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
+              drawerIcon: () => <CustomIcon name = "question-circle" />
             }}
           />
           
@@ -107,7 +107,7 @@ export default function App() {
             component = {ContactScreen}
             options = {{
               title: "Contact Us",
-              drawerIcon: () => <View style = {{width: 25}}><Icon name = "user" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
+              drawerIcon: () => <CustomIcon name = "user" />
             }}
           />
           <Drawer.Screen
@@ -115,7 +115,7 @@ export default function App() {
             component = {BillingScreen}
             options = {{
               title: "Billing Info",
-              drawerIcon: () => <View style = {{width: 25}}><Icon name = "credit-card" focused = "true" size = {30} width = {120} color = {nightModeOn ? "white" : "black"}/></View>
+              drawerIcon: () => <CustomIcon name = "credit-card"/>
             }}
           />
         </Drawer.Navigator>
@@ -123,6 +123,21 @@ export default function App() {
     </NightModeContext.Consumer>
     </NightModeContext.Provider>
   );
+}
+/**
+ * A custom icon, set to default width, takes in name prop
+ * got rid of width 120 - put it back if it actually does something
+ */
+function CustomIcon(props){
+  return (
+    <NightModeContext.Consumer>
+    {({nightModeOn}) => (
+      <View style = {{width: 35}}>
+        <Icon name = {props.name} focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
+      </View>
+    )}
+    </NightModeContext.Consumer>
+  )
 }
 
 /**
@@ -162,7 +177,7 @@ function CustomDrawer(props) {
           <DrawerItem
             label = ""
             inactiveTintColor = {nightModeOn ? "white" : "black"}
-            icon = {() => <View style = {{width: 25}}><Icon name = "times" focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/></View>}
+            icon = {() => <CustomIcon name = "times"/>}
             onPress = {() => {props.navigation.closeDrawer()}}
           />
           <View style = {{flex: 1, justifyContent: "center"}}>
@@ -170,7 +185,7 @@ function CustomDrawer(props) {
             <DrawerItem 
               label = "Night Mode" 
               inactiveTintColor = {nightModeOn ? "white" : "black"}
-              icon = {() => <View style = {{width: 25}}><Switch onValueChange = {toggleNightMode} value = {nightModeOn}/></View>} 
+              icon = {() => <View style = {{width: 35}}><Switch onValueChange = {toggleNightMode} value = {nightModeOn}/></View>} 
               onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
             />
           </View>
