@@ -27,61 +27,61 @@ const DATA = [
         route: "COVID",
         title: "COVID-19",
         icon: "info",
-        backgroundColor: "steelblue"
+        backgroundColor: "#5B2A86"
     },
     {
         route: "CallUs",
         title: "Call Us",
         icon: "phone",
-        backgroundColor: "turquoise"
+        backgroundColor: "#7785AC"
     },
     {
         route: "Portal",
         title: "MyPatientPortal",
         icon: "globe",
-        backgroundColor: "turquoise"
+        backgroundColor: "#9AC6C5"
     },
     {
         route: "Appts",
         title: "Appointments",
         icon: "calendar-check",
-        backgroundColor: "steelblue"
+        backgroundColor: "#A5E6BA"
     },
     {
         route: "Map",
         title: "Map",
         icon: "map",
-        backgroundColor: "steelblue"
+        backgroundColor: "#A32C2C"
     },
     {
         route: "Pharmacy",
         title: "Pharmacy",
         icon: "prescription-bottle",
-        backgroundColor: "turquoise"
+        backgroundColor: "#5B2A86"
     },
     {
         route: "News",
         title: "News",
         icon: "newspaper",
-        backgroundColor: "turquoise"
+        backgroundColor: "#7785AC"
     },
     {
         route: "Directory",
         title: "Directory",
         icon: "address-book",
-        backgroundColor: "steelblue"
+        backgroundColor: "#9AC6C5"
     },
     {
         route: "Calendar",
         title: "Calendar",
         icon: "calendar-alt",
-        backgroundColor: "steelblue"
+        backgroundColor: "#A5E6BA"
     },
     {
         route: "Classes",
         title: "Classes",
         icon: "notes-medical",
-        backgroundColor: "turquoise"
+        backgroundColor: "#A32C2C"
     }
 ]
 
@@ -137,13 +137,13 @@ export default function HomeScreen({navigation}) {
  */
 const styles = StyleSheet.create({
     header: {
-        flex: 1,
+        flex: 2,
         backgroundColor: "green",
         alignItems: "center",
         justifyContent: "center"
     },
     buttonContainer: {
-        flex: 4,
+        flex: 5,
         flexDirection: "column",
         //alignItems: "center",
         //justifyContent: "center"

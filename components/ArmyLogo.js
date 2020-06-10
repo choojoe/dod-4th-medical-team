@@ -1,6 +1,5 @@
 import React from "react"
 import { Image } from "react-native"
-import { NightModeContext } from "../NightModeContext"
 /**
  * A homemade logo used in the header. It sucks.
  * See React Context from more details

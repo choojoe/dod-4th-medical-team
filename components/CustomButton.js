@@ -13,21 +13,20 @@ export default class CustomButton extends React.Component {
     }
     static contextType = NightModeContext;
     render () {
-        const newBack = this.context.nightModeOn ? this.props.nightBackgroundColor : this.props.backgroundColor
-        //newBack sets the background color to be of one of two settings, depending on whether or not nightMode is on.
+        const textColor = this.context.nightModeOn ? "white" : "black";
         return (
             <TouchableOpacity 
-                style = {[styles.button, {backgroundColor: newBack}]}
+                style = {[styles.button, {backgroundColor: this.props.backgroundColor}]}
                 onPress = {() => this.props.navigation.navigate("Main", {screen: this.props.route})}
             >
-                <FontAwesome5 name = {this.props.icon} size = {72} color = {this.context.nightModeOn ? "white" : "black"}/>
-                <Text style = {{color : this.context.nightModeOn ? "white" : "black"}}>
+                <FontAwesome5 name = {this.props.icon} size = {72} color = {textColor}/>
+                <Text style = {{color : textColor}}>
                     {this.props.title}
                 </Text>
             </TouchableOpacity>
         )   
     }
-} 
+}
 /**
  * In case if the button creation fails
  */
@@ -35,8 +34,7 @@ CustomButton.defaultProps = {
     icon: "user",
     route: "Test",
     title: "Test",
-    backgroundColor: "darkred",
-    nightBackgroundColor: "darkred"
+    backgroundColor: "darkred"
 }
 /**
  * Styles for this file. You can change the styling of the button here.
