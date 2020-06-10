@@ -1,17 +1,17 @@
 /**
  * Home Screen - the screen that loads up on default.
  * ROUTE NAME: Home.
- * This screen contains the 10 main buttons we want our users to look at.
+ * This screen contains the main buttons we want our users to look at.
  * We create a 2 column grid to hold each of our main buttons, however, each row can hold as many buttons as you like.
  * If you want to include more buttons and treat this grid as a list, use a ScrollView instead of a View for the main container,
  * however, we discourage this for simplicity sake (keep the number of buttons low).
- * Icons courtesy of FontAwesome5 (instead of FontAwesome)
  */
 import React from "react"
-import {TouchableOpacity, View, Text, Button, StyleSheet} from "react-native"
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import { View, StyleSheet } from "react-native"
 import { enableScreens } from "react-native-screens"
 enableScreens();
+// See CustomButton.js for more details on the styling of the button
+import CustomButton from "../components/CustomButton"
 
 /**
  * DATA contains the routes and titles of the buttons, 
@@ -85,33 +85,7 @@ const DATA = [
 ]
 
 /**
- * A custom button created with TouchableOpacity, each containing an icon and text.
- * Takes in props passed in HomeScreen - see DATA
- * {screen: props.route} allows us to navigate to the screen within the Main navigator (props.navigation).
- */
- function CustomButton(props) {
-    return (
-        <TouchableOpacity 
-            style = {[styles.button, {backgroundColor: props.backgroundColor}]}
-            onPress = {() => props.navigation.navigate("Main", {screen: props.route})}
-        >
-            <FontAwesome5 name = {props.icon} size = {72} color = "black"/>
-            <Text>{props.title}</Text>
-        </TouchableOpacity>
-    )
-} 
-/**
- * In case if the button creation fails
- */
-
-CustomButton.defaultProps = {
-    icon: "user",
-    route: "Test",
-    title: "Test",
-}
-
-/**
- * HomeScreen puts 10 custom buttons, taking in data from props, and outputs
+ * HomeScreen puts custom buttons, taking in data from props, and outputs
  * them, two per row. You can add more rows by using <View style = {styles.row} />
  * and you can create a new button by modifying DATA and calling 
  * <CustomButton {...DATA[index]} navigation = {navigation}/>
@@ -144,15 +118,15 @@ export default function HomeScreen({navigation}) {
 }
 
 /**
- * Styles for this file. You'll want to either change the background color of the container
- * or change the styling of the button.
- * 
+ * Styles for this file. Recommended to leave these alone.
+ * Change backgroundColor of container as needed.
  */
 const styles = StyleSheet.create({
-    button: {
-        flex: 1,
-        alignItems: "center",
-        margin: 10
+    header: {
+
+    },
+    buttonContainer: {
+
     },
     row: {
         width: "100%",

@@ -9,56 +9,43 @@
 //Main libraries include React, React Native, and React Navigation.
 //Supplementary (A E S T H E T H I C) libraries include React Native Vector Icons
 import React, {useState} from 'react';
-import { enableScreens} from "react-native-screens"
+import {enableScreens} from "react-native-screens"
 enableScreens();
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from '@react-navigation/native';
+
+//TO GET RID OF
 import Icon from "react-native-vector-icons/FontAwesome"
 
-/**
- * Drawer navigation is being used to create the sidebar menu.
- * Sidebar menu can be toggled by swiping on the right or hitting the sidebar menu button.
- * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
- */
+//Allows us to use vars nightModeOn and toggleNightMode from any screen. 
+//See React Context and NightModeContext for more details.
+import {NightModeContext} from "./NightModeContext"
+
+//Custom Icon used in the drawer. See CustomIcon for more details.
+import CustomIcon from "./components/CustomIcon"
+
 const Drawer = createDrawerNavigator();
 import BillingScreen from "./screens/sidebar/BillingScreen"
 import ContactScreen from "./screens/sidebar/ContactScreen"
 import FAQsScreen from "./screens/sidebar/FAQsScreen"
 import NotifsScreen from "./screens/sidebar/NotifsScreen"
 import SettingsScreen from "./screens/sidebar/SettingsScreen"
-
 /**
- * nightModeOn and setNightMode are the boolean that keeps track on whether or not
- * the system is in night mode and the function that sets nightModeOn, respectively.
- * These variables are initialized in the App state, so the night mode toggle
- * can be accessed from all screens. See CustomDrawer for more details.
- * 
- * The drawer comes with a couple of background styles, primarily to toggle between black and white.
- * 
+ * The main app. The top layer of the app is a sidebar, which we set up in the App function with drawer navigation.
+ * Sidebar menu can be toggled by swiping on the right or hitting the sidebar menu button.
+ * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
  * Each screen comes with a route name, an optional title (that is actually displayed in the drawer), a
- * corresponding screen as imported above, and an icon as used from the Font Awesome library.
- * 
- * color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true,
- * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
- * 
- * See note on Context below
+ * corresponding screen as imported above, and an icon as used from the Font Awesome library (see CustomIcon for more details)
  */
-
-const NightModeContext = React.createContext({
-  nightModeOn: false,
-  toggleNightMode: (prevState) => {!prevState},
-});
-
 export default function App() {
-  const [nightMode, setNightMode] = useState(false);
-  const toggleNight = () => setNightMode(previousState => !previousState);
-
+  const [nightModeOn, setNightMode] = useState(false);
+  const toggleNightMode = () => setNightMode(previousState => !previousState);
   return (
-    <NightModeContext.Provider value = {{nightModeOn: nightMode, toggleNightMode: toggleNight}}>
+    <NightModeContext.Provider value = {{nightModeOn: nightModeOn, toggleNightMode: toggleNightMode}}> 
     <NightModeContext.Consumer>
-      {({nightModeOn}) =>
-      (<NavigationContainer>
+    {({nightModeOn}) => (
+      <NavigationContainer>
         <Drawer.Navigator 
           initialRouteName="Main"
           drawerPosition = "right"
@@ -119,40 +106,12 @@ export default function App() {
             }}
           />
         </Drawer.Navigator>
-      </NavigationContainer>)}
+      </NavigationContainer>
+    )}
     </NightModeContext.Consumer>
     </NightModeContext.Provider>
   );
 }
-/**
- * A custom icon, set to default width, takes in name prop
- * got rid of width 120 - put it back if it actually does something
- */
-function CustomIcon(props){
-  return (
-    <NightModeContext.Consumer>
-    {({nightModeOn}) => (
-      <View style = {{width: 35}}>
-        <Icon name = {props.name} focused = "true" size = {30} color = {nightModeOn ? "white" : "black"}/>
-      </View>
-    )}
-    </NightModeContext.Consumer>
-  )
-}
-
-/**
- * How navigators work: A small intro (to be deleted)
- * So given that you've imported all the components you want, it's time to link them together. 
- * In the main app, you will always surround your work with a navigation container and the type of navigation you want, in this case, a drawer.
- * Now that you have a drawer navigator, you can give it some properties and a list of all the screens that you can implement.
- * Think of the navigator almost as the map of the screen - you give it some locations and now you can traverse between them with appropriate calls:
- * Every function screen you implement should include {navigation} as a prop so the screen can interact with the app.
- * navigation.navigate("RouteName") will take your screen to that appropriate route.
- * navigation.goBack() goes back one screen
- * navigation.popToTop() goes back all the way
- * tl;dr The navigator stores all the screens you use, and then you call navigation.navigate() whenever you want to move to another screen.
- */
- 
 
 /**
  * A homemade custom drawer that adds in two more tabs in addition to the screens above.
@@ -161,11 +120,6 @@ function CustomIcon(props){
  * Bottom tab inverts the colors. It's cool.
  * Nightmode tab takes in variable nightModeOn and function toggleNightMode, initialized in the App state.
  * Whenever the switch itself is clicked, toggleNightMode is called, which causes nightModeOn to be toggled.
- * 
- * color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true,
- * and black if nightModeOn is false. This allows for color switching. [Ternary operator]
- * 
- * See note on Context below
  */
 import {DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer"
 import {Switch, View} from "react-native"
@@ -252,13 +206,12 @@ function SidebarIcon(props) {
  * The center contains the logo of 4th Army Medical we will use.
  * The right contains a sidebar toggle button. Sidebar can be drawn out at any time by dragging from right to left
  * The left will contain a left arrow to go back.
- * See note on Context below
  */
 import Constants from "expo-constants"
 function MainNavigation({navigation}) {
   return (
     <NightModeContext.Consumer>
-      {({nightModeOn}) => (
+    {({nightModeOn}) => (
       <Stack.Navigator 
         initialRouteName = "Home"
         screenOptions ={{
@@ -288,21 +241,15 @@ function MainNavigation({navigation}) {
         <Stack.Screen name = "Classes" component = {ClassesScreen} />
         <Stack.Screen name = "Test" component = {TestScreen} />
       </Stack.Navigator>
-      )}
+    )}
     </NightModeContext.Consumer>
   );
 }
 
 /**
- * Note on React Context: In order to access the variable nightModeOn from functions outside of App.js,
- * we need to use React Context. In order to do that, we store the variables in NightModeContext
- * and whenever we want to access this data, we wrap whatever we want to return in a Consumer as such:
- * 
- * <NightModeContext.Consumer>
- *  {({nightModeOn, toggleNightMode}) => (
- *    INSERT CODE HERE
- *  )}
- * </NightModeContext.Consumer>
- * 
- * I recommend typing the code you want and then wrapping it in these 4 lines. They're short and annoying but do a lot.
+ * This defines the style sheet being used. 
  */
+import { StyleSheet } from "react-native"
+const styles = StyleSheet.create({
+
+})
