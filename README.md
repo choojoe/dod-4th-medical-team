@@ -22,21 +22,24 @@
 * tl;dr The navigator stores all the screens you use, and then you call navigation.navigate() whenever you want to move to another screen.
 ### React Context: How to access variables from any screen
 * Note on React Context: In order to access the variable nightModeOn from functions/files outside of App.js,
-* we need to use React Context, set below. In order to do that, we store the variables in NightModeContext
-* and whenever we want to access this data from a FUNCTION COMPONENT, we wrap whatever we want to return in a Consumer as such:
+* we need to use React Context, set below. In order to do that, we store the variables in NightModeContext.
+* NOTE: IMPORT NIGHTMODECONTEXT LIKE THIS (change path as needed):
+    import {NightModeContext} from "../NightModeContext"
+* and whenever we want to access this data from a FUNCTION COMPONENT, we wrap whatever we want to return in a Consumer as such (Recommended for screen components):
     <NightModeContext.Consumer>
     {({nightModeOn, toggleNightMode}) => (
     //INSERT CODE HERE
     )}
     </NightModeContext.Consumer>
- * If you are trying to access data from a CLASS COMPONENT, set up your class as such:
+* Note that ReactNavigation really likes to work with functions rather than classes, however, the two can be easily converted between each other.
+ * If you are trying to access data from a CLASS COMPONENT, set up your class as such (Recommended for non-screen components):
     class className extends React.Component {
         constructor(props){ //use props only if you have props to pass in 
             super(props)
         }
         static contextType = NightModeContext
         render(){
-            return (//Whatever you want, access context via this.context.nightModeOn)
+            return (//Whatever you want, access context via this.context.nightModeOn and props via this.props.insertPropHere)
         }
     }
  * More specifically, the below line (Producer) allows any Consumer to access the data, even if the Consumer is in a subfunction.

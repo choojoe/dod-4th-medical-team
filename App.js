@@ -25,6 +25,9 @@ import {NightModeContext} from "./NightModeContext"
 //Custom Icon used in the drawer. See CustomIcon for more details.
 import CustomIcon from "./components/CustomIcon"
 
+//Custom drawer used instead of the normal drawer. See CustomDrawer for more details.
+import CustomDrawer from "./components/CustomDrawer"
+
 const Drawer = createDrawerNavigator();
 import BillingScreen from "./screens/sidebar/BillingScreen"
 import ContactScreen from "./screens/sidebar/ContactScreen"
@@ -37,6 +40,8 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
  * Each screen comes with a route name, an optional title (that is actually displayed in the drawer), a
  * corresponding screen as imported above, and an icon as used from the Font Awesome library (see CustomIcon for more details)
+ * 
+ * Settings in drawer navigation are used to style the drawer itself.
  */
 export default function App() {
   const [nightModeOn, setNightMode] = useState(false);
@@ -113,42 +118,6 @@ export default function App() {
   );
 }
 
-/**
- * A homemade custom drawer that adds in two more tabs in addition to the screens above.
- * Top tab closes the drawer.
- * Middle tabs comes from the screens defined in Drawer initialization.
- * Bottom tab inverts the colors. It's cool.
- * Nightmode tab takes in variable nightModeOn and function toggleNightMode, initialized in the App state.
- * Whenever the switch itself is clicked, toggleNightMode is called, which causes nightModeOn to be toggled.
- */
-import {DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer"
-import {Switch, View} from "react-native"
-function CustomDrawer(props) {
-  return (
-    <NightModeContext.Consumer>
-      {({nightModeOn, toggleNightMode}) => (
-        <DrawerContentScrollView {...props}>
-          <DrawerItem
-            label = ""
-            inactiveTintColor = {nightModeOn ? "white" : "black"}
-            icon = {() => <CustomIcon name = "times"/>}
-            onPress = {() => {props.navigation.closeDrawer()}}
-          />
-          <View style = {{flex: 1, justifyContent: "center"}}>
-            <DrawerItemList {...props} />
-            <DrawerItem 
-              label = "Night Mode" 
-              inactiveTintColor = {nightModeOn ? "white" : "black"}
-              icon = {() => <View style = {{width: 35}}><Switch onValueChange = {toggleNightMode} value = {nightModeOn}/></View>} 
-              onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
-            />
-          </View>
-      </DrawerContentScrollView>    
-      )}
-    </NightModeContext.Consumer>
-  )
-}
-
  /**
   * Stack navigation is being used to create the main app.
   * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the 10 main screens.
@@ -168,38 +137,12 @@ import PharmacyScreen from "./screens/main/PharmacyScreen"
 import NewsScreen from "./screens/main/NewsScreen"
 import PortalScreen from "./screens/main/PortalScreen"
 import TestScreen from "./screens/main/TestScreen"
-import { Image, TouchableWithoutFeedback } from 'react-native';
 
 /**
- * A homemade logo used in the header. It sucks.
+ * Homemade components used in the creation of the header.
  */
-function ArmyLogo() {
-  return (
-    <Image
-      style= {{width: 214, height: 50}}
-      source = {require("./assets/logo.png")}
-    />
-  )
-}
-
-/**
- * A homemade sidebar icon used in the right. It's cool.
- * See note on Context below
- */
-function SidebarIcon(props) {
-  return (
-    <NightModeContext.Consumer>
-      {({nightModeOn}) => (
-          <TouchableWithoutFeedback
-          onPress = {() => props.navigation.openDrawer()}
-          color = {nightModeOn ? "white" : "black"}  
-        >
-          <Icon name = "bars" size = {30} color = {nightModeOn ? "white" : "black"}/>
-        </TouchableWithoutFeedback>
-      )}
-    </NightModeContext.Consumer>
-  )
-}
+import ArmyLogo from "./components/ArmyLogo"
+import SidebarIcon from "./components/SidebarIcon"
 
 /**
  * As a small note on how the header is designed: 
