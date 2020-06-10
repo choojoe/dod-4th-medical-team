@@ -15,9 +15,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from '@react-navigation/native';
 
-//TO GET RID OF
-import Icon from "react-native-vector-icons/FontAwesome"
-
 //Allows us to use vars nightModeOn and toggleNightMode from any screen. 
 //See React Context and NightModeContext for more details.
 import {NightModeContext} from "./NightModeContext"
@@ -41,7 +38,7 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  * Each screen comes with a route name, an optional title (that is actually displayed in the drawer), a
  * corresponding screen as imported above, and an icon as used from the Font Awesome library (see CustomIcon for more details)
  * 
- * Settings in drawer navigation are used to style the drawer itself.
+ * Settings in drawer navigation aare being used to set to alternate between colors and give drawer full height. See CustomDrawer for the actual drawer being constructed.
  */
 export default function App() {
   const [nightModeOn, setNightMode] = useState(false);
@@ -122,7 +119,6 @@ export default function App() {
   * Stack navigation is being used to create the main app.
   * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the 10 main screens.
   * These screens include: COVID, CallUs, Portal, Appts, Map, Pharmacy, News, Directory, Calendar, Classes.
-  * To utilize cool icons, we use react-native-vector-icons.
   */
 const Stack = createStackNavigator();
 import HomeScreen from "./screens/HomeScreen"
@@ -149,6 +145,9 @@ import SidebarIcon from "./components/SidebarIcon"
  * The center contains the logo of 4th Army Medical we will use.
  * The right contains a sidebar toggle button. Sidebar can be drawn out at any time by dragging from right to left
  * The left will contain a left arrow to go back.
+ * 
+ * settings center the title logo (ArmyLogo), add a sidebar to the right, and set the color to alternate between black and white.
+ * in addition, height and padding are set accordingly.
  */
 import Constants from "expo-constants"
 function MainNavigation({navigation}) {
@@ -188,11 +187,3 @@ function MainNavigation({navigation}) {
     </NightModeContext.Consumer>
   );
 }
-
-/**
- * This defines the style sheet being used. 
- */
-import { StyleSheet } from "react-native"
-const styles = StyleSheet.create({
-
-})

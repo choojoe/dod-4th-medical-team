@@ -1,21 +1,32 @@
 import React from "react"
 import { TouchableOpacity, Text, StyleSheet } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import { NightModeContext } from "../NightModeContext"
 /**
  * A custom button created with TouchableOpacity, each containing an icon and text.
  * Takes in props passed in HomeScreen - see DATA.
  * {screen: props.route} allows us to navigate to the screen within the Main navigator (props.navigation).
  */
-export default function CustomButton(props) {
-    return (
-        <TouchableOpacity 
-            style = {[styles.button, {backgroundColor: props.backgroundColor}]}
-            onPress = {() => props.navigation.navigate("Main", {screen: props.route})}
-        >
-            <FontAwesome5 name = {props.icon} size = {72} color = "black"/>
-            <Text>{props.title}</Text>
-        </TouchableOpacity>
-    )
+export default class CustomButton extends React.Component {
+    constructor(props){
+        super(props)
+    }
+    static contextType = NightModeContext;
+    render () {
+        const newBack = this.context.nightModeOn ? this.props.nightBackgroundColor : this.props.backgroundColor
+        //newBack sets the background color to be of one of two settings, depending on whether or not nightMode is on.
+        return (
+            <TouchableOpacity 
+                style = {[styles.button, {backgroundColor: newBack}]}
+                onPress = {() => this.props.navigation.navigate("Main", {screen: this.props.route})}
+            >
+                <FontAwesome5 name = {this.props.icon} size = {72} color = {this.context.nightModeOn ? "white" : "black"}/>
+                <Text style = {{color : this.context.nightModeOn ? "white" : "black"}}>
+                    {this.props.title}
+                </Text>
+            </TouchableOpacity>
+        )   
+    }
 } 
 /**
  * In case if the button creation fails
@@ -24,6 +35,8 @@ CustomButton.defaultProps = {
     icon: "user",
     route: "Test",
     title: "Test",
+    backgroundColor: "darkred",
+    nightBackgroundColor: "darkred"
 }
 /**
  * Styles for this file. You can change the styling of the button here.
