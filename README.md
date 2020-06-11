@@ -38,7 +38,7 @@ Here's the template for the code:
         )}
     </NightModeContext.Consumer>
 
-* See CustomDrawer as an example.
+* See CustomDrawer as an example of the above.
 
 * Note that ReactNavigation really likes to work with functions rather than classes, however, the two can be easily converted between each other.
  * If you are trying to access data from a CLASS COMPONENT, we have to do some basic setting via initalizing contextType.
@@ -55,12 +55,13 @@ Here's the template for the code:
         }
     }
 
-* See CustomIcon as an exmaple.
- * More specifically, the below line (Producer) allows any Consumer to access the data, even if the Consumer is in a subfunction.
+* See CustomIcon as an example of the above.
+More specifically, the below line (Producer) allows any Consumer to access the data, even if the Consumer is in a subfunction.
     <NightModeContext.Provider value = {{nightModeOn: nightMode, toggleNightMode: toggleNight}}>
  * Normally you'd have to pass these as props to subfunctions but Context allows us to bypass that.
 ### Ternary operators: {boolean ? "value if true" : "value if false"}
-* color = {nightModeOn ? "white" : "black"} means that the color will be set to white if nightModeOn is true and black if nightModeOn is false. This allows for color switching. 
+    color = {nightModeOn ? "white" : "black"} 
+* The above line means that the color will be set to white if nightModeOn is true and black if nightModeOn is false. This allows for color switching. 
 
 ## Contact Us!
 - GitHub usernames: @choojoe, @guitartist42, @Sophiapatterson, @whydaniel
