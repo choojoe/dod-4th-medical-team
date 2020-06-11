@@ -23,9 +23,14 @@
 ### React Context: How to access variables from any screen
 * Note on React Context: In order to access the variable nightModeOn from functions/files outside of App.js,
 * we need to use React Context, set below. In order to do that, we store the variables in NightModeContext.
-* NOTE: IMPORT NIGHTMODECONTEXT LIKE THIS (change path as needed):
+
+NOTE: Import NightModeContext like this (change path to NightModeContext as needed)
+
     import {NightModeContext} from "../NightModeContext"
-* and whenever we want to access this data from a FUNCTION COMPONENT, we wrap whatever we want to return in a Consumer as such (Recommended for screen components):
+
+* and whenever we want to access this data from a FUNCTION COMPONENT, we wrap whatever we want to return in a Consumer. 
+
+Here's the template for the code:
 
     <NightModeContext.Consumer>
         {({nightModeOn, toggleNightMode}) => (
@@ -34,8 +39,12 @@
     </NightModeContext.Consumer>
 
 * See CustomDrawer as an example.
+
 * Note that ReactNavigation really likes to work with functions rather than classes, however, the two can be easily converted between each other.
- * If you are trying to access data from a CLASS COMPONENT, set up your class as such (Recommended for non-screen components):
+ * If you are trying to access data from a CLASS COMPONENT, we have to do some basic setting via initalizing contextType.
+
+ Here's the template for the code:
+
     class className extends React.Component {
         constructor(props){ //use props only if you have props to pass in 
             super(props)
@@ -45,6 +54,7 @@
             return (//Whatever you want, access context via this.context.nightModeOn and props via this.props.insertPropHere)
         }
     }
+
 * See CustomIcon as an exmaple.
  * More specifically, the below line (Producer) allows any Consumer to access the data, even if the Consumer is in a subfunction.
     <NightModeContext.Provider value = {{nightModeOn: nightMode, toggleNightMode: toggleNight}}>
