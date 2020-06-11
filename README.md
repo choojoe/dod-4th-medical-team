@@ -28,9 +28,9 @@
 * and whenever we want to access this data from a FUNCTION COMPONENT, we wrap whatever we want to return in a Consumer as such (Recommended for screen components):
 
     <NightModeContext.Consumer>
-    {({nightModeOn, toggleNightMode}) => (
-    //INSERT CODE HERE
-    )}
+        {({nightModeOn, toggleNightMode}) => (
+        //INSERT CODE HERE
+        )}
     </NightModeContext.Consumer>
 
 * See CustomDrawer as an example.
