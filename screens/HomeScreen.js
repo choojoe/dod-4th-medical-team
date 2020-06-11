@@ -91,8 +91,8 @@ const DATA = [
  * and you can create a new button by modifying DATA and calling 
  * <CustomButton {...DATA[index]} navigation = {navigation}/>
  */
-
  import { Text, ScrollView } from "react-native"
+
 export default function HomeScreen({navigation}) {
     return (
     <NightModeContext.Consumer>
