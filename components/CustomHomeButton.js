@@ -6,7 +6,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
  * Takes in props passed in HomeScreen - see DATA.
  * {screen: props.route} allows us to navigate to the screen within the Main navigator (props.navigation).
  */
-export default class CustomButton extends React.Component {
+export default class CustomHomeButton extends React.Component {
     constructor(props){
         super(props)
     }
@@ -14,7 +14,7 @@ export default class CustomButton extends React.Component {
         return (
             <TouchableOpacity 
                 style = {[styles.button, {backgroundColor: this.props.backgroundColor}]}
-                onPress = {() => this.props.navigation.navigate("Main", {screen: this.props.route})}
+                onPress = {() => this.props.navigation.navigate(this.props.route)}
             >
                 <FontAwesome5 name = {this.props.icon} size = {72} color = "white"/>
                 <Text style = {{color : "white"}}>
@@ -27,7 +27,7 @@ export default class CustomButton extends React.Component {
 /**
  * In case if the button creation fails
  */
-CustomButton.defaultProps = {
+CustomHomeButton.defaultProps = {
     icon: "user",
     route: "Test",
     title: "Test",

@@ -10,7 +10,7 @@ import { View, StyleSheet } from "react-native"
 import { enableScreens } from "react-native-screens"
 enableScreens();
 // See CustomButton.js for more details on the styling of the button
-import CustomButton from "../components/CustomButton"
+import CustomHomeButton from "../components/CustomHomeButton"
 
 /**
  * DATA contains the routes and titles of the buttons, 
@@ -100,24 +100,24 @@ export default function HomeScreen({navigation}) {
             <View style  = {styles.buttonContainer}>
             <ScrollView>
                 <View style = {styles.row}>
-                    <CustomButton {...DATA[0]} navigation = {navigation}/>
-                    <CustomButton {...DATA[1]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[0]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[1]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomButton {...DATA[2]} navigation = {navigation}/>
-                    <CustomButton {...DATA[3]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[2]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[3]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomButton {...DATA[4]} navigation = {navigation}/>
-                    <CustomButton {...DATA[5]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[4]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[5]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomButton {...DATA[6]} navigation = {navigation}/>
-                    <CustomButton {...DATA[7]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[6]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[7]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomButton {...DATA[8]} navigation = {navigation}/>
-                    <CustomButton {...DATA[9]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[8]} navigation = {navigation}/>
+                    <CustomHomeButton {...DATA[9]} navigation = {navigation}/>
                 </View>
             </ScrollView>
             </View>
