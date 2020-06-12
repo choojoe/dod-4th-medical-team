@@ -3,8 +3,7 @@
  * ROUTE NAME: Home.
  * This screen contains the main buttons we want our users to look at.
  * We create a 2 column grid to hold each of our main buttons, however, each row can hold as many buttons as you like.
- * If you want to include more buttons and treat this grid as a list, use a ScrollView instead of a View for the main container,
- * however, we discourage this for simplicity sake (keep the number of buttons low).
+ * For the buttonContainer container, you can use either View or ScrollView.
  */
 import React from "react"
 import { View, StyleSheet } from "react-native"
@@ -12,7 +11,6 @@ import { enableScreens } from "react-native-screens"
 enableScreens();
 // See CustomButton.js for more details on the styling of the button
 import CustomButton from "../components/CustomButton"
-import { NightModeContext } from "../NightModeContext";
 
 /**
  * DATA contains the routes and titles of the buttons, 
@@ -95,39 +93,35 @@ const DATA = [
 
 export default function HomeScreen({navigation}) {
     return (
-    <NightModeContext.Consumer>
-    {({nightModeOn}) => (
-    <View style={[styles.container, {backgroundColor: nightModeOn ? "black" : "white"}]}>
-        <View style = {styles.header}>
-            <Text>INSERT NEWS HERE</Text>
+        <View style={styles.container}>
+            <View style = {styles.header}>
+                <Text>INSERT NEWS HERE</Text>
+            </View>
+            <View style  = {styles.buttonContainer}>
+            <ScrollView>
+                <View style = {styles.row}>
+                    <CustomButton {...DATA[0]} navigation = {navigation}/>
+                    <CustomButton {...DATA[1]} navigation = {navigation}/>
+                </View>
+                <View style = {styles.row}>
+                    <CustomButton {...DATA[2]} navigation = {navigation}/>
+                    <CustomButton {...DATA[3]} navigation = {navigation}/>
+                </View>
+                <View style = {styles.row}>
+                    <CustomButton {...DATA[4]} navigation = {navigation}/>
+                    <CustomButton {...DATA[5]} navigation = {navigation}/>
+                </View>
+                <View style = {styles.row}>
+                    <CustomButton {...DATA[6]} navigation = {navigation}/>
+                    <CustomButton {...DATA[7]} navigation = {navigation}/>
+                </View>
+                <View style = {styles.row}>
+                    <CustomButton {...DATA[8]} navigation = {navigation}/>
+                    <CustomButton {...DATA[9]} navigation = {navigation}/>
+                </View>
+            </ScrollView>
+            </View>
         </View>
-        <View style  = {styles.buttonContainer}>
-        <ScrollView>
-            <View style = {styles.row}>
-                <CustomButton {...DATA[0]} navigation = {navigation}/>
-                <CustomButton {...DATA[1]} navigation = {navigation}/>
-            </View>
-            <View style = {styles.row}>
-                <CustomButton {...DATA[2]} navigation = {navigation}/>
-                <CustomButton {...DATA[3]} navigation = {navigation}/>
-            </View>
-            <View style = {styles.row}>
-                <CustomButton {...DATA[4]} navigation = {navigation}/>
-                <CustomButton {...DATA[5]} navigation = {navigation}/>
-            </View>
-            <View style = {styles.row}>
-                <CustomButton {...DATA[6]} navigation = {navigation}/>
-                <CustomButton {...DATA[7]} navigation = {navigation}/>
-            </View>
-            <View style = {styles.row}>
-                <CustomButton {...DATA[8]} navigation = {navigation}/>
-                <CustomButton {...DATA[9]} navigation = {navigation}/>
-            </View>
-        </ScrollView>
-        </View>
-    </View>
-    )}
-    </NightModeContext.Consumer>
     );
 }
 
@@ -147,6 +141,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         //alignItems: "center",
         //justifyContent: "center"
+        //above are useful for scrollview
     },
     row: {
         width: "100%",
