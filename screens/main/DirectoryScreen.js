@@ -7,11 +7,14 @@
  */
 import React from "react"
 import {View, StyleSheet, Text, TouchableOpacity, ScrollView, Button} from "react-native"
+/** 
 import Accordion from "react-native-collapsible/Accordion"
 import {NightModeContext} from "../../NightModeContext"
-import * as Linking from "expo-linking"
+import * as Linking from "expo-linking" //CURRENTLY USING LINKING FROM EXPO! Feel free to change as we export.
 import * as Animatable from "react-native-animatable"
 import Icon from "react-native-vector-icons/FontAwesome"
+*/
+import DropdownList from "../../components/DropdownList"
 
 /**
  * Data used to construct the collapsible.
@@ -24,7 +27,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
  
 const SECTIONS = [
     {
-        name: "24hr Nurse Advice Line",
+        key: "24hr Nurse Advice Line",
         content: [
             //None at this time
         ],
@@ -36,7 +39,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "ADAPT [Alcohol and Drug Abuse Prevention and Treatment]",
+        key: "ADAPT [Alcohol and Drug Abuse Prevention and Treatment]",
         content: [
             {
                 title: "Location: ",
@@ -59,7 +62,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "BHOP [Behavioral Health Optimization Program]",
+        key: "BHOP [Behavioral Health Optimization Program]",
         content: [
             {
                 title: "Location: ",
@@ -82,7 +85,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Benefits Advisor",
+        key: "Benefits Advisor",
         content: [
             {
                 title: "Location: ",
@@ -101,7 +104,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Bioenvironmental Engineering",
+        key: "Bioenvironmental Engineering",
         content: [
             {
                 title: "Location: ",
@@ -124,7 +127,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Dental",
+        key: "Dental",
         content: [
             {
                 title: "Location: ",
@@ -147,7 +150,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "EFMP [Exceptional Family Member Program]",
+        key: "EFMP [Exceptional Family Member Program]",
         content: [
             {
                 title: "Location: ",
@@ -174,7 +177,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Family Advocacy",
+        key: "Family Advocacy",
         content: [
             {
                 title: "Location: ",
@@ -197,7 +200,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Family Health",
+        key: "Family Health",
         content: [
             {
                 title: "Location: ",
@@ -220,11 +223,11 @@ const SECTIONS = [
                 description: "Monday through Friday, 9:00am to 10:00am, 1:00pm to 2:00pm",
             },
             {
-                title: "Walk-In Hours continued:",
+                title: "Walk-In Hours continued: ",
                 description: "Closed the second Wednesday of every month from 12:00pm to 4:30pm for required readiness training."
             },
             {
-                title: "Pregnancy Testing:",
+                title: "Pregnancy Testing: ",
                 description: "Monday through Friday, 9:00am to 10:00am only"
             },
             {
@@ -240,7 +243,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Flight Medicine",
+        key: "Flight Medicine",
         content: [
             {
                 title: "Location: ",
@@ -279,10 +282,10 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Health Promotions",
+        key: "Health Promotions",
         content: [
             {
-                title: "Location",
+                title: "Location: ",
                 description: "Building 2815, Health Promotions Building, next to Dental Clinic",
             },
             {
@@ -290,7 +293,7 @@ const SECTIONS = [
                 description: 'Monday through Friday, 7:30am to 4:15pm'
             },
             {
-                title: "Hours (continued):",
+                title: "Hours (continued): ",
                 description: "Closed Tuesday, 10:45am to 12:00pm for smallpox immunizations and Wednesday, 11:45am to 1:00pm for training."
             },
         ],
@@ -302,7 +305,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Immunizations",
+        key: "Immunizations",
         content: [
             {
                 title: "Location: ",
@@ -328,7 +331,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Laboratory",
+        key: "Laboratory",
         content: [
             {
                 title: "Location: ",
@@ -351,7 +354,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Medical Records",
+        key: "Medical Records",
         content: [
             {
                 title: "Location: ",
@@ -370,7 +373,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Mental Health",
+        key: "Mental Health",
         content: [
             {
                 title: "Location: ",
@@ -397,7 +400,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Optometry",
+        key: "Optometry",
         content: [
             {
                 title: "Location: ",
@@ -408,7 +411,7 @@ const SECTIONS = [
                 description: "Monday through Friday, 7:30am to 4:30pm",
             },
             {
-                title: "About Us:",
+                title: "About Us: ",
                 description: "We offer routine eye care to active duty personnel, as well as, all TRICARE Prime enrollees that have a primary care manager at the 4th Medical Group. Dependents must be at least six years old.",
             }
         ],
@@ -420,7 +423,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Patient Registration",
+        key: "Patient Registration",
         content: [
             {
                 title: "Location: ",
@@ -439,7 +442,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Pediatrics",
+        key: "Pediatrics",
         content: [
             {
                 title: "Location: ",
@@ -462,7 +465,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Pharmacy",
+        key: "Pharmacy",
         content: [
             {
                 title: "Hours: ",
@@ -506,7 +509,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Physical Therapy",
+        key: "Physical Therapy",
         content: [
             {
                 title: "Location: ",
@@ -529,7 +532,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Public Health",
+        key: "Public Health",
         content: [
             {
                 title: "Location: ",
@@ -552,7 +555,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Radiology (Diagnostic Imaging)",
+        key: "Radiology (Diagnostic Imaging)",
         content: [
             {
                 title: "Location: ",
@@ -575,7 +578,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Referral Management Office",
+        key: "Referral Management Office",
         content: [
             {
                 title: "Location: ",
@@ -602,7 +605,7 @@ const SECTIONS = [
         ]
     },
     {
-        name: "Women's Health",
+        key: "Women's Health",
         content: [
             {
                 title: "Location: ",
@@ -620,145 +623,32 @@ const SECTIONS = [
         links: [
             {
                 title: "Contact Us",
-                description: "tel:1-919-722-1802"
+                URL: "tel:1-919-722-1802"
             }
         ]
     },
 ]
 
-/**
- * React Native Collapsible is used in order to create the Accordion/Dropdown menu
- * _renderHeader - prints out the header/title (what is initially displayed)
- * _renderContent - prints out the content/description (the view that pops up on click)
- * _renderFooter - prints out the footer (displayed at the bottom, currently a horizontal line)
- * _updateSection - updates which section is displayed (only one section is displayed)
- */
 export default class DirectoryScreen extends React.Component {
     constructor(){
         super();
-        this.state = {
-            activeSections: [],
-        }
-    }
-
-    static contextType = NightModeContext;
-
-    //integrate isActive
-
-    _renderHeader = (section, index, isActive) => {
-        const customRotateOpen = {
-            from: {
-                rotate: "0deg"
-            },
-            to: {
-                rotate: "180deg"
-            }
-        }
-        const customRotateClosed = {
-            from: {
-                rotate: "180deg"
-            },
-            to: {
-                rotate: "360deg"
-            }
-        }
-        return (
-            <View style = {styles.header}>
-                <Text style = {[styles.headerText, this.context.nightModeOn ? styles.whiteText : styles.blackText]}>{section.name}</Text>
-                <Animatable.View animation = {isActive ? customRotateOpen : customRotateClosed}><Icon name="caret-down" focused = "true" size = {50} color = {this.context.nightModeOn ? styles.whiteText : styles.blackText}/></Animatable.View>
-            </View>
-        )
-    }
-
-    _renderContent = section => {
-        const infoContent = 
-        <View>
-            {
-                section.content.map(item => 
-                    <Text style = {[styles.contentText, this.context.nightModeOn ? styles.whiteText : styles.blackText]}>
-                        <Text style = {{fontWeight: "bold"}}>{item.title}</Text> 
-                        <Text>{item.description}</Text>
-                    </Text>
-                )
-            }
-        </View>
-        const linkContent = 
-        <View style = {{paddingBottom: 5}}>
-            {
-                section.links.map(item => 
-                    <View style = {{paddingTop: 10}}>
-                        <Button 
-                            title = {item.title}
-                            onPress = {() => Linking.openURL(item.URL)}
-                        />
-                    </View>
-                )
-            }
-        </View>
-        return (
-            <View style = {styles.content}>
-                <View>
-                    {infoContent}
-                </View>
-                <View>
-                    {linkContent}
-                </View>
-            </View>
-        )
-    }
-
-    _renderFooter = () => {
-        return (
-            <View 
-                style = {{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                }}
-            />
-        )
-    }
-    
-    _updateSections = activeSections => {
-        this.setState({ activeSections })
-        console.log(activeSections)
     }
 
     render() {
-        
         return (
-            <ScrollView>  
-                <Accordion
-                    sections = {SECTIONS}
-                    activeSections = {this.state.activeSections}
-                    renderSectionTitle = {this._renderSectionTitle}
-                    renderHeader = {this._renderHeader}
-                    renderContent = {this._renderContent}
-                    renderFooter = {this._renderFooter}
-                    onChange = {this._updateSections}
-                    touchableComponent = {TouchableOpacity} 
-                    containerStyle = {{
-                        backgroundColor: this.context.nightModeOn ? "black" : "white",
-                        padding: 20
-                    }}
-                    
-                    //Above line changes the container for each list item into a touchableopacity, which dims upon clicking.
-                />
-            </ScrollView>
+            <DropdownList sections = {SECTIONS}/>
         )
     }
 }
+
 /**
  * Styles used for this file. Change these instead of the code above (except for containerStyle)
  * containerStyle in Accordion above changes the style of the overall screen.
- * contentButton changes the styling of the buttons.
  * headerText and contentText format the text themselves.
  * TODO: Change contentButton, headerText, contentText
  * Formatting should be changed here, not in the DirectoryScreen class.
  */
 const styles = StyleSheet.create({
-    contentButton: {
-        backgroundColor: "red"
-    },
     header: {
         paddingVertical: 10,
         flexDirection: "row"
@@ -766,9 +656,6 @@ const styles = StyleSheet.create({
     headerText: {
         flex: 1,
         fontSize: 24,
-    },
-    contentText: {
-
     },
     whiteText: {
         color: "white"
