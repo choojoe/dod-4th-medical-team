@@ -3,11 +3,10 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 /**
  * A custom button created with TouchableOpacity, each containing an icon and text.
- * Redirects the user to another screen within the app.
- * Takes in props passed in HomeScreen - see DATA.
+ * Redirects the user to another route within the app.
  * {screen: props.route} allows us to navigate to the screen within the Main navigator (props.navigation).
  */
-export default class CustomHomeButton extends React.Component {
+export default class CustomRouteButton extends React.Component {
     constructor(props){
         super(props)
     }
@@ -28,7 +27,7 @@ export default class CustomHomeButton extends React.Component {
 /**
  * In case if the button creation fails
  */
-CustomHomeButton.defaultProps = {
+CustomRouteButton.defaultProps = {
     icon: "user",
     route: "Test",
     title: "Test",

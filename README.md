@@ -7,6 +7,11 @@
 - Icons provided by Font Awesome + React Native Vector Icons
 - Project is in progress as part of a 10-week summer internship program, the Duke Phoenix Project, meant to give Duke undergraduates internships to replace ones lost due to the COVID-19 pandemic.
 
+## Notes to Self by Daniel
+- Dropdown Menu could include a search bar
+- React Native Webview is now at version 8.1.1 to support Expo, feel free to change this once we eject
+- FIX VULNERABILITIES VIA NPM INSTALLING EVERYTHING
+
 ## Notes for Maintainers
 - The following is being written as a brief introduction to the libraries and tools we used to maintain our app.
 ### How navigators work: A small intro

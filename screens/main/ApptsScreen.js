@@ -7,7 +7,7 @@ import {View, Text} from "react-native"
 export default function ApptsScreen() {
     return (
         <View>
-            <Text>Screen under construction.</Text>
+            <Text>Screen under development.</Text>
             <Text>Appointments</Text>
         </View>
     )

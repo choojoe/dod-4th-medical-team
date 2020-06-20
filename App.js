@@ -131,8 +131,10 @@ import DirectoryScreen from "./screens/main/DirectoryScreen"
 import MapScreen from "./screens/main/MapScreen"
 import PharmacyScreen from "./screens/main/PharmacyScreen"
 import NewsScreen from "./screens/main/NewsScreen"
-import PortalScreen from "./screens/main/PortalScreen"
+import OnlineScreen from "./screens/main/OnlineScreen"
 import TestScreen from "./screens/main/TestScreen"
+import MyPatientPortalScreen from "./screens/main/MyPatientPortalScreen"
+import SecureMessagingScreen from "./screens/main/SecureMessagingScreen"
 
 /**
  * Homemade components used in the creation of the header.
@@ -173,7 +175,7 @@ function MainNavigation({navigation}) {
         <Stack.Screen name = "Home" component = {HomeScreen}/>
         <Stack.Screen name = "COVID" component = {COVIDScreen}/>
         <Stack.Screen name = "CallUs" component = {CallUsScreen} />
-        <Stack.Screen name = "Portal" component = {PortalScreen}/> 
+        <Stack.Screen name = "Online" component = {OnlineScreen}/> 
         <Stack.Screen name = "Appts" component = {ApptsScreen}/>
         <Stack.Screen name = "Map" component = {MapScreen}/> 
         <Stack.Screen name = "Pharmacy" component = {PharmacyScreen} />
@@ -182,6 +184,8 @@ function MainNavigation({navigation}) {
         <Stack.Screen name = "Calendar" component = {CalendarScreen} />
         <Stack.Screen name = "Classes" component = {ClassesScreen} />
         <Stack.Screen name = "Test" component = {TestScreen} />
+        <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
+        <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
       </Stack.Navigator>
     )}
     </NightModeContext.Consumer>
