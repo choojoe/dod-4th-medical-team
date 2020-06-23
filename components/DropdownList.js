@@ -62,7 +62,7 @@ export default class DropdownList extends React.Component {
         <View>
             {
                 section.content.map(item => 
-                    <Text style = {[styles.contentText, this.context.nightModeOn ? styles.whiteText : styles.blackText]} key = {item.title+" info"}>
+                    <Text style = {[styles.contentText, this.context.nightModeOn ? styles.whiteText : styles.blackText]} key = {item.title+" dropdowninfo"}>
                         <Text style = {{fontWeight: "bold"}}>{item.title}</Text> 
                         <Text>{item.description}</Text>
                     </Text>
@@ -73,7 +73,7 @@ export default class DropdownList extends React.Component {
         <View style = {{paddingBottom: 5}}>
             {
                 section.links.map(item => 
-                    <View style = {{paddingTop: 10}} key = {item.title+" link"}>
+                    <View style = {{paddingTop: 10}} key = {item.title+" dropdownlink"}>
                         <Button 
                             title = {item.title}
                             onPress = {() => Linking.openURL(item.URL)}
