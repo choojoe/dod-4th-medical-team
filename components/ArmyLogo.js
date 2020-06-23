@@ -7,7 +7,7 @@ import { Image } from "react-native"
 
 export default function ArmyLogo() {
   return (
-    <Image style = {{width: 57, height: 54}} source = {require("../assets/4MTLogo.png")}/>
+    <Image style = {{width: 57, height: 54}} source = {require("../assets/4MTEmblem.png")}/>
   )
 }
 

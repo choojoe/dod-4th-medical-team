@@ -28,7 +28,7 @@ export default function CustomDrawer(props) {
               label = "Night Mode" 
               inactiveTintColor = {nightModeOn ? "white" : "black"}
               icon = {() => <View style = {{width: 35}}><Switch onValueChange = {toggleNightMode} value = {nightModeOn}/></View>} 
-              onPress= {() => {alert("Night mode!")}}  //being left as alert for debugging purposes
+              onPress= {() => {toggleNightMode()}}
             />
           </View>
       </DrawerContentScrollView>    

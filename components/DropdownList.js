@@ -1,5 +1,6 @@
 /**
  * Custom component that creates a dropdown menu given data (sections).
+ * POTENTIAL IMPLEMENTATION: Search Bar to search through FAQs.
  */
 import React from "react"
 import {View, StyleSheet, Text, TouchableOpacity, ScrollView, Button} from "react-native"
@@ -57,12 +58,11 @@ export default class DropdownList extends React.Component {
         if (!isActive){
             return ;
         }
-        console.log(section.key)
         const infoContent = !section.content ? <View></View> : //this line sets infoContent to blank if section.content doesn't exist
         <View>
             {
                 section.content.map(item => 
-                    <Text style = {[styles.contentText, this.context.nightModeOn ? styles.whiteText : styles.blackText]} key = {item.title+" info"}>
+                    <Text style = {[styles.contentText, this.context.nightModeOn ? styles.whiteText : styles.blackText]} key = {item.title+" dropdowninfo"}>
                         <Text style = {{fontWeight: "bold"}}>{item.title}</Text> 
                         <Text>{item.description}</Text>
                     </Text>
@@ -73,7 +73,7 @@ export default class DropdownList extends React.Component {
         <View style = {{paddingBottom: 5}}>
             {
                 section.links.map(item => 
-                    <View style = {{paddingTop: 10}} key = {item.title+" link"}>
+                    <View style = {{paddingTop: 10}} key = {item.title+" dropdownlink"}>
                         <Button 
                             title = {item.title}
                             onPress = {() => Linking.openURL(item.URL)}
@@ -83,7 +83,7 @@ export default class DropdownList extends React.Component {
             }
         </View>
         return (
-            <View style = {styles.content}>
+            <View style = {styles.container}>
                 <View>
                     {infoContent}
                 </View>
@@ -142,6 +142,9 @@ export default class DropdownList extends React.Component {
  * Formatting should be changed here, not in the DirectoryScreen class.
  */
 const styles = StyleSheet.create({
+    container: {
+        height: "100%"
+    },
     header: {
         paddingVertical: 10,
         flexDirection: "row"

@@ -10,7 +10,7 @@ import { View, StyleSheet } from "react-native"
 import { enableScreens } from "react-native-screens"
 enableScreens();
 // See CustomButton.js for more details on the styling of the button
-import CustomHomeButton from "../components/CustomHomeButton"
+import CustomRouteButton from "../components/CustomRouteButton"
 
 /**
  * DATA contains the routes and titles of the buttons, 
@@ -34,8 +34,8 @@ const DATA = [
         backgroundColor: "#7785AC"
     },
     {
-        route: "Portal",
-        title: "MyPatientPortal",
+        route: "Online",
+        title: "Online Center",
         icon: "globe",
         backgroundColor: "#9AC6C5"
     },
@@ -100,24 +100,24 @@ export default function HomeScreen({navigation}) {
             <View style  = {styles.buttonContainer}>
             <ScrollView>
                 <View style = {styles.row}>
-                    <CustomHomeButton {...DATA[0]} navigation = {navigation}/>
-                    <CustomHomeButton {...DATA[1]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[0]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[1]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomHomeButton {...DATA[2]} navigation = {navigation}/>
-                    <CustomHomeButton {...DATA[3]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[2]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[3]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomHomeButton {...DATA[4]} navigation = {navigation}/>
-                    <CustomHomeButton {...DATA[5]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[4]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[5]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomHomeButton {...DATA[6]} navigation = {navigation}/>
-                    <CustomHomeButton {...DATA[7]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[6]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[7]} navigation = {navigation}/>
                 </View>
                 <View style = {styles.row}>
-                    <CustomHomeButton {...DATA[8]} navigation = {navigation}/>
-                    <CustomHomeButton {...DATA[9]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[8]} navigation = {navigation}/>
+                    <CustomRouteButton {...DATA[9]} navigation = {navigation}/>
                 </View>
             </ScrollView>
             </View>

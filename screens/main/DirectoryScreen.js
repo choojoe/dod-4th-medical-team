@@ -395,7 +395,7 @@ const SECTIONS = [
             },
             {
                 title: "Wayne Memorial Hospital (After Duty Hours)",
-                URL: "tel-1:919-736-1110"
+                URL: "tel:1-919-736-1110"
             }
         ]
     },
