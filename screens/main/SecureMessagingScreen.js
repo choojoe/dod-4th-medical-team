@@ -8,6 +8,7 @@ export default function SecureMessagingScreen() {
             domStorageEnabled={true}
             startInLoadingState={false}
             scalesPageToFit={true}
+            androidHardwareAccelerationDisabled = {true} //no idea if this will work lol
         />
     )
 }
