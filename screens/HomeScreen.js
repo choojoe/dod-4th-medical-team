@@ -8,10 +8,10 @@
 import React from "react"
 import { View, StyleSheet } from "react-native"
 import { enableScreens } from "react-native-screens"
+import Swiper from "react-native-swiper"
 enableScreens();
 // See CustomButton.js for more details on the styling of the button
 import CustomRouteButton from "../components/CustomRouteButton"
-
 /**
  * DATA contains the routes and titles of the buttons, 
  * which are converted into buttons via the CustomButton function.
@@ -20,6 +20,7 @@ import CustomRouteButton from "../components/CustomRouteButton"
  * icon: name of the icon, as detailed on fontawesome.com
  * backgroundColor: the background of the button
  */
+
 const DATA = [
     {
         route: "COVID",
@@ -89,37 +90,47 @@ const DATA = [
  * and you can create a new button by modifying DATA and calling 
  * <CustomButton {...DATA[index]} navigation = {navigation}/>
  */
- import { Text, ScrollView } from "react-native"
+import { Text, ScrollView } from "react-native"
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
-            <View style = {styles.header}>
-                <Text>INSERT NEWS HERE</Text>
+            <View style={styles.header}>
+                <Swiper style={styles.wrapper} showsButtons={true}>
+                    <View style={styles.slide1}>
+                        <Text style={styles.text}>Hello Swiper</Text>
+                    </View>
+                    <View style={styles.slide2}>
+                        <Text style={styles.text}>Beautiful</Text>
+                    </View>
+                    <View style={styles.slide3}>
+                        <Text style={styles.text}>And simple</Text>
+                    </View>
+                </Swiper>
             </View>
-            <View style  = {styles.buttonContainer}>
-            <ScrollView>
-                <View style = {styles.row}>
-                    <CustomRouteButton {...DATA[0]} navigation = {navigation}/>
-                    <CustomRouteButton {...DATA[1]} navigation = {navigation}/>
-                </View>
-                <View style = {styles.row}>
-                    <CustomRouteButton {...DATA[2]} navigation = {navigation}/>
-                    <CustomRouteButton {...DATA[3]} navigation = {navigation}/>
-                </View>
-                <View style = {styles.row}>
-                    <CustomRouteButton {...DATA[4]} navigation = {navigation}/>
-                    <CustomRouteButton {...DATA[5]} navigation = {navigation}/>
-                </View>
-                <View style = {styles.row}>
-                    <CustomRouteButton {...DATA[6]} navigation = {navigation}/>
-                    <CustomRouteButton {...DATA[7]} navigation = {navigation}/>
-                </View>
-                <View style = {styles.row}>
-                    <CustomRouteButton {...DATA[8]} navigation = {navigation}/>
-                    <CustomRouteButton {...DATA[9]} navigation = {navigation}/>
-                </View>
-            </ScrollView>
+            <View style={styles.buttonContainer}>
+                <ScrollView>
+                    <View style={styles.row}>
+                        <CustomRouteButton {...DATA[0]} navigation={navigation} />
+                        <CustomRouteButton {...DATA[1]} navigation={navigation} />
+                    </View>
+                    <View style={styles.row}>
+                        <CustomRouteButton {...DATA[2]} navigation={navigation} />
+                        <CustomRouteButton {...DATA[3]} navigation={navigation} />
+                    </View>
+                    <View style={styles.row}>
+                        <CustomRouteButton {...DATA[4]} navigation={navigation} />
+                        <CustomRouteButton {...DATA[5]} navigation={navigation} />
+                    </View>
+                    <View style={styles.row}>
+                        <CustomRouteButton {...DATA[6]} navigation={navigation} />
+                        <CustomRouteButton {...DATA[7]} navigation={navigation} />
+                    </View>
+                    <View style={styles.row}>
+                        <CustomRouteButton {...DATA[8]} navigation={navigation} />
+                        <CustomRouteButton {...DATA[9]} navigation={navigation} />
+                    </View>
+                </ScrollView>
             </View>
         </View>
     );
