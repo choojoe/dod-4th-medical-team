@@ -4,7 +4,7 @@ import { NightModeContext} from "../NightModeContext"
 import Icon from "react-native-vector-icons/FontAwesome"
 /**
  * A homemade sidebar icon used in the right. It's cool.
- * See React Context for more details
+ * See React Context on README.md for more details
  */
 export default class SidebarIcon extends React.Component{
     constructor(props){
