@@ -1,6 +1,18 @@
 /**
  * Custom component that creates a dropdown menu given data (sections).
  * POTENTIAL IMPLEMENTATION: Search Bar to search through FAQs.
+ * Takes in data in format: 
+ * {
+ *      key: "The title of the section",
+ *      content: [
+ *          {
+ *              //an array of objects in this format
+ *              title: "The title of each line (bolded)"
+ *              description: "Provides more detail (not bolded)"
+ *              //ex - [b]Hours: [/b]Monday through Friday 10:00AM to 4:00PM     
+ *          }
+ *      ]
+ * }
  */
 import React from "react"
 import {View, StyleSheet, Text, TouchableOpacity, ScrollView, Button} from "react-native"
@@ -27,8 +39,7 @@ export default class DropdownList extends React.Component {
 
     static contextType = NightModeContext;
 
-    //integrate isActive
-
+    //In addition to displaying the title, we want to display an arrow on the end that will open and close depending on the state of the arrow.
     _renderHeader = (section, index, isActive) => {
         const customRotateOpen = {
             from: {
@@ -54,6 +65,8 @@ export default class DropdownList extends React.Component {
         )
     }
 
+    //Render the view (only if the section is active) - display all lines in format [b]title[/b] description
+    //TODO: Replace keys with something better
     _renderContent = (section, index, isActive) => {
         if (!isActive){
             return ;
@@ -67,6 +80,7 @@ export default class DropdownList extends React.Component {
                         <Text>{item.description}</Text>
                     </Text>
                 )
+                //map all each item in content into a single text line as described above
             }
         </View>
         const linkContent = !section.links ? <View></View> : //this line sets linkContent to blank if section.links doesn't exist
@@ -94,6 +108,7 @@ export default class DropdownList extends React.Component {
         )
     }
 
+    //a single black line
     _renderFooter = () => {
         return (
             <View 
@@ -105,6 +120,7 @@ export default class DropdownList extends React.Component {
         )
     }
     
+    //updates the active section.
     _updateSections = activeSections => {
         this.setState({ activeSections })
     }

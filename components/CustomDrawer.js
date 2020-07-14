@@ -6,7 +6,7 @@ import CustomIcon from "./CustomIcon"
 /**
  * A homemade custom drawer that adds in two more tabs in addition to the screens above.
  * Top tab closes the drawer.
- * Middle tabs comes from the screens defined in Drawer initialization.
+ * Middle tabs comes from the screens defined in Drawer initialization. [DrawerItemList]
  * Bottom tab inverts the colors. It's cool.
  * Nightmode tab takes in variable nightModeOn and function toggleNightMode, initialized in the App state.
  * Whenever the switch itself is clicked, toggleNightMode is called, which causes nightModeOn to be toggled.
