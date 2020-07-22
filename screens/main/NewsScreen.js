@@ -1,79 +1,86 @@
 import React from "react"
-import { View, Text, FlatList, TouchableHighlight} from "react-native"
+import { View, Text, FlatList} from "react-native"
 import * as rssParser from "react-native-rss-parser"
-import Swiper from "react-native-swiper"
 import DomSelector from "react-native-dom-parser"
-
+import NewsListItem from "../../components/NewsListItem"
+import { NightModeContext } from "../../NightModeContext"
 /**
- * Initial code inspired by this response: https://stackoverflow.com/questions/60318318/implement-rss-feed-in-react-native
+ * This screen reads data from a RSS feed and then displays it in a neat list format.
+ * Used in this file: NewsFeedItem + NewsModalScreen
  * ROUTE NAME: News
  */
 
- import {TouchableOpacity} from "react-native"
-
- import * as Linking from "expo-linking"
 export default class NewsScreen extends React.Component {
+    // The state (variable storage) of this screen will be used to store the RSS feed.
+    // The state is set to an initial loading state (not the actual feed)
     state = {
         feed: [{id: "What", title: "Loading...", description: "News loading...", published: "2020-07-04T14:15:19+00:00"}],
     }
 
+    // Once the component has loaded, begin the process of reading data from the RSS news feed.
     componentDidMount(){
         this.RSS();
     }
 
-    //http://fetchrss.com/rss/5ef244a08a93f86e288b45675ef2448b8a93f838268b4567.atom
-    //https://rss.app/feeds/gjBMMHatgQaKEgcy.xml
-     RSS = () => { //loads the RSS feed into the state
-        fetch("http://fetchrss.com/rss/5ef244a08a93f86e288b45675ef2448b8a93f838268b4567.atom") //make a request for data. old: 
-            .then((response) => response.text()) //convert that response into text
+    // This function loads the RSS feed into the state (each line is labeled)
+     RSS = () => { 
+        fetch("http://fetchrss.com/rss/5ef244a08a93f86e288b45675ef2448b8a93f838268b4567.atom") //Make a request for data from our RSS feed (made from Facebook 4th Medical and FetchRSS).
+            .then((response) => response.text()) // convert the RSS feed into text
             .then((responseData) => rssParser.parse(responseData)) //convert that text into an easy-to-use object via rssParser
             .then((rss) => {
+                // once we have an easy to use object, we store that data into our state.
                 this.setState({
+                    // rss.items is our key object of interest - it's an array with each element representing a news story.
+                    // We convert each item into a new news item containing the properties we want using the map method (creates new array by transforming each item with a function)
+                    // The following properties:
+                    // - id = the unique identifier of each story. We use the Facebook URL related to the story.
+                    // - title = the title of each story. Usually this is just AFMS - 4th Medical Group or equal to the description, so we try to avoid using this (see generateTitle in NewsListItem).
+                    // - imageSrc = the URL of the image associated with each story, left undefined if there is no image.
+                    // - 
+                    //
                     feed: rss.items.map((item) => {
-                        const {id, title, content, published} = item; 
-                        
+                        // from each item we take the title, the raw HTML content, and the published date
+                        const {title, content, published} = item; 
+
+                        // we also take the id from each item using the links property
+                        const id = item.links[0].url
+
+                        // Isolate the imageSrc and description
+
+                        // take the raw html content and place it into a DomSelector. Take out the imageNode and the first (should be only) text node of the content.
                         const rootNode = DomSelector(content);
-                        const image = rootNode.getElementsByTagName("img")[0]
-                        const textNode = rootNode.children.find(ele => ele.constructor.name === "TextNode") //need to manually search for text nodes :(
-                        const imageSrc = image ? decodeURI(image.attributes.src) : undefined //TODO: for some reason, URI isn't decoding. image
+                        const imageNode = rootNode.getElementsByTagName("img")[0]
+                        const textNode = rootNode.children.find(ele => ele.constructor.name === "TextNode") 
 
-                        const description = textNode ? textNode.text : undefined
+                        // If there is an image - get the image URL from the imageNode (decoded via external library he)
+                        var he = require("he")
+                        var imageSrc = imageNode ? he.decode(imageNode.attributes.src) : undefined //set the image URL equal to undefined in case that there is no imageNode
+                        // If there is a piece of text - get the piece of text from textNode!
+                        const description = textNode ? textNode.text : undefined // set the text equal to undefined in case there is no textNode
 
-                        return {id, title, imageSrc, description, published, content} //content is the original content - leaving it in for comparison sake
-                    }) //todo: take subset of each item
-                    //subset: id = link, title, imageUrl, description, content, published
-                })//set the state (update variables) with appropriate values from the parsed RSS feed
+                        return {id, title, imageSrc, description, published} // return these properties - these will be stored in this.state.feed
+                    }) 
+                })
             }).catch((e) => {
+                //In the case of any error, set the feed equal to an error feed - this will be displayed in place of the normal text.
                 this.setState({
                     feed: [{id: "What", title: "Error occurred while loading. Please try again", description: e, published: "2020-07-04T14:15:19+00+00"}]
                 })
             }); 
-            //Note that the above lines will run one after the other. JavaScript is normally synchronous (run one instruction at a time) 
-            //but async allows us to handle more complex things, like web requests.
     }
 
     render(){
+        //Return the following based off the above.
         return (
-            <View style = {styles.container}>
-                <Text>Screen under construction.</Text>
-                <Text>News</Text>
-                <Swiper style={styles.wrapper} height={200} horizontal={true} autoplay>
-                    <View style={styles.slide1} onPress = {() => Linking.openURL("https://google.com")}>
-                         <Text style={styles.text}>Hello Swiper</Text>
-                    </View>
-                    <View style={styles.slide2} onPress = {() => Linking.openURL("https://google.com")}>
-                        <Text style={styles.text}>Beautiful</Text>
-                    </View>
-                    <View style={styles.slide3} onPress = {() => Linking.openURL("https://google.com")}>
-                        <Text style={styles.text}>And simple</Text>
-                    </View>
-                </Swiper>
-                {console.log(this.state.feed)}
+            <View 
+                style = {{flex: 1}} //flex: 1 = take up as much space as possible
+            > 
                 <View>
                     <FlatList
-                        data = {this.state.feed}
-                        renderItem = {({item}) => <NewsListItem item = {item}/>}
-                        keyExtractor={item => item.id} //temporary fix
+                        data = {this.state.feed} //will be populated by the this.RSS() method
+                        renderItem = {({item}) => <NewsListItem item = {item} navigation = {this.props.navigation}/>} //given the data, take each item and convert it into a React component
+                        // see NewsListItem.js for more info
+                        keyExtractor={item => item.id} //give each item an unique identifier. Feel free to change.
                     />
                 </View>
             </View>
@@ -81,74 +88,3 @@ export default class NewsScreen extends React.Component {
         )
     }
 }
-
-import { Image, StyleSheet} from "react-native"
-function NewsListItem(props){
-    const item = props.item;
-    return (
-        <TouchableOpacity style = {styles.newsContainer}>
-            <Image source = {{uri: item.imageSrc}} style = {{width: 150, height: 300}} />
-            <View style = {styles.newsRightContainer}>
-                <Text style = {styles.newsText}>{item.description ? generateTitle(item.description) : item.title}</Text> 
-                <Text style = {styles.newsDate}>{generateDate(item.published)}</Text>
-            </View>
-        </TouchableOpacity>
-    )
-}
-//<Text style = {styles.text}>{item.content ? generateTitle(item.content) : item.title}</Text> 
-
-function generateTitle(content){
-    if (content.length > 100){
-        return content.substring(0, 100) + "..."
-    }
-    return content
-}
-
-function generateDate(utcDate){
-    var d = new Date(utcDate);
-    return d.toLocaleDateString() + " " + d.toLocaleTimeString()
-}
-
-const styles = StyleSheet.create({
-    newsContainer: {
-        flexDirection: "row",
-    },
-    newsRightContainer: {
-        flex: 1
-    },
-    newsDate: {
-        color: "blue"
-    },
-    newsText: {
-        color: "blue"
-    },
-    container: {
-        flex: 1
-    },
-    wrapper: {
-        
-    },
-    slide1: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#9DD6EB'
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5'
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9'
-    },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold'
-    }
-})

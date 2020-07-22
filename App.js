@@ -26,7 +26,6 @@ import CustomIcon from "./components/CustomIcon"
 import CustomDrawer from "./components/CustomDrawer"
 
 const Drawer = createDrawerNavigator();
-import BillingScreen from "./screens/sidebar/BillingScreen"
 import ContactScreen from "./screens/sidebar/ContactScreen"
 import FAQsScreen from "./screens/sidebar/FAQsScreen"
 import NotifsScreen from "./screens/sidebar/NotifsScreen"
@@ -99,14 +98,6 @@ export default function App() {
               drawerIcon: () => <CustomIcon name = "user" />
             }}
           />
-          <Drawer.Screen
-            name = "Billing"
-            component = {BillingScreen}
-            options = {{
-              title: "Billing Info",
-              drawerIcon: () => <CustomIcon name = "credit-card"/>
-            }}
-          />
         </Drawer.Navigator>
       </NavigationContainer>
     )}
@@ -117,19 +108,14 @@ export default function App() {
 
  /**
   * Stack navigation is being used to create the main app.
-  * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the 10 main screens.
-  * These screens include: COVID, CallUs, Portal, Appts, Map, Pharmacy, News, Directory, Calendar, Classes.
+  * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the different main screens.
   */
 const Stack = createStackNavigator();
 import HomeScreen from "./screens/HomeScreen"
-import ApptsScreen from "./screens/main/ApptsScreen"
-import CalendarScreen from "./screens/main/CalendarScreen"
-import CallUsScreen from "./screens/main/CallUsScreen"
 import ClassesScreen from "./screens/main/ClassesScreen"
-import COVIDScreen from "./screens/main/COVIDScreen"
 import DirectoryScreen from "./screens/main/DirectoryScreen"
 import MapScreen from "./screens/main/MapScreen"
-import PharmacyScreen from "./screens/main/PharmacyScreen"
+import NewsModalScreen from "./screens/main/NewsModalScreen"
 import NewsScreen from "./screens/main/NewsScreen"
 import OnlineScreen from "./screens/main/OnlineScreen"
 import TestScreen from "./screens/main/TestScreen"
@@ -173,19 +159,15 @@ function MainNavigation({navigation}) {
         }}
       >
         <Stack.Screen name = "Home" component = {HomeScreen}/>
-        <Stack.Screen name = "COVID" component = {COVIDScreen}/>
-        <Stack.Screen name = "CallUs" component = {CallUsScreen} />
         <Stack.Screen name = "Online" component = {OnlineScreen}/> 
-        <Stack.Screen name = "Appts" component = {ApptsScreen}/>
         <Stack.Screen name = "Map" component = {MapScreen}/> 
-        <Stack.Screen name = "Pharmacy" component = {PharmacyScreen} />
         <Stack.Screen name = "News" component = {NewsScreen}/>
         <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
-        <Stack.Screen name = "Calendar" component = {CalendarScreen} />
         <Stack.Screen name = "Classes" component = {ClassesScreen} />
         <Stack.Screen name = "Test" component = {TestScreen} />
         <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
         <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
+        <Stack.Screen name = "NewsModal" component = {NewsModalScreen} />
       </Stack.Navigator>
     )}
     </NightModeContext.Consumer>
