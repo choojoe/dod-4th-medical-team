@@ -70,11 +70,15 @@ export default function ContactScreen() {
                 Please check the calendar for a list of training days. {"\n"}
             </Text>
 
+            <Text style = {styles.text}>
+                For more information, you can call our individual services below.
+            </Text>
+
             {DATA.map(item => 
                 <View style = {{paddingTop: 10}} key = {item.title+" contact"}>
                     <Button 
                         title = {item.title}
-                        onPress = {() => Linking.openURL(item.URL)}
+                        onPress = {() => Linking.openURL(item.url)}
                     />
                 </View>
             )}
