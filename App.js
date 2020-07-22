@@ -28,7 +28,6 @@ import CustomDrawer from "./components/CustomDrawer"
 const Drawer = createDrawerNavigator();
 import ContactScreen from "./screens/sidebar/ContactScreen"
 import FAQsScreen from "./screens/sidebar/FAQsScreen"
-import NotifsScreen from "./screens/sidebar/NotifsScreen"
 import SettingsScreen from "./screens/sidebar/SettingsScreen"
 /**
  * The main app. The top layer of the app is a sidebar, which we set up in the App function with drawer navigation.
@@ -73,14 +72,6 @@ export default function App() {
             options = {{
               drawerIcon: () => <CustomIcon name = "cog" />
             }}
-          />
-          <Drawer.Screen 
-            name="Notifs" 
-            component = {NotifsScreen}
-            options = {{
-              title: "Notifications",
-              drawerIcon: () => <CustomIcon name = "bell"/>
-            }} 
           />
           <Drawer.Screen
             name = "FAQs"
