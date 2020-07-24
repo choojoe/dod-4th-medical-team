@@ -85,7 +85,7 @@ export default class MapScreen extends React.Component {
     // }
 
       render() {
-        //   const { location, loading } = this.state;
+          const { location, loading } = this.state;
         return (
             <View style ={styles.container}>
                 <MapView
