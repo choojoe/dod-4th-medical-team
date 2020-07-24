@@ -6,6 +6,7 @@
  */
 import React from "react"
 import DropdownList from "../../components/DropdownList"
+import {View, Button} from "react-native"
 
 const SECTIONS = [
     {
@@ -36,8 +37,14 @@ const SECTIONS = [
     }
 ]
 
-export default function FAQsScreen() {
+export default function FAQsScreen({navigation}) {
     return (
-        <DropdownList sections = {SECTIONS}/>
+        <View>
+            <Button
+                title = "Go Back Home"
+                onPress = {() => navigation.navigate("Home")}
+            />
+            <DropdownList sections = {SECTIONS}/>
+        </View>
     )
 }

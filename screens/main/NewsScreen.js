@@ -3,7 +3,6 @@ import { View, Text, FlatList} from "react-native"
 import * as rssParser from "react-native-rss-parser"
 import DomSelector from "react-native-dom-parser"
 import NewsListItem from "../../components/NewsListItem"
-import { NightModeContext } from "../../NightModeContext"
 /**
  * This screen reads data from a RSS feed and then displays it in a neat list format.
  * Used in this file: NewsFeedItem + NewsModalScreen

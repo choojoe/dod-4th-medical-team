@@ -1,6 +1,5 @@
 import React from "react"
 import { Button, Text, View, StyleSheet, Alert } from "react-native" //StatusBar, Linking, TextInput, Platform
-import * as WebBrowser from "expo-web-browser"
 //import InAppBrowser from "react-native-inappbrowser-reborn"
 //import * as Linking from "expo-linking"
 import CustomRouteButton from "../../components/CustomRouteButton"
@@ -35,6 +34,7 @@ export default function OnlineScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
         width: "100%",

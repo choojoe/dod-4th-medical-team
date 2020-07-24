@@ -6,11 +6,13 @@
  * For the buttonContainer container, you can use either View or ScrollView.
  */
 import React, { useState, useEffect} from "react"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet} from "react-native"
 import { enableScreens } from "react-native-screens"
 enableScreens();
 // See CustomButton.js for more details on the styling of the button
 import CustomRouteButton from "../components/CustomRouteButton"
+import {Button} from "react-native-elements"
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 /**
  * Custom imports required for RSS feed generator to work
@@ -140,6 +142,7 @@ export default class HomeScreen extends React.Component {
                     <View style = {styles.row}>
                         <CustomRouteButton {...DATA[0]} navigation = {this.props.navigation}/>
                         <CustomRouteButton {...DATA[1]} navigation = {this.props.navigation}/>
+                        
                     </View>
                     <View style = {styles.row}>
                         <CustomRouteButton {...DATA[2]} navigation = {this.props.navigation}/>
@@ -148,12 +151,52 @@ export default class HomeScreen extends React.Component {
                     <View style = {styles.row}>
                         <CustomRouteButton {...DATA[4]} navigation = {this.props.navigation}/>
                     </View>
+                    <View style = {styles.row}>
+                        <CustomRouteButton {...DATA[5]} navigation = {this.props.navigation}/>
+                        <CustomRouteButton {...DATA[6]} navigation = {this.props.navigation}/>
+                        <CustomRouteButton {...DATA[7]} navigation = {this.props.navigation}/>
+                    </View>
                 </ScrollView>
                 </View>
             </View>
         );
     }
 }
+
+/**
+                        <Button
+                            title = "Online Center"
+                            buttonStyle = {[
+                                styles.button,
+                                {backgroundColor: "#9AC6C5"}
+                             ]}
+                            icon = {
+                                <FontAwesome5
+                                    name = "globe"
+                                    size = {72}
+                                    color = "white"
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("Online")}
+                        />
+
+                        <Button
+                            title = "Map"
+                            buttonStyle = {[
+                                styles.button,
+                                {backgroundColor: "#A32C2C"}
+                             ]}
+                            icon = {
+                                <FontAwesome5
+                                    name = "map"
+                                    size = {72}
+                                    color = "white"
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("Map")}
+                        />
+                        */
+
 
 /**
  * Styles for this file. Recommended to leave these alone.
@@ -167,7 +210,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     buttonContainer: {
-        flex: 5,
+        flex: 1,
         flexDirection: "column",
         //alignItems: "center",
         //justifyContent: "center"
@@ -181,5 +224,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column"
+    },
+    button: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        aspectRatio: 1
     }
 })

@@ -5,6 +5,7 @@
 import React from "react"
 import {View, ScrollView, Image, StyleSheet, Text, Button} from "react-native"
 import * as Linking from "expo-linking"
+import {useTranslation} from "react-i18next"
 
 //old base operator was 1-919-722-1212??? trusting website info on this one
 
@@ -39,12 +40,16 @@ const DATA = [
     }
 ]
 
-export default function ContactScreen() {
+export default function ContactScreen({navigation}) {
+    const {t} = useTranslation();
     return ( //insert image down
         <ScrollView styles = {styles.container}>
-            <View>
-                <Image style = {styles.image} source = {require("../../assets/4MTHeader.png")}/>
-            </View>
+            <Image style = {styles.image} source = {require("../../assets/4MTHeader.png")}/>
+
+            <Button
+                title = "Go Back Home"
+                onPress = {() => navigation.navigate("Home")}
+            />
 
             <Text style = {[styles.text, {fontWeight: "bold"}]}>Main Clinic</Text>
             <Text style = {styles.text}>
@@ -77,7 +82,7 @@ export default function ContactScreen() {
             {DATA.map(item => 
                 <View style = {{paddingTop: 10}} key = {item.title+" contact"}>
                     <Button 
-                        title = {item.title}
+                        title = {t(item.title)}
                         onPress = {() => Linking.openURL(item.url)}
                     />
                 </View>
