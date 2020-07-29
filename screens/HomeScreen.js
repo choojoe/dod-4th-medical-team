@@ -17,7 +17,7 @@ import CustomRouteButton from "../components/CustomRouteButton"
  * which are converted into buttons via the CustomButton function.
  * route: the appropriate route as defined in App.js for navigator to use
  * title: the caption underneath each icon
- * icon: name of the icon, as detailed on fontawesome.com
+ * icon: name of the icon, as detailed on fontawesome.com++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * backgroundColor: the background of the button
  */
 
