@@ -4,8 +4,11 @@
  */
 import React from "react"
 import { Text, Button, View, Dimensions, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import {MapView, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import MapViewDirections from 'react-native-maps-directions';
+
 // import Geolocation from '@react-native-community/geolocation';
 const GOOGLE_MAPS_APIKEY = "AIzaSyAHX61bmDFYT3zxGPgJrYGb2FuB8E0_zAM"
 
@@ -14,7 +17,7 @@ const ASPECT_RATIO = width / height;
 const LATITUDE = 35.362014
 const LONGITUDE = -77.959780
 const LATITUDE_DELTA = 0.0922
-const LONGITUDE_DELTA = 0.0421
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 // Geolocation.setRNConfiguration(config);
 
 export default class MapScreen extends React.Component {
@@ -24,70 +27,49 @@ export default class MapScreen extends React.Component {
             latitude: 35.362835,
             longitude: -77.960997, 
             location: null,
-            loading: false
+            loading: false,
+            error: null,
+            directions: false,
         };
     }
 
-    // async componentDidMount(){
-    //     const { status } = await Permissions.getAsync(Permissions.LOCATION)
+    async componentDidMount(){
+        let { status } = await Location.requestPermissionsAsync();
+        console.log(status)
+        if (status !== 'granted') {
+            this.setState( {
+                loading: false,
+                error: 'Permission to access location was denied',
+            })
+        }
 
-    //     if (status != 'granted'){
-    //         const response = await Permissions.askAsync(Permissions.LOCATION)
-    //     }
-    //     GetLocation.getCurrentPosition(LocationConfig)(
-    //     // navigator.geolocation.getCurrentPosition(
-    //             ({ coords: { latitude, longitude } }) => this.setState({ latitude, longitude }), () => console.log('State: ', this.state),
-    //             (error) => console.log('Error: ', error)
-    //         )
-    // }
-
-    // _requestLocation() {
-    //     this.setState({ latitude: 35.362835, longitude: -77.960997, loading: true, });
-    //     console.log(this.state.loading)
-    //     this.setState({ location: null, loading: true, });
-
-    //     GetLocation.getCurrentPosition({
-    //         enableHighAccuracy: true,
-    //         timeout: 150000,
-    //     })
-    //         .then(location => {
-    //             console.log(location)
-    //             this.setState({
-    //                 latitude: location.latitude,
-    //                 longitude: location.longitude,
-    //                 location,
-    //                 loading: false,
-    //             });
-    //         })
-    //         .catch(ex => {
-    //             const { code, message } = ex;
-    //             console.log(ex)
-    //             console.warn(code, message);
-    //             if (code === 'CANCELLED') {
-    //                 Alert.alert('Location cancelled by user or by another request');
-    //             }
-    //             if (code === 'UNAVAILABLE') {
-    //                 Alert.alert('Location service is disabled or unavailable');
-    //             }
-    //             if (code === 'TIMEOUT') {
-    //                 Alert.alert('Location request timed out');
-    //             }
-    //             if (code === 'UNAUTHORIZED') {
-    //                 Alert.alert('Authorization denied');
-    //             }
-    //             this.setState({
-    //                 latitude: 35.362835,
-    //                 longitude: -77.960997,
-    //                 location: null,
-    //                 loading: false,
-    //             });
-    //         });
-    // }
+    let location = Location.getCurrentPositionAsync({}).then(data =>
+            {this.setState({
+                latitude: data.coords.latitude,
+                longitude: data.coords.longitude,
+                location: data,
+                loading: false,
+                })
+            }
+        )
+        console.log(this.state.location)
+    }
 
       render() {
-          const { location, loading } = this.state;
-        return (
-            <View style ={styles.container}>
+        let text = 'Waiting..';
+        console.log("set text to waiting")
+        if (this.state.error) {
+          text = this.state.error;
+          console.log(text)
+        }else if (this.state.location) {
+          text = "";
+          console.log("stringified location")
+          console.log(text)
+          console.log(this.state.latitude)
+        }
+        if (!this.state.directions) {
+            return (
+                <View style ={styles.container}>
                 <MapView
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
@@ -99,27 +81,91 @@ export default class MapScreen extends React.Component {
                 }}
                 >
                 </MapView>
-                <Text> To get location, press the button: </Text>
-                <View style={styles.button}>
+                <Button
+                    title = "Directions"
+                    onPress={() => {
+                        this.setState({
+                            directions: true,
+                    })}
+                    }
+                />
+            </View>
+            )
+        }
+        else{
+            return (
+                <View style ={styles.container}>
+                    <MapView
+                    provider={PROVIDER_GOOGLE}
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 35.362835,
+                        longitude: -77.960997,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    >
+                    <MapViewDirections
+                        origin={{
+                            latitude: this.state.latitude,
+                            longitude: this.state.longitude,
+                        }}
+                        destination={{
+                            latitude: LATITUDE,
+                            longitude: LONGITUDE,
+                        }}
+                        apikey={GOOGLE_MAPS_APIKEY}
+                        strokeWidth={3}
+                        strokeColor="red"
+                        optimizeWaypoints={true}
+                        onReady={result => {
+                            console.log(`Distance: ${result.distance} km`)
+                            console.log(`Duration: ${result.duration} min.`)
+              
+                            this.mapView.fitToCoordinates(result.coordinates, {
+                              edgePadding: {
+                                right: (width / 20),
+                                bottom: (height / 20),
+                                left: (width / 20),
+                                top: (height / 20),
+                              }
+                            });
+                        }}
+                        onError={(errorMessage) => {
+                          // console.log('GOT AN ERROR');
+                        }}
+                    />
+                    </MapView>
+                    <Text> {text} </Text>
+                    <Button
+                    title = "Undo Directions"
+                    onPress={() => {
+                        this.setState({
+                            directions: false,
+                        })}
+                    }
+                    />
+                </View>
+            );
+        }
+        
+      }
+}
+/* <View style={styles.button}>
                     <Button
                         disabled={loading}
                         title="Get Location"
-                        onPress = {() => this._requestLocation()}
+                        // onPress = {() => this._requestLocation()}
                     />
-                </View>
-                {loading ? (
+                </View> */
+                /* {loading ? (
                     <ActivityIndicator />
                 ) : null}
                 {location ? (
                     <Text style={styles.location}>
                         {JSON.stringify(location, 0, 2)}
                     </Text>
-                ) : null}
-            </View>
-        );
-      }
-}
-
+                ) : null} */
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
