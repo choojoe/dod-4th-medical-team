@@ -17,6 +17,7 @@ const ASPECT_RATIO = width / height;
 const LATITUDE = 35.362014
 const LONGITUDE = -77.959780
 const LATITUDE_DELTA = 0.0922
+const DESTINATION_TITLE = "4th Medical Group"
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 // Geolocation.setRNConfiguration(config);
 
@@ -78,8 +79,7 @@ export default class MapScreen extends React.Component {
                     longitude: -77.960997,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
-                }}
-                >
+                }}>
                 </MapView>
                 <Button
                     title = "Directions"
@@ -104,6 +104,21 @@ export default class MapScreen extends React.Component {
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
+                    style={StyleSheet.absoluteFill}
+                    ref={c => this.mapView = c}
+                    onPress={this.onMapPress}
+                    rotateEnabled={true}
+                    scrollEnabled={true}
+                    zoomEnabled={true}
+                    showsCompass={true}
+                    showsUserLocation={true}
+                    onMapReady={() => {
+                        PermissionsAndroid.request(
+                          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                        ).then(granted => {
+                          alert(granted) // just to ensure that permissions were granted
+                        });
+                      }}
                     >
                     <MapViewDirections
                         origin={{
@@ -118,6 +133,7 @@ export default class MapScreen extends React.Component {
                         strokeWidth={3}
                         strokeColor="red"
                         optimizeWaypoints={true}
+                        
                         onReady={result => {
                             console.log(`Distance: ${result.distance} km`)
                             console.log(`Duration: ${result.duration} min.`)
