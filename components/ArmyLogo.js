@@ -2,12 +2,12 @@ import React from "react"
 import { Image } from "react-native"
 /**
  * A homemade logo used in the header. It sucks.
- * See React Context from more details
+ * See React Context on README.md from more details
  */
 
 export default function ArmyLogo() {
   return (
-    <Image style = {{width: 57, height: 54}} source = {require("../assets/4MTEmblem.png")}/>
+    <Image style = {{width: 57, height: 54}} source = {require("../assets/4MTEmblemTransparent.png")}/>
   )
 }
 
