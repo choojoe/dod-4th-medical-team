@@ -1,0 +1,34 @@
+{
+    "Classes": "Clases",
+    "Directory": "Directorio",
+    "Map": "Mapa",
+    "News": "Noticias",
+    "Online Center" : "Centro en línea",
+    "MyPatientPortal": "Portal de pacientes",
+    "SecureMessaging": "Mensajería segura",
+
+    "Home": "Hogar",
+    "Settings" : "Ajustes",
+    "FAQs" : "Preguntas frecuentes",
+    "Contact Us" : "Contacta con nosotros",
+    "Night Mode" : "Modo nocturno",
+
+    "Go Back Home" : "Regresar a hogar",
+
+    "Call Us" : "Llámanos",
+    "Base Operator" : "Operador base",
+    "Security Forces" : "Fuerzas de seguridad",
+    "Medical Appointment Line" : "Línea de citas médicas",
+    "Voting Questions" : "Preguntas de votación",
+    "Patient Advocate" : "Defensor del paciente",
+    "4th MDG First Sgt" : "Sargento primero de 4th MDG",
+
+    "Main Clinic" : "Clínica principal",
+    "Hours of Operation" : "Horas de operación",
+    "Monday through Friday" : "de lunes a viernes",
+    "Dental Clinic" : "Clínica dental",
+    "The clinic is closed weekends and federal holidays." : "La clínica está cerrada en fines de semana y feriados federales.",
+    "Open with limited services during training days." : "Abierto con servicios limitados durante los días de entrenamiento.",
+    "Please check the calendar for a list of training days." : "Consulte el calendario para obtener una lista de días de capacitación.",
+    "For more information, you can call our individual services below." : "Para obtener más información, puede llamar a nuestros servicios individuales abajo."
+}

@@ -1,14 +1,17 @@
-import React from "react"
-import { View, Text, FlatList} from "react-native"
-import * as rssParser from "react-native-rss-parser"
-import DomSelector from "react-native-dom-parser"
-import NewsListItem from "../../components/NewsListItem"
-import { NightModeContext } from "../../NightModeContext"
 /**
  * This screen reads data from a RSS feed and then displays it in a neat list format.
- * Used in this file: NewsFeedItem + NewsModalScreen
  * ROUTE NAME: News
  */
+// Necessary components for this file.
+import React from "react"
+import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet} from "react-native"
+
+// Parses an RSS feed into an easily readable object
+import * as rssParser from "react-native-rss-parser"
+
+// Utilized to parse the HTML content provided by the RSS feed.
+import DomSelector from "react-native-dom-parser"
+
 
 export default class NewsScreen extends React.Component {
     // The state (variable storage) of this screen will be used to store the RSS feed.
@@ -36,8 +39,8 @@ export default class NewsScreen extends React.Component {
                     // - id = the unique identifier of each story. We use the Facebook URL related to the story.
                     // - title = the title of each story. Usually this is just AFMS - 4th Medical Group or equal to the description, so we try to avoid using this (see generateTitle in NewsListItem).
                     // - imageSrc = the URL of the image associated with each story, left undefined if there is no image.
-                    // - 
-                    //
+                    // - description = the description of the article - usually ends up giving us the most information
+                    // - published = the date the story was published
                     feed: rss.items.map((item) => {
                         // from each item we take the title, the raw HTML content, and the published date
                         const {title, content, published} = item; 
@@ -48,6 +51,7 @@ export default class NewsScreen extends React.Component {
                         // Isolate the imageSrc and description
 
                         // take the raw html content and place it into a DomSelector. Take out the imageNode and the first (should be only) text node of the content.
+                        // Also take out the textNode (which we find by searching the children of the rootNode - i.e, the HTML element representation of our item)
                         const rootNode = DomSelector(content);
                         const imageNode = rootNode.getElementsByTagName("img")[0]
                         const textNode = rootNode.children.find(ele => ele.constructor.name === "TextNode") 
@@ -78,9 +82,38 @@ export default class NewsScreen extends React.Component {
                 <View>
                     <FlatList
                         data = {this.state.feed} //will be populated by the this.RSS() method
-                        renderItem = {({item}) => <NewsListItem item = {item} navigation = {this.props.navigation}/>} //given the data, take each item and convert it into a React component
-                        // see NewsListItem.js for more info
-                        keyExtractor={item => item.id} //give each item an unique identifier. Feel free to change.
+                        //renderItem: given the data, take each item and convert it into a nice news list item.
+                        renderItem = {({item}) => 
+                            <TouchableOpacity 
+                                // TouchableOpacity allows us to click on the container and take us to somewhere else. also dims the container upon clicking.
+                                // see styles for descriptions
+                                style = {styles.newsContainer} 
+                                onPress = {() => this.props.navigation.navigate("NewsModal", {item})} //upon clicking, navigate to NewsModalScreen - a full screen that displays the title, text, etc...
+                                //the second parameter is item - which we pass in as an additional parameter that the NewsModalScreen will use to generate itself (the data behind NewsModalScreen).
+                            >
+                                <Image 
+                                    source = {{uri: item.imageSrc}} //display the image as defined in NewsScreen, see this.RSS()
+                                    style = {{width: 150, height: 150}} //display the image with fixed height and width.
+                                /> 
+                                <View style = {styles.newsRightContainer}>
+                                    <Text style = {styles.newsText}>
+                                        {
+                                            item.description ? generateTitle(item.description) : item.title
+                                            //if there is a description, use that to generate the title (see generateTitle)
+                                            //note that the description is usually more detailed than the title.
+                                            //otherwise if there isn't a description, stick to the default title.
+                                        }
+                                    </Text> 
+                                    <Text style = {styles.newsDate}>
+                                        {
+                                            generateDate(item.published)
+                                            //We convert the UTC date into a local date and time.
+                                        }
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        } 
+                        keyExtractor={item => item.id} //give each item an unique identifier. TODO: Change this to something more robust.
                     />
                 </View>
             </View>
@@ -88,3 +121,32 @@ export default class NewsScreen extends React.Component {
         )
     }
 }
+
+
+//truncates the description to 100 characters if the title is long, or keeps the original title.
+function generateTitle(content){
+    if (content.length > 100){
+        return content.substring(0, 100) + "..."
+    }
+    return content
+}
+
+//neatly formats the RSS date into a DD/MM/YYYY HOUR:MIN AM/PM format.
+function generateDate(utcDate){
+    var d = new Date(utcDate);
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString()
+}
+
+/**
+ * The following styles help to develop the above screen
+ */
+const styles = StyleSheet.create({
+    newsContainer: {
+        flexDirection: "row", //arranges contents in a row format
+        paddingBottom: 10 //padding on the bottom
+    },
+    newsRightContainer: {
+        flex: 1, //right container takes as much vertical space as possible (usually equivalent to the height of the image)
+        paddingLeft: 10, //there should also be some distance betweeen the image and the text (hence paddingLeft: 10)
+    },
+})

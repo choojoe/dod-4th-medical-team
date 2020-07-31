@@ -1,36 +1,19 @@
 /**
- * A dropdown list of the different departments and services within the clinic.
+ * A dropdown list of the different departments and services within the clinic. See DropdownList for more details.
  * ROUTE NAME: Directory
- * react-native-collapsible is used in order to create the dropdown menu effect.
- * 
- * Uses react native context - see README.md for more details.
  */
 import React from "react"
-import {View, StyleSheet, Text, TouchableOpacity, ScrollView, Button} from "react-native"
-/** 
-import Accordion from "react-native-collapsible/Accordion"
-import {NightModeContext} from "../../NightModeContext"
-import * as Linking from "expo-linking" //CURRENTLY USING LINKING FROM EXPO! Feel free to change as we export.
-import * as Animatable from "react-native-animatable"
-import Icon from "react-native-vector-icons/FontAwesome"
-*/
 import DropdownList from "../../components/DropdownList"
 
 /**
- * Data used to construct the collapsible.
- * 
- * REQUIRE MORE DETAILS HERE
- * 
- * SECTIONS THAT REQUIRE MORE INFO:
+ * Data must be provided in the exact structure as below. 
+ * key is mandatory, while links and content or optional.
  */
-
- 
 const SECTIONS = [
+    //SECTIONS is an array of objects, with each object representing a item in the collapsible list.
+    //see second element ADAPT for example.
     {
         key: "24hr Nurse Advice Line",
-        content: [
-            //None at this time
-        ],
         links: [
             {
                 title: "Contact Us",
@@ -39,12 +22,12 @@ const SECTIONS = [
         ]
     },
     {
-        key: "ADAPT [Alcohol and Drug Abuse Prevention and Treatment]",
-        content: [
+        key: "ADAPT [Alcohol and Drug Abuse Prevention and Treatment]", //content is provided as an array, with each element representing one line of text.
+        content: [ //content is provided as an array, with each element representing one line of text.
             {
-                title: "Location: ",
-                description: "Thomas Koritz Clinic, Second Floor",
-            },
+                title: "Location: ", //This is the bolded part of the text
+                description: "Thomas Koritz Clinic, Second Floor", //This is the normal part of the text
+            }, //the above converts to "Location: Thomas Koritz Clinic, Second Floor"
             {
                 title: "Hours: ",
                 description: "Monday through Friday, 7:30am to 4:30pm",
@@ -629,38 +612,8 @@ const SECTIONS = [
     },
 ]
 
-export default class DirectoryScreen extends React.Component {
-    constructor(){
-        super();
-    }
-
-    render() {
-        return (
-            <DropdownList sections = {SECTIONS}/>
-        )
-    }
+export default function DirectoryScreen(){
+    return (
+        <DropdownList sections = {SECTIONS}/> //We pass the above data into our DropdownList component.
+    )
 }
-
-/**
- * Styles used for this file. Change these instead of the code above (except for containerStyle)
- * containerStyle in Accordion above changes the style of the overall screen.
- * headerText and contentText format the text themselves.
- * TODO: Change contentButton, headerText, contentText
- * Formatting should be changed here, not in the DirectoryScreen class.
- */
-const styles = StyleSheet.create({
-    header: {
-        paddingVertical: 10,
-        flexDirection: "row"
-    },
-    headerText: {
-        flex: 1,
-        fontSize: 24,
-    },
-    whiteText: {
-        color: "white"
-    },
-    blackText: {
-        color: "black"
-    }
-})

@@ -6,100 +6,105 @@
  * The actual screens are implemented within the screens folder.
  */
 
-//Main libraries include React, React Native, and React Navigation.
-//Supplementary (A E S T H E T H I C) libraries include React Native Vector Icons
-import React, {useState} from 'react';
+// Main libraries include React, React Native, and React Navigation.
+// These libraries enable switching between different screens (React Navigation)
+// https://reactnavigation.org/
+import React from 'react';
 import {enableScreens} from "react-native-screens"
 enableScreens();
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from '@react-navigation/native';
 
-//Allows us to use vars nightModeOn and toggleNightMode from any screen. 
-//See React Context and NightModeContext for more details.
-import {NightModeContext} from "./NightModeContext"
+// Allows us to use react-i18n - a translator component. Importing i18n configures i18n for our app.
+import "./i18n"
+import {useTranslation} from "react-i18next"
 
-//Custom Icon used in the drawer. See CustomIcon for more details.
-import CustomIcon from "./components/CustomIcon"
+// Custom Icon used in the drawer. 
+import Icon from "react-native-vector-icons/FontAwesome"
 
-//Custom drawer used instead of the normal drawer. See CustomDrawer for more details.
-import CustomDrawer from "./components/CustomDrawer"
+// Image package used in order to create our ArmyLogo.
+import {Image} from "react-native"
 
+// Used to create the sidebar logo.
+import {TouchableWithoutFeedback} from "react-native"
+import Constants from "expo-constants"
+
+// These are the screens that will go into the drawer of the component (whenever you click the sidebar, the drawer will open)
 const Drawer = createDrawerNavigator();
 import ContactScreen from "./screens/sidebar/ContactScreen"
 import FAQsScreen from "./screens/sidebar/FAQsScreen"
 import SettingsScreen from "./screens/sidebar/SettingsScreen"
+
 /**
  * The main app. The top layer of the app is a sidebar, which we set up in the App function with drawer navigation.
  * Sidebar menu can be toggled by swiping on the right or hitting the sidebar menu button.
- * Different screens include: Home, Settings, Notifs, FAQs, Contact, Billing.
  * Each screen comes with a route name, an optional title (that is actually displayed in the drawer), a
- * corresponding screen as imported above, and an icon as used from the Font Awesome library (see CustomIcon for more details)
+ * corresponding screen as imported above, and an icon as used from the Font Awesome library.
  * 
- * Settings in drawer navigation aare being used to set to alternate between colors and give drawer full height. See CustomDrawer for the actual drawer being constructed.
+ * Here, we associate each screen to a route name, for example, FAQs to FAQsScreen. Whenever we call
+ * navigation.navigate("routeName"), the app will switch to the associated screen.
+ * 
+ * If you have a screen that will be displayed within the secondary portion of the app, add it here.
  */
 export default function App() {
-  const [nightModeOn, setNightMode] = useState(false);
-  const toggleNightMode = () => setNightMode(previousState => !previousState);
+  const {t, i18n} = useTranslation() // IMPORTANT! this line allows us to use the t translate function from react-i18n. see i18n.js for more info
+  const sidebarIconSize = 30 //the size of the sidebar icon.
   return (
-    <NightModeContext.Provider value = {{nightModeOn: nightModeOn, toggleNightMode: toggleNightMode}}> 
-    <NightModeContext.Consumer>
-    {({nightModeOn}) => (
-      <NavigationContainer>
-        <Drawer.Navigator 
-          initialRouteName="Main"
-          drawerPosition = "right"
-          drawerContent = {props => <CustomDrawer {...props}/>}
-          drawerContentOptions = {{
-            inactiveTintColor: nightModeOn ? "white" : "black",
-            contentContainerStyle : {
-              backgroundColor : nightModeOn ? "black" : "white",
-              height: "100%"
-            }
+    <NavigationContainer
+      //we have to wrap our navigator within a navigation container!
+    >
+      <Drawer.Navigator 
+        initialRouteName="Main" //upon opening the app, redirect the users to route Main.
+        drawerPosition = "right" //drawer opens from the right
+        drawerContentOptions = {{
+          contentContainerStyle : {
+              height: "100%", //drawer takes full screen
+              justifyContent: "center" //centers the items
+          }
+        }}
+      >
+        <Drawer.Screen
+          name = "Main" //name of the route
+          component = {MainNavigation} //name of the screen (this screen MainNavigation is defined below, all others are imported above)
+          options = {{
+            title: t("Home"), //set the title equal to custom translation
+            drawerIcon: () => <Icon name = "home" focused = "true" size = {sidebarIconSize} color = "black"/> //set the drawer icon equal to the custom icon.
           }}
-        >
-          <Drawer.Screen
-            name = "Main"
-            component = {MainNavigation}
-            options = {{
-              title: "Home",
-              drawerIcon: () => <CustomIcon name = "home" />
+        />
+        <Drawer.Screen
+          name = "Settings"
+          component = {SettingsScreen}
+          options = {{
+            title: t("Settings"),
+            drawerIcon: () => <Icon name = "cog" focused = "true" size = {sidebarIconSize} color = "black"/>
+          }}
+        />
+        <Drawer.Screen
+          name = "FAQs"
+          component = {FAQsScreen}
+          options = {{
+            title: t("FAQs"),
+            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {sidebarIconSize} color = "black"/>
             }}
-          />
-          <Drawer.Screen
-            name = "Settings"
-            component = {SettingsScreen}
-            options = {{
-              drawerIcon: () => <CustomIcon name = "cog" />
-            }}
-          />
-          <Drawer.Screen
-            name = "FAQs"
-            component = {FAQsScreen}
-            options = {{
-              drawerIcon: () => <CustomIcon name = "question-circle" />
-            }}
-          />
-          
-          <Drawer.Screen
-            name = "Contact"
-            component = {ContactScreen}
-            options = {{
-              title: "Contact Us",
-              drawerIcon: () => <CustomIcon name = "user" />
-            }}
-          />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    )}
-    </NightModeContext.Consumer>
-    </NightModeContext.Provider>
+        />
+        <Drawer.Screen
+          name = "Contact"
+          component = {ContactScreen}
+          options = {{
+            title: t("Contact Us"),
+            drawerIcon: () => <Icon name = "user" focused = "true" size = {sidebarIconSize} color = "black"/>
+          }}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
  /**
   * Stack navigation is being used to create the main app.
-  * Starting from the Home screen, the user can click on the 8 main buttons to traverse to the different main screens.
+  * Starting from the Home screen, the user can click on the main buttons to traverse to the different main screens.
+  * If you have a screen that will be displayed within the main portion of the app, add it here.
   */
 const Stack = createStackNavigator();
 import HomeScreen from "./screens/HomeScreen"
@@ -114,12 +119,6 @@ import MyPatientPortalScreen from "./screens/main/MyPatientPortalScreen"
 import SecureMessagingScreen from "./screens/main/SecureMessagingScreen"
 
 /**
- * Homemade components used in the creation of the header.
- */
-import ArmyLogo from "./components/ArmyLogo"
-import SidebarIcon from "./components/SidebarIcon"
-
-/**
  * As a small note on how the header is designed: 
  * The center contains the logo of 4th Army Medical we will use.
  * The right contains a sidebar toggle button. Sidebar can be drawn out at any time by dragging from right to left
@@ -128,39 +127,39 @@ import SidebarIcon from "./components/SidebarIcon"
  * settings center the title logo (ArmyLogo), add a sidebar to the right, and set the color to alternate between black and white.
  * in addition, height and padding are set accordingly.
  */
-import Constants from "expo-constants"
 function MainNavigation({navigation}) {
+  const hamburgerIconSize = 30 //size of the sidebar logo
+  const headerLogoSize = 50 //size of the 4th army logo
   return (
-    <NightModeContext.Consumer>
-    {({nightModeOn}) => (
-      <Stack.Navigator 
-        initialRouteName = "Home"
-        screenOptions ={{
-          headerTitle: props => <ArmyLogo {...props}/>,
-          headerTitleAlign: "center",
-          headerRight: () => (<SidebarIcon navigation = {navigation}/>),
-          headerStyle: {
-            backgroundColor: nightModeOn ? "black" : "white",
-            height: 70 + Constants.statusBarHeight
-          },
-          headerTitleContainerStyle: {
-            paddingBottom: 10
-          },
-          headerTintColor: nightModeOn ? "white" : 'black'
-        }}
-      >
-        <Stack.Screen name = "Home" component = {HomeScreen}/>
-        <Stack.Screen name = "Online" component = {OnlineScreen}/> 
-        <Stack.Screen name = "Map" component = {MapScreen}/> 
-        <Stack.Screen name = "News" component = {NewsScreen}/>
-        <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
-        <Stack.Screen name = "Classes" component = {ClassesScreen} />
-        <Stack.Screen name = "Test" component = {TestScreen} />
-        <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
-        <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
-        <Stack.Screen name = "NewsModal" component = {NewsModalScreen} />
-      </Stack.Navigator>
-    )}
-    </NightModeContext.Consumer>
-  );
+    <Stack.Navigator 
+      initialRouteName = "Home" //whenever the MainNavigation screen shows up, we redirect to Home automatically.
+      screenOptions ={{
+        headerTitle: () => <Image style = {{width: headerLogoSize, height: headerLogoSize}} source = {require("./assets/4MTEmblem.png")}/>, //displays a logo with specified dimensions
+        headerTitleAlign: "center",
+        headerRight: () => 
+          <TouchableWithoutFeedback 
+            onPress = {() => navigation.openDrawer()} //call on the navigation object (React Navigation) to open the drawer.
+          > 
+            <Icon 
+              name = "bars" size = {hamburgerIconSize} color = "black" //describes what icon we want. the name corresponds to it's corresponding font awesome icon. Search fontawesome.com for icon names.
+              style = {{paddingRight: 10}} //add some slight padding to the right of the sidebar icon
+            /> 
+          </TouchableWithoutFeedback>,
+        headerStyle: {
+          height: headerLogoSize + Constants.statusBarHeight //change the height of the header accordingly.
+        },
+      }}
+    >
+      <Stack.Screen name = "Home" component = {HomeScreen}/>
+      <Stack.Screen name = "Online" component = {OnlineScreen}/> 
+      <Stack.Screen name = "Map" component = {MapScreen}/> 
+      <Stack.Screen name = "News" component = {NewsScreen}/>
+      <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
+      <Stack.Screen name = "Classes" component = {ClassesScreen} />
+      <Stack.Screen name = "Test" component = {TestScreen} />
+      <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
+      <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
+      <Stack.Screen name = "NewsModal" component = {NewsModalScreen} />
+    </Stack.Navigator>
+  )
 }
