@@ -1,13 +1,17 @@
-import React from "react"
-import { View, Text, FlatList} from "react-native"
-import * as rssParser from "react-native-rss-parser"
-import DomSelector from "react-native-dom-parser"
-import NewsListItem from "../../components/NewsListItem"
 /**
  * This screen reads data from a RSS feed and then displays it in a neat list format.
- * Used in this file: NewsFeedItem + NewsModalScreen
  * ROUTE NAME: News
  */
+// Necessary components for this file.
+import React from "react"
+import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet} from "react-native"
+
+// Parses an RSS feed into an easily readable object
+import * as rssParser from "react-native-rss-parser"
+
+// Utilized to parse the HTML content provided by the RSS feed.
+import DomSelector from "react-native-dom-parser"
+
 
 export default class NewsScreen extends React.Component {
     // The state (variable storage) of this screen will be used to store the RSS feed.
@@ -78,12 +82,13 @@ export default class NewsScreen extends React.Component {
                 <View>
                     <FlatList
                         data = {this.state.feed} //will be populated by the this.RSS() method
+                        //renderItem: given the data, take each item and convert it into a nice news list item.
                         renderItem = {({item}) => 
                             <TouchableOpacity 
-                                // TouchableOpacity allows us to click on the container and take us to somewhere else
+                                // TouchableOpacity allows us to click on the container and take us to somewhere else. also dims the container upon clicking.
                                 // see styles for descriptions
                                 style = {styles.newsContainer} 
-                                onPress = {() => props.navigation.navigate("NewsModal", {item})} //upon clicking, navigate to NewsModalScreen - a full screen that displays the title, text, etc...
+                                onPress = {() => this.props.navigation.navigate("NewsModal", {item})} //upon clicking, navigate to NewsModalScreen - a full screen that displays the title, text, etc...
                                 //the second parameter is item - which we pass in as an additional parameter that the NewsModalScreen will use to generate itself (the data behind NewsModalScreen).
                             >
                                 <Image 
@@ -96,17 +101,19 @@ export default class NewsScreen extends React.Component {
                                             item.description ? generateTitle(item.description) : item.title
                                             //if there is a description, use that to generate the title (see generateTitle)
                                             //note that the description is usually more detailed than the title.
-                                            //otherwise, stick to the default title.
+                                            //otherwise if there isn't a description, stick to the default title.
                                         }
                                     </Text> 
                                     <Text style = {styles.newsDate}>
-                                        {generateDate(item.published)}
+                                        {
+                                            generateDate(item.published)
+                                            //We convert the UTC date into a local date and time.
+                                        }
                                     </Text>
                                 </View>
-                        </TouchableOpacity>
-                        } //given the data, take each item and convert it into a React component
-                        // see NewsListItem.js for more info
-                        keyExtractor={item => item.id} //give each item an unique identifier. Feel free to change.
+                            </TouchableOpacity>
+                        } 
+                        keyExtractor={item => item.id} //give each item an unique identifier. TODO: Change this to something more robust.
                     />
                 </View>
             </View>
@@ -135,14 +142,11 @@ function generateDate(utcDate){
  */
 const styles = StyleSheet.create({
     newsContainer: {
-        flexDirection: "row",
-        paddingBottom: 10
-        //put some padding on the bottom between each item and make sure the Image and RightContainer are displayed in a row.
+        flexDirection: "row", //arranges contents in a row format
+        paddingBottom: 10 //padding on the bottom
     },
     newsRightContainer: {
-        flex: 1,
-        paddingLeft: 10,
-        //the RightContainer should take as much space (flex: 1) as possible - usually equivalent to the height of the image. 
-        //there should also be some distance betweeen the image and the text (hence paddingLeft: 10)
+        flex: 1, //right container takes as much vertical space as possible (usually equivalent to the height of the image)
+        paddingLeft: 10, //there should also be some distance betweeen the image and the text (hence paddingLeft: 10)
     },
 })

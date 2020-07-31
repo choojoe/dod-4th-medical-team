@@ -12,6 +12,7 @@ import { enableScreens } from "react-native-screens"
 enableScreens();
 
 // Used to create the buttons on the main grid.
+// https://react-native-elements.github.io/react-native-elements/docs/button for documentation on the button
 import {Button} from "react-native-elements"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
