@@ -1,12 +1,12 @@
-import React from "react"
-import {View, ScrollView, Text, Image, StyleSheet, Button, Share, Dimensions} from "react-native"
-import * as Linking from "expo-linking" //feel free to change!
-
 /**
  * Given the data passed in from NewsListItem, we display the information in this screen.
  * ROUTE: NewsModal
  * See: NewsScreen.js, NewsListItem.js
  */
+
+import React from "react"
+import {View, ScrollView, Text, Image, StyleSheet, Button, Share, Dimensions} from "react-native"
+import * as Linking from "expo-linking" //feel free to change!
 
 export default class NewsModalScreen extends React.Component{
     constructor(props){
