@@ -1,26 +1,21 @@
 /**
- * This screen provides a collapsible list of all of the different classes at the clinic. See DropdownList for more details.
+ * TBC
  * ROUTE NAME: Classes
  */
 import React from "react"
 import DropdownList from "../../components/DropdownList"
 
-/**
- * Data must be provided in the exact structure as below. If you do not have content or links to provide, you may omit either.
- */
 const SECTIONS = [
-    //SECTIONS is an array of objects, with each object representing a item in the collapsible list.
-    //see below example "Sign Up Information"
     {
-        key: "Sign Up Information", //This is the title of each element in the list.
-        content: [ //content is provided as an array, with each element representing one line of text.
+        key: "Sign Up Information",
+        content: [
             {
-                title: "From the Clinic: ", //This is the bolded part of the text
-                description: "If you or a familly member are interested in attending any of the classes listed below, please contact us through the number below." //This is the normal part of the text
-            } //the above converts to "From the Clinic: If you or a family member..."
+                title: "From the Clinic: ",
+                description: "If you or a familly member are interested in attending any of the classes listed below, please contact us through the number below."
+            }
         ],
-        links: [ //links is provided as an array, with each element representing one link
-            { //each element in this format will be converted into a button that redirects users to the provided URL.
+        links: [
+            {
                 title: "Sign Up For A Class",
                 URL: "tel:1-919-722-1878"
             }
@@ -161,6 +156,6 @@ const SECTIONS = [
 
 export default function ClassesScreen() {
     return (
-        <DropdownList sections = {SECTIONS}/> //We pass the above data into our DropdownList component.
+        <DropdownList sections = {SECTIONS}/>
     )
 }

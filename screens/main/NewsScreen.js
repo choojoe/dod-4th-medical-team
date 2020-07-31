@@ -3,6 +3,7 @@ import { View, Text, FlatList} from "react-native"
 import * as rssParser from "react-native-rss-parser"
 import DomSelector from "react-native-dom-parser"
 import NewsListItem from "../../components/NewsListItem"
+import { NightModeContext } from "../../NightModeContext"
 /**
  * This screen reads data from a RSS feed and then displays it in a neat list format.
  * Used in this file: NewsFeedItem + NewsModalScreen
@@ -35,8 +36,8 @@ export default class NewsScreen extends React.Component {
                     // - id = the unique identifier of each story. We use the Facebook URL related to the story.
                     // - title = the title of each story. Usually this is just AFMS - 4th Medical Group or equal to the description, so we try to avoid using this (see generateTitle in NewsListItem).
                     // - imageSrc = the URL of the image associated with each story, left undefined if there is no image.
-                    // - description = the description of the article - usually ends up giving us the most information
-                    // - published = the date the story was published
+                    // - 
+                    //
                     feed: rss.items.map((item) => {
                         // from each item we take the title, the raw HTML content, and the published date
                         const {title, content, published} = item; 
@@ -47,7 +48,6 @@ export default class NewsScreen extends React.Component {
                         // Isolate the imageSrc and description
 
                         // take the raw html content and place it into a DomSelector. Take out the imageNode and the first (should be only) text node of the content.
-                        // Also take out the textNode (which we find by searching the children of the rootNode - i.e, the HTML element representation of our item)
                         const rootNode = DomSelector(content);
                         const imageNode = rootNode.getElementsByTagName("img")[0]
                         const textNode = rootNode.children.find(ele => ele.constructor.name === "TextNode") 
@@ -78,33 +78,7 @@ export default class NewsScreen extends React.Component {
                 <View>
                     <FlatList
                         data = {this.state.feed} //will be populated by the this.RSS() method
-                        renderItem = {({item}) => 
-                            <TouchableOpacity 
-                                // TouchableOpacity allows us to click on the container and take us to somewhere else
-                                // see styles for descriptions
-                                style = {styles.newsContainer} 
-                                onPress = {() => props.navigation.navigate("NewsModal", {item})} //upon clicking, navigate to NewsModalScreen - a full screen that displays the title, text, etc...
-                                //the second parameter is item - which we pass in as an additional parameter that the NewsModalScreen will use to generate itself (the data behind NewsModalScreen).
-                            >
-                                <Image 
-                                    source = {{uri: item.imageSrc}} //display the image as defined in NewsScreen, see this.RSS()
-                                    style = {{width: 150, height: 150}} //display the image with fixed height and width.
-                                /> 
-                                <View style = {styles.newsRightContainer}>
-                                    <Text style = {styles.newsText}>
-                                        {
-                                            item.description ? generateTitle(item.description) : item.title
-                                            //if there is a description, use that to generate the title (see generateTitle)
-                                            //note that the description is usually more detailed than the title.
-                                            //otherwise, stick to the default title.
-                                        }
-                                    </Text> 
-                                    <Text style = {styles.newsDate}>
-                                        {generateDate(item.published)}
-                                    </Text>
-                                </View>
-                        </TouchableOpacity>
-                        } //given the data, take each item and convert it into a React component
+                        renderItem = {({item}) => <NewsListItem item = {item} navigation = {this.props.navigation}/>} //given the data, take each item and convert it into a React component
                         // see NewsListItem.js for more info
                         keyExtractor={item => item.id} //give each item an unique identifier. Feel free to change.
                     />
@@ -114,35 +88,3 @@ export default class NewsScreen extends React.Component {
         )
     }
 }
-
-
-//truncates the description to 100 characters if the title is long, or keeps the original title.
-function generateTitle(content){
-    if (content.length > 100){
-        return content.substring(0, 100) + "..."
-    }
-    return content
-}
-
-//neatly formats the RSS date into a DD/MM/YYYY HOUR:MIN AM/PM format.
-function generateDate(utcDate){
-    var d = new Date(utcDate);
-    return d.toLocaleDateString() + " " + d.toLocaleTimeString()
-}
-
-/**
- * The following styles help to develop the above screen
- */
-const styles = StyleSheet.create({
-    newsContainer: {
-        flexDirection: "row",
-        paddingBottom: 10
-        //put some padding on the bottom between each item and make sure the Image and RightContainer are displayed in a row.
-    },
-    newsRightContainer: {
-        flex: 1,
-        paddingLeft: 10,
-        //the RightContainer should take as much space (flex: 1) as possible - usually equivalent to the height of the image. 
-        //there should also be some distance betweeen the image and the text (hence paddingLeft: 10)
-    },
-})
