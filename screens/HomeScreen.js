@@ -1,72 +1,23 @@
 /**
- * Home Screen - the screen that loads up on default.
+ * Home Screen - the screen that loads up on default. Contains the two-column grid of buttons (main functionalities of the app) and the Header.
  * ROUTE NAME: Home.
- * This screen contains the main buttons we want our users to look at.
- * We create a 2 column grid to hold each of our main buttons, however, each row can hold as many buttons as you like.
- * For the buttonContainer container, you can use either View or ScrollView.
  */
-import React, { useState, useEffect} from "react"
-import { View, StyleSheet } from "react-native"
-import { enableScreens } from "react-native-screens"
-enableScreens();
-// See CustomButton.js for more details on the styling of the button
-import CustomRouteButton from "../components/CustomRouteButton"
 
-/**
- * Custom imports required for RSS feed generator to work
- */
+ //These imports load in necessary components from React and React Native
+import React from "react"
+import { View, StyleSheet, Text, ScrollView} from "react-native"
+
+// Used to enable navigation between different screens.
+import { enableScreens } from "react-native-screens" 
+enableScreens();
+
+// Used to create the buttons on the main grid.
+import {Button} from "react-native-elements"
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+
+// These imports are required for RSS feed generator to work
 import * as rssParser from "react-native-rss-parser"
 import DomSelector from "react-native-dom-parser"
-
-
-/**
- * DATA contains the routes and titles of the buttons, 
- * which are converted into buttons via the CustomButton function.
- * route: the appropriate route as defined in App.js for navigator to use
- * title: the caption underneath each icon
- * icon: name of the icon, as detailed on fontawesome.com
- * backgroundColor: the background of the button
- */
-const DATA = [
-    {
-        route: "Online",
-        title: "Online Center",
-        icon: "globe",
-        backgroundColor: "#9AC6C5"
-    },
-    {
-        route: "Map",
-        title: "Map",
-        icon: "map",
-        backgroundColor: "#A32C2C"
-    },
-    {
-        route: "News",
-        title: "News",
-        icon: "newspaper",
-        backgroundColor: "#7785AC"
-    },
-    {
-        route: "Directory",
-        title: "Directory",
-        icon: "address-book",
-        backgroundColor: "#9AC6C5"
-    },
-    {
-        route: "Classes",
-        title: "Classes",
-        icon: "notes-medical",
-        backgroundColor: "#A32C2C"
-    }
-]
-
-/**
- * HomeScreen puts custom buttons, taking in data from props, and outputs
- * them, two per row. You can add more rows by using <View style = {styles.row} />
- * and you can create a new button by modifying DATA and calling 
- * <CustomButton {...DATA[index]} navigation = {navigation}/>
- */
- import { Text, ScrollView } from "react-native"
 
 export default class HomeScreen extends React.Component {
 
@@ -96,8 +47,8 @@ export default class HomeScreen extends React.Component {
                     // - id = the unique identifier of each story. We use the Facebook URL related to the story.
                     // - title = the title of each story. Usually this is just AFMS - 4th Medical Group or equal to the description, so we try to avoid using this (see generateTitle in NewsListItem).
                     // - imageSrc = the URL of the image associated with each story, left undefined if there is no image.
-                    // - 
-                    //
+                    // - description = the description of the article - usually ends up giving us the most information
+                    // - published = the date the story was published
                     feed: rss.items.map((item) => {
                         // from each item we take the title, the raw HTML content, and the published date
                         const {title, content, published} = item; 
@@ -108,6 +59,7 @@ export default class HomeScreen extends React.Component {
                         // Isolate the imageSrc and description
 
                         // take the raw html content and place it into a DomSelector. Take out the imageNode and the first (should be only) text node of the content.
+                        // Also take out the textNode (which we find by searching the children of the rootNode - i.e, the HTML element representation of our item)
                         const rootNode = DomSelector(content);
                         const imageNode = rootNode.getElementsByTagName("img")[0]
                         const textNode = rootNode.children.find(ele => ele.constructor.name === "TextNode") 
@@ -129,24 +81,137 @@ export default class HomeScreen extends React.Component {
             }); 
     }
     
+    //This is what is actually returned to the user.
     render(){
+        const iconSize = 72 //icon size used within the buttons...
         return (
             <View style={styles.container}>
-                <View style = {styles.header}>
+                <View 
+                    style = {styles.header}
+                    // HEADER TBD
+                >
                     <Text>{this.state.feed[0].title}</Text>
                 </View>
-                <View style  = {styles.buttonContainer}>
-                <ScrollView>
-                    <View style = {styles.row}>
-                        <CustomRouteButton {...DATA[0]} navigation = {this.props.navigation}/>
-                        <CustomRouteButton {...DATA[1]} navigation = {this.props.navigation}/>
+                <View 
+                    style  = {styles.buttonContainer}
+                    //the actual button container itself. 
+                >
+                <ScrollView
+                    //we use a scrollview to allow us to scroll between the different buttons.
+                    //we fill this scrollview with different rows of buttons and then place our buttons in those rows.
+                >
+                    <View style = {styles.row}
+                        // this is a row of buttons. We place our buttons inside.
+                    >
+                        <Button
+                            /**
+                             * title - renders a title. calling t("Title") translates it accordingly to its appropriate language.
+                             * buttonStyle - additional styling to change the button (contents).
+                             * containerStyle - additional styling to change the button (the actual button container).
+                             * icon - the actual Icon component.
+                             * onPress - function that is called upon pressing. In this case, we navigate to another screen.
+                             */
+                            title = "Online Center"
+                            buttonStyle = {{
+                                height: "100%", //sets height equal to full container
+                                backgroundColor: "#9AC6C5", //filling in additional style sheet with backgroundColor
+                                aspectRatio: 1 //makes sure the button is a nice square.
+                            }}
+                            containerStyle = {{
+                                flex: 1 //ensures width of button takes as much space as possible (shared w/ other button)
+                            }}
+                            icon = {
+                                <FontAwesome5
+                                    name = "globe" //name of fontAwesome icon
+                                    size = {iconSize} // iconSize. can be changed above.
+                                    color = "white" //color of icon.
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("Online")} //navigation.navigate("route") changes the screen
+                            //of the app to another. In this case, we change to another screen.
+                        />
+
+                        <Button
+                            title = "Map"
+                            buttonStyle = {{
+                                height: "100%", 
+                                backgroundColor: "#A32C2C", 
+                                aspectRatio: 1,
+                            }}
+                            containerStyle = {{
+                                flex: 1 
+                            }}
+                            icon = {
+                                <FontAwesome5
+                                    name = "map"
+                                    size = {iconSize}
+                                    color = "white"
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("Map")}
+                        />
                     </View>
                     <View style = {styles.row}>
-                        <CustomRouteButton {...DATA[2]} navigation = {this.props.navigation}/>
-                        <CustomRouteButton {...DATA[3]} navigation = {this.props.navigation}/>
+                        <Button
+                            title = "News"
+                            buttonStyle = {{
+                                height: "100%", 
+                                backgroundColor: "#7785AC", 
+                                aspectRatio: 1,
+                            }}
+                            containerStyle = {{
+                                flex: 1 
+                            }}
+                            icon = {
+                                <FontAwesome5
+                                    name = "newspaper"
+                                    size = {iconSize}
+                                    color = "white"
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("News")}
+                        />
+
+                        <Button
+                            title = "Directory"
+                            buttonStyle = {{
+                                height: "100%", 
+                                backgroundColor: "#9AC6C5", 
+                                aspectRatio: 1,
+                            }}
+                            containerStyle = {{
+                                flex: 1 
+                            }}
+                            icon = {
+                                <FontAwesome5
+                                    name = "address-book"
+                                    size = {iconSize}
+                                    color = "white"
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("Directory")}
+                        />
                     </View>
                     <View style = {styles.row}>
-                        <CustomRouteButton {...DATA[4]} navigation = {this.props.navigation}/>
+                        <Button
+                            title = "Classes"
+                            buttonStyle = {{
+                                height: "100%", 
+                                backgroundColor: "#A32C2C", 
+                                aspectRatio: 1,
+                            }}
+                            containerStyle = {{
+                                flex: 1 
+                            }}
+                            icon = {
+                                <FontAwesome5
+                                    name = "notes-medical"
+                                    size = {iconSize}
+                                    color = "white"
+                                />
+                            }
+                            onPress = {() => this.props.navigation.navigate("Classes")}
+                        />
                     </View>
                 </ScrollView>
                 </View>
@@ -157,29 +222,25 @@ export default class HomeScreen extends React.Component {
 
 /**
  * Styles for this file. Recommended to leave these alone.
- * Change backgroundColor of container as needed.
  */
 const styles = StyleSheet.create({
     header: {
-        height: 200,
+        height: 200, 
         backgroundColor: "green",
         alignItems: "center",
         justifyContent: "center"
     },
     buttonContainer: {
-        flex: 5,
-        flexDirection: "column",
-        //alignItems: "center",
-        //justifyContent: "center"
-        //above are useful for scrollview
+        flex: 1, //ensures the button container (the two-column grid) takes as much space as possible
+        flexDirection: "column" //ensures elements are vertically aligned
     },
     row: {
-        width: "100%",
-        flex: 1,
-        flexDirection: "row",
+        width: "100%", //make sure each row takes full width
+        flex: 1, //full space
+        flexDirection: "row", //and that elements in each row are horizontally aligned
     },
     container: {
-        flex: 1,
-        flexDirection: "column"
+        flex: 1, //ensures container takes full space
+        flexDirection: "column" //and that elements in container are vertically aligned
     }
 })

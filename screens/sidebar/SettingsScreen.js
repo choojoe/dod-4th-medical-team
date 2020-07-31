@@ -5,12 +5,16 @@
 import React from "react"
 import { Button } from "react-native"
 import {View, Text, Linking} from "react-native"
-import { PowerTranslator, ProviderTypes, TranslatorConfiguration, TranslatorFactory } from 'react-native-power-translator';
+import i18n from "i18next";
 
-export default function SettingsScreen() {
+export default function SettingsScreen({navigation}) {
     const [language, setLanguage] = React.useState("en")
     return (
         <View>
+            <Button
+                title = "Go Back Home"
+                onPress = {() => navigation.navigate("Home")}
+            />
             <Button
                 title = "Settings"
                 onPress={() => {
@@ -20,8 +24,7 @@ export default function SettingsScreen() {
             <Button
                 title = { "Translate to " + (language === "es" ? "Spanish" : "English") }
                 onPress={() => {
-                    TranslatorConfiguration.setConfig(ProviderTypes.Google, 'OurGoogleAPI', language === "es" ? "en" : "es" , language);
-                    setLanguage( language === "es" ? "en" : "es" )
+                    i18n.changeLanguage("es")
 
             }}
             />

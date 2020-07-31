@@ -8,22 +8,22 @@
 
 //Main libraries include React, React Native, and React Navigation.
 //Supplementary (A E S T H E T H I C) libraries include React Native Vector Icons
-import React, {useState} from 'react';
+import React from 'react';
 import {enableScreens} from "react-native-screens"
 enableScreens();
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer} from '@react-navigation/native';
 
-//Allows us to use vars nightModeOn and toggleNightMode from any screen. 
-//See React Context and NightModeContext for more details.
-import {NightModeContext} from "./NightModeContext"
+//Allows us to use react-i18n.
+import "./i18n"
+import {useTranslation} from "react-i18next"
 
-//Custom Icon used in the drawer. See CustomIcon for more details.
-import CustomIcon from "./components/CustomIcon"
+//Custom Icon used in the drawer. 
+import Icon from "react-native-vector-icons/FontAwesome"
 
-//Custom drawer used instead of the normal drawer. See CustomDrawer for more details.
-import CustomDrawer from "./components/CustomDrawer"
+//Image package used in order to create our ArmyLogo.
+import {Image} from "react-native"
 
 const Drawer = createDrawerNavigator();
 import ContactScreen from "./screens/sidebar/ContactScreen"
@@ -39,61 +39,57 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  * Settings in drawer navigation aare being used to set to alternate between colors and give drawer full height. See CustomDrawer for the actual drawer being constructed.
  */
 export default function App() {
-  const [nightModeOn, setNightMode] = useState(false);
-  const toggleNightMode = () => setNightMode(previousState => !previousState);
+  /**
+   * Use custom translations in App.js - see drawer title
+   */
+  const {t, i18n} = useTranslation()
+  const sidebarIconSize = 30
   return (
-    <NightModeContext.Provider value = {{nightModeOn: nightModeOn, toggleNightMode: toggleNightMode}}> 
-    <NightModeContext.Consumer>
-    {({nightModeOn}) => (
-      <NavigationContainer>
-        <Drawer.Navigator 
-          initialRouteName="Main"
-          drawerPosition = "right"
-          drawerContent = {props => <CustomDrawer {...props}/>}
-          drawerContentOptions = {{
-            inactiveTintColor: nightModeOn ? "white" : "black",
-            contentContainerStyle : {
-              backgroundColor : nightModeOn ? "black" : "white",
-              height: "100%"
-            }
+    <NavigationContainer>
+      <Drawer.Navigator 
+        initialRouteName="Main"
+        drawerPosition = "right"
+        drawerContentOptions = {{
+          contentContainerStyle : {
+              height: "100%",
+              justifyContent: "center"
+          }
+        }}
+      >
+        <Drawer.Screen
+          name = "Main"
+          component = {MainNavigation}
+          options = {{
+            title: t("Home"),
+            drawerIcon: () => <Icon name = "home" focused = "true" size = {sidebarIconSize} color = "black"/>
           }}
-        >
-          <Drawer.Screen
-            name = "Main"
-            component = {MainNavigation}
-            options = {{
-              title: "Home",
-              drawerIcon: () => <CustomIcon name = "home" />
+        />
+        <Drawer.Screen
+          name = "Settings"
+          component = {SettingsScreen}
+          options = {{
+            title: t("Settings"),
+            drawerIcon: () => <Icon name = "cog" focused = "true" size = {sidebarIconSize} color = "black"/>
+          }}
+        />
+        <Drawer.Screen
+          name = "FAQs"
+          component = {FAQsScreen}
+          options = {{
+            title: t("FAQs"),
+            drawerIcon: () => <Icon name = "question-circle" focused = "true" size = {sidebarIconSize} color = "black"/>
             }}
-          />
-          <Drawer.Screen
-            name = "Settings"
-            component = {SettingsScreen}
-            options = {{
-              drawerIcon: () => <CustomIcon name = "cog" />
-            }}
-          />
-          <Drawer.Screen
-            name = "FAQs"
-            component = {FAQsScreen}
-            options = {{
-              drawerIcon: () => <CustomIcon name = "question-circle" />
-            }}
-          />
-          
-          <Drawer.Screen
-            name = "Contact"
-            component = {ContactScreen}
-            options = {{
-              title: "Contact Us",
-              drawerIcon: () => <CustomIcon name = "user" />
-            }}
-          />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    )}
-    </NightModeContext.Consumer>
-    </NightModeContext.Provider>
+        />
+        <Drawer.Screen
+          name = "Contact"
+          component = {ContactScreen}
+          options = {{
+            title: t("Contact Us"),
+            drawerIcon: () => <Icon name = "user" focused = "true" size = {sidebarIconSize} color = "black"/>
+          }}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -116,8 +112,7 @@ import SecureMessagingScreen from "./screens/main/SecureMessagingScreen"
 /**
  * Homemade components used in the creation of the header.
  */
-import ArmyLogo from "./components/ArmyLogo"
-import SidebarIcon from "./components/SidebarIcon"
+import {TouchableWithoutFeedback} from "react-native"
 
 /**
  * As a small note on how the header is designed: 
@@ -130,37 +125,36 @@ import SidebarIcon from "./components/SidebarIcon"
  */
 import Constants from "expo-constants"
 function MainNavigation({navigation}) {
+  const hamburgerIconSize = 30
+  const headerLogoSize = 50
   return (
-    <NightModeContext.Consumer>
-    {({nightModeOn}) => (
-      <Stack.Navigator 
-        initialRouteName = "Home"
-        screenOptions ={{
-          headerTitle: props => <ArmyLogo {...props}/>,
-          headerTitleAlign: "center",
-          headerRight: () => (<SidebarIcon navigation = {navigation}/>),
-          headerStyle: {
-            backgroundColor: nightModeOn ? "black" : "white",
-            height: 70 + Constants.statusBarHeight
-          },
-          headerTitleContainerStyle: {
-            paddingBottom: 10
-          },
-          headerTintColor: nightModeOn ? "white" : 'black'
-        }}
-      >
-        <Stack.Screen name = "Home" component = {HomeScreen}/>
-        <Stack.Screen name = "Online" component = {OnlineScreen}/> 
-        <Stack.Screen name = "Map" component = {MapScreen}/> 
-        <Stack.Screen name = "News" component = {NewsScreen}/>
-        <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
-        <Stack.Screen name = "Classes" component = {ClassesScreen} />
-        <Stack.Screen name = "Test" component = {TestScreen} />
-        <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
-        <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
-        <Stack.Screen name = "NewsModal" component = {NewsModalScreen} />
-      </Stack.Navigator>
-    )}
-    </NightModeContext.Consumer>
-  );
+    <Stack.Navigator 
+      initialRouteName = "Home"
+      screenOptions ={{
+        headerTitle: () => <Image style = {{width: headerLogoSize, height: headerLogoSize}} source = {require("./assets/4MTEmblem.png")}/>,
+        headerTitleAlign: "center",
+        headerRight: () => 
+          <TouchableWithoutFeedback onPress = {() => navigation.openDrawer()}>
+            <Icon name = "bars" size = {hamburgerIconSize} color = "black" />
+          </TouchableWithoutFeedback>,
+        headerStyle: {
+          height: headerLogoSize + Constants.statusBarHeight
+        },
+        headerTitleContainerStyle: {
+          paddingBottom: 10
+        },
+      }}
+    >
+      <Stack.Screen name = "Home" component = {HomeScreen}/>
+      <Stack.Screen name = "Online" component = {OnlineScreen}/> 
+      <Stack.Screen name = "Map" component = {MapScreen}/> 
+      <Stack.Screen name = "News" component = {NewsScreen}/>
+      <Stack.Screen name = "Directory" component = {DirectoryScreen} /> 
+      <Stack.Screen name = "Classes" component = {ClassesScreen} />
+      <Stack.Screen name = "Test" component = {TestScreen} />
+      <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
+      <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
+      <Stack.Screen name = "NewsModal" component = {NewsModalScreen} />
+    </Stack.Navigator>
+  )
 }

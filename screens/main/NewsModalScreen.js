@@ -1,13 +1,12 @@
-import React from "react"
-import {View, ScrollView, Text, Image, StyleSheet, Button, Share, Dimensions} from "react-native"
-import * as Linking from "expo-linking" //feel free to change!
-import {NightModeContext} from "../../NightModeContext"
-
 /**
  * Given the data passed in from NewsListItem, we display the information in this screen.
  * ROUTE: NewsModal
  * See: NewsScreen.js, NewsListItem.js
  */
+
+import React from "react"
+import {View, ScrollView, Text, Image, StyleSheet, Button, Share, Dimensions} from "react-native"
+import * as Linking from "expo-linking" //feel free to change!
 
 export default class NewsModalScreen extends React.Component{
     constructor(props){
@@ -43,20 +42,18 @@ export default class NewsModalScreen extends React.Component{
         
     }
     
-    static contextType = NightModeContext;
     render(){
         const {item} = this.props.route.params
-        const color = this.context.nightModeOn ? "white" : "blue"
         const {width, height} = this.state
         return (
-            <ScrollView style = {{backgroundColor: this.context.nightModeOn ? "black" : "white"}}>
+            <ScrollView>
                 <View>
-                    <Text style = {[styles.title, {color}]}> {item.description ? generateTitle(item.description) : item.title}</Text>
-                    <Text style = {[styles.date, {color}]}> {generateDate(item.published)}</Text>
+                    <Text style = {styles.title}> {item.description ? generateTitle(item.description) : item.title}</Text>
+                    <Text style = {styles.date}> {generateDate(item.published)}</Text>
                     <View style = {{alignItems: "center"}}>
                         <Image style = {{width, height}} source = {{uri: item.imageSrc}}/>
                     </View>
-                    <Text style = {[styles.description, {color}]}> {item.description}</Text>
+                    <Text style = {styles.description}> {item.description}</Text>
                 </View>
                 <View>
                     <Button

@@ -17,7 +17,6 @@
 import React from "react"
 import {View, StyleSheet, Text, TouchableOpacity, ScrollView, Button} from "react-native"
 import Accordion from "react-native-collapsible/Accordion"
-import {NightModeContext} from "../NightModeContext"
 import * as Linking from "expo-linking" //CURRENTLY USING LINKING FROM EXPO! Feel free to change as we export.
 import * as Animatable from "react-native-animatable"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -36,8 +35,6 @@ export default class DropdownList extends React.Component {
             activeSections: [],
         }
     }
-
-    static contextType = NightModeContext;
 
     //In addition to displaying the title, we want to display an arrow on the end that will open and close depending on the state of the arrow.
     _renderHeader = (section, index, isActive) => {
@@ -59,8 +56,8 @@ export default class DropdownList extends React.Component {
         }
         return (
             <View style = {styles.header} key = {section.name+"header"}>
-                <Text style = {[styles.headerText, this.context.nightModeOn ? styles.whiteText : styles.blackText]}>{section.key}</Text>
-                <Animatable.View animation = {isActive ? customRotateOpen : customRotateClosed}><Icon name="caret-down" focused = "true" size = {50} color = {this.context.nightModeOn ? "white" : "black"}/></Animatable.View>
+                <Text style = {styles.headerText}>{section.key}</Text>
+                <Animatable.View animation = {isActive ? customRotateOpen : customRotateClosed}><Icon name="caret-down" focused = "true" size = {50} color = "black" /></Animatable.View>
             </View>
         )
     }
@@ -75,7 +72,7 @@ export default class DropdownList extends React.Component {
         <View>
             {
                 section.content.map(item => 
-                    <Text style = {[styles.contentText, this.context.nightModeOn ? styles.whiteText : styles.blackText]} key = {item.title+" dropdowninfo"}>
+                    <Text style = {styles.contentText} key = {item.title+" dropdowninfo"}>
                         <Text style = {{fontWeight: "bold"}}>{item.title}</Text> 
                         <Text>{item.description}</Text>
                     </Text>
@@ -138,7 +135,7 @@ export default class DropdownList extends React.Component {
                     onChange = {this._updateSections}
                     touchableComponent = {TouchableOpacity} 
                     containerStyle = {{
-                        backgroundColor: this.context.nightModeOn ? "black" : "white",
+                        //TODO: backgroundcolor if needed?
                         padding: 20
                     }}
                     
@@ -168,11 +165,5 @@ const styles = StyleSheet.create({
     headerText: {
         flex: 1,
         fontSize: 24,
-    },
-    whiteText: {
-        color: "white"
-    },
-    blackText: {
-        color: "black"
     }
 })
