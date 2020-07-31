@@ -31,6 +31,16 @@ export default class MapScreen extends React.Component {
             loading: false,
             error: null,
             directions: false,
+            markers: [
+                {
+                    coordinate: {
+                        latitude: 35.362835,
+                        longitude: -77.960997
+                    },
+                    title: "4th Medical Group",
+                    id: 1
+                },
+            ]
         };
     }
 
@@ -96,6 +106,7 @@ export default class MapScreen extends React.Component {
             return (
                 <View style ={styles.container}>
                     <MapView
+                    ref={MapView => (this.MapView = MapView)}
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
                     initialRegion={{
@@ -111,6 +122,7 @@ export default class MapScreen extends React.Component {
                     scrollEnabled={true}
                     zoomEnabled={true}
                     showsCompass={true}
+                    followsUserLocation={true}
                     showsUserLocation={true}
                     onMapReady={() => {
                         PermissionsAndroid.request(
@@ -120,6 +132,15 @@ export default class MapScreen extends React.Component {
                         });
                       }}
                     >
+                    {this.state.markers.map((marker:any)  => (  
+                        <MapView.Marker
+                          key={marker.id}
+                          coordinate={marker.coordinate}
+                          title={marker.title}
+                          description={marker.description}
+                        />
+                    )
+                    )}
                     <MapViewDirections
                         origin={{
                             latitude: this.state.latitude,
