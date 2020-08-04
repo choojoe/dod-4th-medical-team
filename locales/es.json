@@ -12,6 +12,8 @@
     "FAQs" : "Preguntas frecuentes",
     "Contact Us" : "Contacta con nosotros",
     "Night Mode" : "Modo nocturno",
+    "PHAQs" : "PHAQs",
+    "Please click the News Screen for more!" : "Por favor, haga clic en la pantalla de noticias para más!",
 
     "Go Back Home" : "Regresar a hogar",
 
@@ -30,5 +32,14 @@
     "The clinic is closed weekends and federal holidays." : "La clínica está cerrada en fines de semana y feriados federales.",
     "Open with limited services during training days." : "Abierto con servicios limitados durante los días de entrenamiento.",
     "Please check the calendar for a list of training days." : "Consulte el calendario para obtener una lista de días de capacitación.",
-    "For more information, you can call our individual services below." : "Para obtener más información, puede llamar a nuestros servicios individuales abajo."
+    "For more information, you can call our individual services below." : "Para obtener más información, puede llamar a nuestros servicios individuales abajo.",
+
+    "Directions" : "Direcciones",
+    "Undo Directions" : "Deshacer direcciones",
+
+    "More": "Más",
+    "Share" : "Compartir",
+
+    "Download PHAQs" : "Desgarcar PHAQs",
+    "Upload PHAQs" : "Subir PHAQs"
 }

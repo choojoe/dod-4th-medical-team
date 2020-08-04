@@ -8,6 +8,12 @@
  import React from "react"
  import {View, ScrollView, Text, Image, StyleSheet, Button, Share, Dimensions} from "react-native"
  import * as Linking from "expo-linking"
+
+ // We import PowerTranslator so we can translate the news feed using Google Translate API.
+import {PowerTranslator} from "react-native-power-translator"
+
+// We import react-i18next so we can translate the text on our two buttons locally.
+import { Translation } from 'react-i18next';
  
  export default class NewsModalScreen extends React.Component{
      constructor(props){
@@ -70,6 +76,7 @@
          /**
           * As you see here, we print the formatted title, the formatted date, an image of specified width and height, 
           * and the full description of the news item.
+          * The title and description are translated using PowerTranslator.
           * Afterwards, you'll see two buttons redirecting users to the full news story and sharing the content with other users.
           * 
           * Note that the description is usually more descriptive than the title, so we default to using that to generate the title.
@@ -78,23 +85,27 @@
          return (
              <ScrollView>
                  <View>
-                     <Text style = {styles.title}> {item.description ? generateTitle(item.description) : item.title}</Text>
+                     <PowerTranslator style = {styles.title} text = {item.description ? generateTitle(item.description) : item.title}/>
                      <Text style = {styles.date}> {generateDate(item.published)}</Text>
                      <View style = {styles.image}>
                          <Image style = {{width, height}} source = {{uri: item.imageSrc}}/>
                      </View>
-                     <Text style = {styles.description}> {item.description}</Text>
+                     <PowerTranslator style = {styles.description} text = {item.description} />
                  </View>
-                 <View>
-                     <Button
-                         title = "More"
-                         onPress = {() => {Linking.openURL(item.id)}}
-                     />
-                     <Button
-                         title = "Share"
-                         onPress = {this.onShare} 
-                     />
-                 </View>
+                 <Translation>
+                    {(t) => 
+                        <View>
+                            <Button
+                                title = {t("More")}
+                                onPress = {() => {Linking.openURL(item.id)}}
+                            />
+                            <Button
+                                title = {t("Share")}
+                                onPress = {this.onShare} 
+                            />
+                        </View>
+                    }
+                 </Translation>
              </ScrollView>
          )
      }

@@ -20,6 +20,10 @@ import { NavigationContainer} from '@react-navigation/native';
 import "./i18n"
 import {useTranslation} from "react-i18next"
 
+// Allows us to use Power Translator - a google cloud translator component.
+import {ProviderTypes, TranslatorConfiguration} from "react-native-power-translator"
+const GOOGLE_KEY_API_TO_BE_DELETED = "AIzaSyAHX61bmDFYT3zxGPgJrYGb2FuB8E0_zAM"
+
 // Custom Icon used in the drawer. 
 import Icon from "react-native-vector-icons/FontAwesome"
 
@@ -49,6 +53,7 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  */
 export default function App() {
   const {t, i18n} = useTranslation() // IMPORTANT! this line allows us to use the t translate function from react-i18n. see i18n.js for more info
+  TranslatorConfiguration.setConfig(ProviderTypes.Google, GOOGLE_KEY_API_TO_BE_DELETED, "en") // IMPORTANT! This line allows us to translate certain screens using our Google Translate API key. 
   const sidebarIconSize = 30 //the size of the sidebar icon.
   return (
     <NavigationContainer
@@ -114,6 +119,7 @@ import MapScreen from "./screens/main/MapScreen"
 import NewsModalScreen from "./screens/main/NewsModalScreen"
 import NewsScreen from "./screens/main/NewsScreen"
 import OnlineScreen from "./screens/main/OnlineScreen"
+import PHAQsScreen from "./screens/main/PHAQsScreen"
 import TestScreen from "./screens/main/TestScreen"
 import MyPatientPortalScreen from "./screens/main/MyPatientPortalScreen"
 import SecureMessagingScreen from "./screens/main/SecureMessagingScreen"
@@ -160,6 +166,7 @@ function MainNavigation({navigation}) {
       <Stack.Screen name = "MyPatientPortal" component = {MyPatientPortalScreen}/>
       <Stack.Screen name = "SecureMessaging" component = {SecureMessagingScreen}/>
       <Stack.Screen name = "NewsModal" component = {NewsModalScreen} />
+      <Stack.Screen name = "PHAQs" component = {PHAQsScreen}/>
     </Stack.Navigator>
   )
 }
