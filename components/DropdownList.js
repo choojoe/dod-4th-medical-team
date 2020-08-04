@@ -36,9 +36,6 @@ import * as Linking from "expo-linking"
 // Used to translate text using PowerTranslator (google cloud api translator).
 import { PowerTranslator, ProviderTypes, TranslatorConfiguration, TranslatorFactory } from 'react-native-power-translator';
 
-// Button titles require a string, so we use react-to-string to convert PowerTranslator components into Strings
-import reactToString from "react-to-string"
-
 // Used to create the arrow function
 import * as Animatable from "react-native-animatable"
 import Icon from "react-native-vector-icons/FontAwesome"
