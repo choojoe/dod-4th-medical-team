@@ -120,9 +120,10 @@ export default class MapScreen extends React.Component {
             return (
                 <View style ={styles.container}>
                     <MapView
-                    ref={MapView => (this.MapView = MapView)}
-                    provider={PROVIDER_GOOGLE}
-                    style={styles.map}
+                    ref={MapView => (this.MapView = MapView)} //React Native "this" often refers to something else, just ensures that it's set properly
+                    provider={PROVIDER_GOOGLE} //Sets all maps (even on iOS) to Google Maps
+                    style={styles.map} //sets MapView style to map style as created in stylesheet below
+                    //initialRegion is the 4th Medical Group Coordinates
                     initialRegion={{
                         latitude: 35.362835,
                         longitude: -77.960997,
@@ -130,7 +131,7 @@ export default class MapScreen extends React.Component {
                         longitudeDelta: 0.0421,
                     }}
                     style={StyleSheet.absoluteFill}
-                    ref={c => this.mapView = c}
+                    ref={c => this.mapView = c} //React Native "this" often refers to something else, just ensures that it's set properly
                     onPress={this.onMapPress} 
                     rotateEnabled={true} //allows you to rotate mapview
                     scrollEnabled={true} //allows user to scroll through map on tap
