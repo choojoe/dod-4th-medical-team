@@ -57,7 +57,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Online Center")}
                             buttonStyle={{
                                 height: "100%", //sets height equal to full container
-                                backgroundColor: "#A8DCD1", //filling in additional style sheet with backgroundColor
+                                backgroundColor: "#99D6C9", //filling in additional style sheet with backgroundColor
                                 aspectRatio: 1 //makes sure the button is a nice square.
                             }}
                             containerStyle={{
@@ -119,7 +119,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Directory")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#DCE2C8",
+                                backgroundColor: "#BAC794",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -140,7 +140,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Classes")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#A8DCD1",
+                                backgroundColor: "#99D6C9",
                                 aspectRatio: 2,
                             }}
                             containerStyle={{
