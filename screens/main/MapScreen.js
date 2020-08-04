@@ -173,7 +173,7 @@ export default class MapScreen extends React.Component {
                         onReady={result => {
                             console.log(`Distance: ${result.distance} km`)
                             console.log(`Duration: ${result.duration} min.`)
-              
+                            //zooms out so direction fits the entire screen
                             this.mapView.fitToCoordinates(result.coordinates, {
                               edgePadding: {
                                 right: (width / 20),
