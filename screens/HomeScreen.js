@@ -57,7 +57,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Online Center")}
                             buttonStyle={{
                                 height: "100%", //sets height equal to full container
-                                backgroundColor: "#9AC6C5", //filling in additional style sheet with backgroundColor
+                                backgroundColor: "#99D6C9", //filling in additional style sheet with backgroundColor
                                 aspectRatio: 1 //makes sure the button is a nice square.
                             }}
                             containerStyle={{
@@ -78,7 +78,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Map")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#A32C2C",
+                                backgroundColor: "#F17F29",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -99,7 +99,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("News")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#7785AC",
+                                backgroundColor: "#F49852",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -119,7 +119,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Directory")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#9AC6C5",
+                                backgroundColor: "#BAC794",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -140,8 +140,8 @@ export default function HomeScreen({ navigation }) {
                             title={t("Classes")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#A32C2C",
-                                aspectRatio: 1,
+                                backgroundColor: "#99D6C9",
+                                aspectRatio: 2,
                             }}
                             containerStyle={{
                                 flex: 1
@@ -168,7 +168,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     header: {
         height: 200,
-        backgroundColor: "green",
+        backgroundColor: "#DCE2C8",
         alignItems: "center",
         justifyContent: "center"
     },
