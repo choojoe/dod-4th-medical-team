@@ -12,6 +12,8 @@
     "FAQs": "FAQs",
     "Contact Us": "Contact Us",
     "Night Mode": "Night Mode",
+    "PHAQs" : "PHAQs",
+    "Please click the News Screen for more!" : "Please click the News Screen for more!",
 
     "Go Back Home": "Go Back Home",
 
@@ -30,5 +32,15 @@
     "The clinic is closed weekends and federal holidays.": "The clinic is closed weekends and federal holidays.",
     "Open with limited services during training days.": "Open with limited services during training days.",
     "Please check the calendar for a list of training days.": "Please check the calendar for a list of training days.",
-    "For more information, you can call our individual services below.": "For more information, you can call our individual services below."
+    "For more information, you can call our individual services below.": "For more information, you can call our individual services below.",
+
+    "Directions" : "Directions",
+    "Undo Directions" : "Undo Directions",
+
+    "More": "More",
+    "Share" : "Share",
+
+    "Download PHAQs" : "Download PHAQs",
+    "Upload PHAQs" : "Upload PHAQs",
+    "Send PHAQs" : "Send PHAQs"
 }

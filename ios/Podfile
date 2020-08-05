@@ -45,4 +45,5 @@ target '4thMedicalGroup' do
   use_native_modules!
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+
 end

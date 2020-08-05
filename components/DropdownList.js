@@ -33,9 +33,13 @@ import Accordion from "react-native-collapsible/Accordion"
 // Used to redirect users to external link upon clicking
 import * as Linking from "expo-linking" 
 
+// Used to translate text using PowerTranslator (google cloud api translator).
+import { PowerTranslator, ProviderTypes, TranslatorConfiguration, TranslatorFactory } from 'react-native-power-translator';
+
 // Used to create the arrow function
 import * as Animatable from "react-native-animatable"
 import Icon from "react-native-vector-icons/FontAwesome"
+
 
 /**
  * React Native Collapsible is used in order to create the Accordion/Dropdown menu
@@ -73,17 +77,26 @@ export default class DropdownList extends React.Component {
             }
         }
         // Return a view containing the title/key on the left and the arrow on the right.
+        // The title is generated using PowerTranslator.
         // Note to maintainer: Potentially come up with a better key to label each item - I just chose something random. (key = unique identifer for each React element)
+        //<Text style = {styles.headerText}>{section.key}</Text>
         return (
             <View style = {styles.header} key = {section.name+"header"}>
-                <Text style = {styles.headerText}>{section.key}</Text>
+                <View 
+                    style = {{flex: 1}}
+                    //the above ensures that this view takes up as much space as possible, 
+                    //leaving as small room for the arrow as possible
+                >
+                    <PowerTranslator style = {styles.headerText} text = {section.key}/>
+                </View>
                 <Animatable.View animation = {isActive ? customRotateOpen : customRotateClosed}><Icon name="caret-down" focused = "true" size = {50} color = "black" /></Animatable.View>
             </View>
         )
     }
 
     //Render the inner content of the tab/item
-    //Note to maintainer: Potentially come up with a better key to label each item - I just chose something random. (key = unique identifer for each React element)
+    //Note to maintainer: Potentially come up with a better key to label each item - I just chose something random. 
+    //(key = unique identifer for each React element, required for all elements created using the map element.)
     _renderContent = (section, index, isActive) => {
         //Render the view only if the section is active.
         if (!isActive){
@@ -93,11 +106,10 @@ export default class DropdownList extends React.Component {
         <View>
             {
                 section.content.map(item => 
-                    <Text style = {styles.contentText} key = {item.title+" dropdowninfo"}>
-                        {/**display all lines in format [b]title[/b] description */}
-                        <Text style = {{fontWeight: "bold"}}>{item.title}</Text> 
-                        <Text>{item.description}</Text>
-                    </Text>
+                    <View key = {item.title+" dropdowninfo"}>
+                        <PowerTranslator style = {{fontWeight: "bold"}} text = {item.title} />
+                        <PowerTranslator text = {item.description} />
+                    </View>
                 )
                 //map all each item in content into a single text line as described above
             }
@@ -105,15 +117,22 @@ export default class DropdownList extends React.Component {
         const linkContent = !section.links ? <View></View> : //this line sets linkContent to blank if section.links doesn't exist
         <View style = {{paddingBottom: 5}}>
             {
-                section.links.map(item => 
-                    <View style = {{paddingTop: 10}} key = {item.title+" dropdownlink"}>
-                        {/**display a button with corresponding title and onpress function to redirect user */}
-                        <Button 
-                            title = {item.title}
-                            onPress = {() => Linking.openURL(item.URL)}
-                        />
-                    </View>
-                )
+                section.links.map(item => {
+                    return (
+                        <View style = {{paddingTop: 10}} key = {item.title+" dropdownlink"}>
+                            {/**display a button with corresponding title and onpress function to redirect user 
+                             * currently, we can't pass in a PowerTranslator component into the button,
+                             * so the buttons are untranslated. In other words, title = {<PowerTranslator text = {item.title}/>} is invalid. 
+                             * I recommend using a custom button (or make your own using TouchableOpacity) and then put a PowerTranslator
+                             * inside of that. Something like <TouchableOpacity onClick ={() => Linking.openURL(item.URL)}><PowerTranslator text = {item.title}/></TouchableOpacity>
+                             */}
+                            <Button 
+                                title = {item.title}
+                                onPress = {() => Linking.openURL(item.URL)}
+                            />
+                        </View>
+                    )
+                })
             }
         </View>
         //display the results below: infoContent first, then linkContent.
@@ -183,10 +202,9 @@ const styles = StyleSheet.create({
     },
     header: {
         paddingVertical: 10, //adds padding on top and bottom
-        flexDirection: "row" //rearranges elements inside (arrow + )
+        flexDirection: "row" //rearranges elements inside (arrow + text)
     },
     headerText: {
-        flex: 1, //takes up as much space as possible, leaving as small room for the arrow as possible
         fontSize: 24, //fontsize.
     }
 })
