@@ -5,11 +5,11 @@
     "version": "1.0.0",
     "slug": "4th-Medical-Group",
     "ios": {
-      "bundleIdentifier": "com.dod.4thmedicalgroup",
+      "bundleIdentifier": "com.dod.fourthmedicalgroup",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.dod.4thmedicalgroup",
+      "package": "com.dod.fourthmedicalgroup",
       "versionCode": 1
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
