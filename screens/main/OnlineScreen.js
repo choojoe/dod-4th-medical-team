@@ -33,7 +33,7 @@ export default function OnlineScreen({navigation}) { //provide navigation prop s
                 }}
                 buttonStyle = {{
                     height: "100%", //sets height equal to full container
-                    backgroundColor: "#582A86" //filling in additional style sheet with backgroundColor
+                    backgroundColor: "#99D6C9" //filling in additional style sheet with backgroundColor
                 }}
                 containerStyle = {{
                     flex: 1 //ensures width of button takes as much space as possible (shared w/ other button)
@@ -55,7 +55,7 @@ export default function OnlineScreen({navigation}) { //provide navigation prop s
                 }}
                 buttonStyle = {{
                     height: "100%", 
-                    backgroundColor: "#87B6A7" 
+                    backgroundColor: "#F49852" 
                 }}
                 containerStyle = {{
                     flex: 1 
