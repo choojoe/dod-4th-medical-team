@@ -22,7 +22,6 @@ import {useTranslation} from "react-i18next"
 
 // Allows us to use Power Translator - a google cloud translator component.
 import {ProviderTypes, TranslatorConfiguration} from "react-native-power-translator"
-const GOOGLE_KEY_API_TO_BE_DELETED = "AIzaSyAHX61bmDFYT3zxGPgJrYGb2FuB8E0_zAM"
 
 // Custom Icon used in the drawer. 
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -53,7 +52,8 @@ import SettingsScreen from "./screens/sidebar/SettingsScreen"
  */
 export default function App() {
   const {t, i18n} = useTranslation() // IMPORTANT! this line allows us to use the t translate function from react-i18n. see i18n.js for more info
-  TranslatorConfiguration.setConfig(ProviderTypes.Google, GOOGLE_KEY_API_TO_BE_DELETED, "en") // IMPORTANT! This line allows us to translate certain screens using our Google Translate API key. 
+  TranslatorConfiguration.setConfig(ProviderTypes.Google, "OurGoogleAPI", "en") // IMPORTANT! This line allows us to translate certain screens using our Google Translate API key. 
+  //THE API KEY IS SET BLANK BECAUSE TRANSLATION IS NOT BEING USED RN
   const sidebarIconSize = 30 //the size of the sidebar icon.
   return (
     <NavigationContainer
