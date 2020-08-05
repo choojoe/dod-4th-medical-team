@@ -13,7 +13,9 @@ import * as rssParser from "react-native-rss-parser"
 import DomSelector from "react-native-dom-parser"
 
 // We import PowerTranslator so we can translate the news feed using Google Translate API.
-import {PowerTranslator} from "react-native-power-translator"
+// WE NO LONGER USE THIS FEATURE IN OUR CODE DUE TO ABSURD TRANSLATION COSTS. 
+ // However, this is the only screen that theoretically needs to use the Google Translator.
+//import {PowerTranslator} from "react-native-power-translator"
 
 
 export default class NewsScreen extends React.Component {
@@ -99,13 +101,15 @@ export default class NewsScreen extends React.Component {
                                     style = {{width: 150, height: 150}} //display the image with fixed height and width.
                                 /> 
                                 <View style = {styles.newsRightContainer}>
-                                    <PowerTranslator 
+                                    <Text
                                         style = {styles.newsText} 
-                                        text = {item.description ? generateTitle(item.description) : item.title}
+                                    >
+                                        {item.description ? generateTitle(item.description) : item.title
                                         //if there is a description, use that to generate the title (see generateTitle)
-                                            //note that the description is usually more detailed than the title.
-                                            //otherwise if there isn't a description, stick to the default title.
-                                    />
+                                        //note that the description is usually more detailed than the title.
+                                        //otherwise if there isn't a description, stick to the default title.
+                                        }
+                                    </Text>
                                     <Text style = {styles.newsDate}>
                                         {
                                             generateDate(item.published)

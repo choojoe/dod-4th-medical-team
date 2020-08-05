@@ -27,7 +27,8 @@ import Swiper from "react-native-swiper"
 import { useTranslation } from "react-i18next"
 
 // we import PowerTranslator to translate the text on the slides.
-import {PowerTranslator} from "react-native-power-translator"
+// WE NO LONGER USE THIS FEATURE IN OUR CODE DUE TO ABSURD TRANSLATION COSTS.
+//import {PowerTranslator} from "react-native-power-translator"
 
 // used to configure the width of each of the slides
 const {width} = Dimensions.get("window")
@@ -111,7 +112,7 @@ export default function HomeScreen({ navigation }) {
                         <View style = {styles.slide} key = {item.title + "homescreentitle"}>
                             <ImageBackground source={{uri: item.imageSrc}} style={styles.image}>
                                 <View style = {styles.darkenImg}>
-                                    <PowerTranslator style={styles.text} text = {item.description ? generateTitle(item.description) : item.title}/>
+                                    <Text style={styles.text}>{item.description ? generateTitle(item.description) : item.title}</Text>
                                     <Text style={styles.text}>{t("Please click the News Screen for more!")}</Text>
                                 </View>
                             </ImageBackground>
@@ -142,7 +143,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Online Center")}
                             buttonStyle={{
                                 height: "100%", //sets height equal to full container
-                                backgroundColor: "#99D6C9", //filling in additional style sheet with backgroundColor
+                                backgroundColor: "#9AC6C5", //filling in additional style sheet with backgroundColor
                                 aspectRatio: 1 //makes sure the button is a nice square.
                             }}
                             containerStyle={{
@@ -163,7 +164,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Map")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#F17F29",
+                                backgroundColor: "#A32C2C",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -184,7 +185,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("News")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#F49852",
+                                backgroundColor: "#7785AC",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -204,7 +205,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Directory")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#BAC794",
+                                backgroundColor: "#9AC6C5",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -225,7 +226,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("Classes")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#99D6C9",
+                                backgroundColor: "#A5E6BA",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
@@ -271,11 +272,8 @@ export default function HomeScreen({ navigation }) {
  */
 const styles = StyleSheet.create({
     header: {
-        height: 200, //ensures that the view surrounding our swiper is height 200. Otherwise, the swiper
+        height: 200 //ensures that the view surrounding our swiper is height 200. Otherwise, the swiper
         //tries to grow on its own.
-        backgroundColor: "#DCE2C8",
-        alignItems: "center",
-        justifyContent: "center"
     },
     buttonContainer: {
         flex: 1, //ensures the button container (the two-column grid) takes as much space as possible

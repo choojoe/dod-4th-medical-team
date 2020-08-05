@@ -34,7 +34,8 @@ import Accordion from "react-native-collapsible/Accordion"
 import * as Linking from "expo-linking" 
 
 // Used to translate text using PowerTranslator (google cloud api translator).
-import { PowerTranslator, ProviderTypes, TranslatorConfiguration, TranslatorFactory } from 'react-native-power-translator';
+// NO LONGER BEING USED DUE TO ABSURD TRANSLATION COSTS. WE RECOMMEND HAVING SOMEONE LOCALLY TRANSLATE THE TEXT PASSED INTO THE DROPDOWNMENU.
+//import { PowerTranslator, ProviderTypes, TranslatorConfiguration, TranslatorFactory } from 'react-native-power-translator';
 
 // Used to create the arrow function
 import * as Animatable from "react-native-animatable"
@@ -87,7 +88,7 @@ export default class DropdownList extends React.Component {
                     //the above ensures that this view takes up as much space as possible, 
                     //leaving as small room for the arrow as possible
                 >
-                    <PowerTranslator style = {styles.headerText} text = {section.key}/>
+                    <Text style = {styles.headerText}>{section.key}</Text>
                 </View>
                 <Animatable.View animation = {isActive ? customRotateOpen : customRotateClosed}><Icon name="caret-down" focused = "true" size = {50} color = "black" /></Animatable.View>
             </View>
@@ -107,8 +108,8 @@ export default class DropdownList extends React.Component {
             {
                 section.content.map(item => 
                     <View key = {item.title+" dropdowninfo"}>
-                        <PowerTranslator style = {{fontWeight: "bold"}} text = {item.title} />
-                        <PowerTranslator text = {item.description} />
+                        <Text style = {{fontWeight: "bold"}}>{item.title}</Text>
+                        <Text>{item.description}</Text>
                     </View>
                 )
                 //map all each item in content into a single text line as described above
