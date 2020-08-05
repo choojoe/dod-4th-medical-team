@@ -10,7 +10,10 @@
  import * as Linking from "expo-linking"
 
  // We import PowerTranslator so we can translate the news feed using Google Translate API.
-import {PowerTranslator} from "react-native-power-translator"
+ // WE NO LONGER USE THIS FEATURE IN OUR CODE DUE TO ABSURD TRANSLATION COSTS. 
+ // However, this is the only screen that theoretically needs to use the Google Translator.
+//import {PowerTranslator} from "react-native-power-translator"
+
 
 // We import react-i18next so we can translate the text on our two buttons locally.
 import { Translation } from 'react-i18next';
@@ -76,7 +79,6 @@ import { Translation } from 'react-i18next';
          /**
           * As you see here, we print the formatted title, the formatted date, an image of specified width and height, 
           * and the full description of the news item.
-          * The title and description are translated using PowerTranslator.
           * Afterwards, you'll see two buttons redirecting users to the full news story and sharing the content with other users.
           * 
           * Note that the description is usually more descriptive than the title, so we default to using that to generate the title.
@@ -85,12 +87,12 @@ import { Translation } from 'react-i18next';
          return (
              <ScrollView>
                  <View>
-                     <PowerTranslator style = {styles.title} text = {item.description ? generateTitle(item.description) : item.title}/>
+                    <Text style = {styles.title}>{item.description ? generateTitle(item.description) : item.title}</Text>
                      <Text style = {styles.date}> {generateDate(item.published)}</Text>
                      <View style = {styles.image}>
                          <Image style = {{width, height}} source = {{uri: item.imageSrc}}/>
                      </View>
-                     <PowerTranslator style = {styles.description} text = {item.description} />
+                    <Text style = {styles.description}>{item.description}</Text>
                  </View>
                  <Translation>
                     {(t) => 

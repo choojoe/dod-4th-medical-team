@@ -27,7 +27,8 @@ import Swiper from "react-native-swiper"
 import { useTranslation } from "react-i18next"
 
 // we import PowerTranslator to translate the text on the slides.
-import {PowerTranslator} from "react-native-power-translator"
+// WE NO LONGER USE THIS FEATURE IN OUR CODE DUE TO ABSURD TRANSLATION COSTS.
+//import {PowerTranslator} from "react-native-power-translator"
 
 // used to configure the width of each of the slides
 const {width} = Dimensions.get("window")
@@ -111,7 +112,7 @@ export default function HomeScreen({ navigation }) {
                         <View style = {styles.slide} key = {item.title + "homescreentitle"}>
                             <ImageBackground source={{uri: item.imageSrc}} style={styles.image}>
                                 <View style = {styles.darkenImg}>
-                                    <PowerTranslator style={styles.text} text = {item.description ? generateTitle(item.description) : item.title}/>
+                                    <Text style={styles.text}>{item.description ? generateTitle(item.description) : item.title}</Text>
                                     <Text style={styles.text}>{t("Please click the News Screen for more!")}</Text>
                                 </View>
                             </ImageBackground>
@@ -244,7 +245,7 @@ export default function HomeScreen({ navigation }) {
                             title={t("PHAQs")}
                             buttonStyle={{
                                 height: "100%",
-                                backgroundColor: "#A32C2C",
+                                backgroundColor: "#F49852",
                                 aspectRatio: 1,
                             }}
                             containerStyle={{
